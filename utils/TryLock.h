@@ -36,11 +36,7 @@ public:
 		return _acquired;
 	}
 
-	virtual bool acquire()
-	{
-		_acquired = mutex().trylock();
-		return _acquired;
-	}
+	virtual bool acquire();
 
 	virtual ~TryLock()
 	{

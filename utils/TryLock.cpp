@@ -18,3 +18,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "TryLock.h"
 
+bool TryLock::acquire()
+{
+	_acquired = mutex().trylock();
+	if ( _acquired ) ++_count;
+	return _acquired;
+}

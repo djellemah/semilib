@@ -92,9 +92,11 @@ protected:
 	// whether or not we should release the lock
 	bool _owned;
 
+	/// Only release the lock when count gets back down to 0
+	int _count;
+
 private:
 	Mutex * _mutex;
-	int _count;
 };
 
 #endif
