@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SmartPointer_h
 
 #include <stdexcept>
-#include <string>
 
 #include "utilsdlldef.h"
 
@@ -179,7 +178,7 @@ public:
 	/// deallocate the pointer only if this instance is the owner
 	~SmartPointer()
 	{
-		if ( owner ) deallocator ( _ptr );
+		deallocate ();
 	}
 
 	/**
@@ -209,7 +208,7 @@ public:
 	SmartPointer & operator = ( const SmartPointer & right )
 	{
 		// deallocate previously held pointer
-		if ( owner ) deallocator ( _ptr );
+		deallocate ();
 
 		// assign pointer
 		_ptr = right._ptr;
@@ -221,6 +220,9 @@ public:
 		// right no longer owns the pointer.
 		right.owner = false;
 
+		// we need right's deallocator data, if any
+		_deallocator = right._deallocator;
+		
 		return *this;
 	}
 
@@ -233,7 +235,7 @@ public:
 	*/
 	SmartPointer & operator = ( T * right )
 	{
-		if ( owner ) deallocator ( _ptr );
+		deallocate ();
 		_ptr = right;
 		owner = true;
 
@@ -247,7 +249,7 @@ public:
 	*/
 	SmartPointer & operator = ( const T * right )
 	{
-		if ( owner ) deallocator ( _ptr );
+		deallocate ();
 		_ptr = right;
 		owner = false;
 
@@ -342,10 +344,34 @@ public:
 		return _ptr;
 	}
 
+protected:
+	T * ptr() const
+	{
+		return _ptr;
+	}
+
+	void ptr ( T* other )
+	{
+		operator = ( other );
+	}
+	
+	Deallocator & deallocator()
+	{
+		return _deallocator;
+	}
+	
+	void deallocate()
+	{
+		if ( owner )
+		{
+			deallocator() ( _ptr );
+		}
+	}
+
 private:
 	T * _ptr;
 	mutable bool owner;
-	Deallocator deallocator;
+	Deallocator _deallocator;
 };
 
 /**
