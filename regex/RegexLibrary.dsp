@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "..\Release\regex"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /G5 /MD /W3 /GX /O2 /Ob2 /I "..\Utils" /I "..\\" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "NO_USE_REGEX_DLL" /FD /c
+# ADD CPP /nologo /G5 /MD /W3 /GX /O2 /Ob2 /I "..\Utils" /I "..\regexpp\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "NO_USE_REGEX_DLL" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
@@ -65,7 +65,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "..\Debug\regex"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /G5 /MDd /W3 /GX /Z7 /Od /I "vu" /I "..\Utils" /I "..\\" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "NO_USE_REGEX_DLL" /FD /c
+# ADD CPP /nologo /G5 /MDd /W3 /GX /Z7 /Od /I "..\Utils" /I "..\regexpp\include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "NO_USE_REGEX_DLL" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
@@ -82,43 +82,6 @@ LIB32=link.exe -lib
 
 # Name "Regex Library - Win32 Release"
 # Name "Regex Library - Win32 Debug"
-# Begin Group "Regexpp"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\regexpp\jm_cfg.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\regexpp\jm_opt.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\regexpp\jregex.cpp
-
-!IF  "$(CFG)" == "Regex Library - Win32 Release"
-
-# ADD CPP /O2
-
-!ELSEIF  "$(CFG)" == "Regex Library - Win32 Debug"
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\regexpp\jregex.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\regexpp\jstack.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\regexpp\reg_loc.h
-# End Source File
-# End Group
 # Begin Source File
 
 SOURCE=.\src\regex.cpp

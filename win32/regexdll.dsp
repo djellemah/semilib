@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "REGEXDLL_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /G5 /MD /W3 /GX /O2 /Ob2 /I "..\utils" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "BUILD_REGEX_DLL" /FD /c
+# ADD CPP /nologo /G5 /MD /W3 /GX /O2 /Ob2 /I "..\Utils" /I "..\regexpp\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "BUILD_REGEX_DLL" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -71,7 +71,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "REGEXDLL_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /G5 /MDd /W3 /Gm /GX /ZI /Od /I "..\utils" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "BUILD_REGEX_DLL" /FD /GZ /c
+# ADD CPP /nologo /G5 /MDd /W3 /Gm /GX /ZI /Od /I "..\Utils" /I "..\regexpp\include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "BUILD_REGEX_DLL" /FD /GZ /c
 # SUBTRACT CPP /YX
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -91,34 +91,6 @@ LINK32=link.exe
 
 # Name "regexdll - Win32 Release"
 # Name "regexdll - Win32 Debug"
-# Begin Group "Regexpp"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=D:\Users\panic\Desktop\Files\Projects\Regex\src\regexpp\jm_cfg.h
-# End Source File
-# Begin Source File
-
-SOURCE=D:\Users\panic\Desktop\Files\Projects\Regex\src\regexpp\jm_opt.h
-# End Source File
-# Begin Source File
-
-SOURCE=D:\Users\panic\Desktop\Files\Projects\Regex\src\regexpp\jregex.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=D:\Users\panic\Desktop\Files\Projects\Regex\src\regexpp\jregex.h
-# End Source File
-# Begin Source File
-
-SOURCE=D:\Users\panic\Desktop\Files\Projects\Regex\src\regexpp\jstack.h
-# End Source File
-# Begin Source File
-
-SOURCE=D:\Users\panic\Desktop\Files\Projects\Regex\src\regexpp\reg_loc.h
-# End Source File
-# End Group
 # Begin Source File
 
 SOURCE=D:\Users\panic\Desktop\Files\Projects\Regex\src\Regex.cpp
