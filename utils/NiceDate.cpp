@@ -4,9 +4,9 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/date_time/gregorian/gregorian.hpp>
 
-using namespace std;
 using namespace boost::posix_time;
 using namespace boost::gregorian;
+using namespace std;
 
 NiceDate::NiceDate()
 : ptime ( second_clock::local_time() )
