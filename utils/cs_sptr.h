@@ -1,6 +1,8 @@
 #ifndef cs_sptr_h
 #define cs_sptr_h
 
+#include "SmartPointer.h"
+
 /**
 	This is a collection-safe smart pointer class
 	in that it lacks operator&
@@ -32,8 +34,8 @@ public:
 		Allow const pointers to be used, but don't
 		try to delete them
 	*/
-	cs_sptr ( const T * _ptr )
-		: _ptr ( ptr )
+	cs_sptr ( const T * ptr )
+		: _ptr ( const_cast<T*>(ptr) )
 		, owner ( false )
 	{
 	}

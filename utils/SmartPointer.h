@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "utilsdlldef.h"
 
-using std::runtime_error;
-
 // disable 'multiple assignment operator' warning
 #pragma warning(disable: 4522)
 
@@ -174,8 +172,8 @@ public:
 		Allow const pointers to be used, but don't
 		try to delete them
 	*/
-	SmartPointer ( const T * _ptr )
-		: _ptr ( ptr )
+	SmartPointer ( const T * ptr )
+		: _ptr ( const_cast<T*>(ptr) )
 		, owner ( false )
 	{
 	}
@@ -319,6 +317,12 @@ public:
 
 	/// an address-of operator operator
 	T** operator & ()
+	{
+		return &_ptr;
+	}
+
+	/// an address-of operator operator
+	const T** operator & () const
 	{
 		return &_ptr;
 	}
@@ -511,7 +515,7 @@ public:
 	*/
 	SmartPointer ( const char * _ptr )
 	{
-		throw runtime_error ("Bad idea to use a Smart Pointer with a const char *" );
+		throw std::runtime_error ("Bad idea to use a Smart Pointer with a const char *" );
 	}
 
 	/**
@@ -521,7 +525,7 @@ public:
 	*/
 	SmartPointer & operator = ( const char * right )
 	{
-		throw runtime_error ("Bad idea to use a Smart Pointer with a const char *" );
+		throw std::runtime_error ("Bad idea to use a Smart Pointer with a const char *" );
 		return *this;
 	}
 
@@ -649,7 +653,7 @@ public:
 	*/
 	SmartPointer ( const void * _ptr )
 	{
-		throw runtime_error ("Bad idea to use a Smart Pointer with a const void *" );
+		throw std::runtime_error ("Bad idea to use a Smart Pointer with a const void *" );
 	}
 
 	/**
@@ -659,7 +663,7 @@ public:
 	*/
 	SmartPointer & operator = ( const void * right )
 	{
-		throw runtime_error ("Bad idea to use a Smart Pointer with a const void *" );
+		throw std::runtime_error ("Bad idea to use a Smart Pointer with a const void *" );
 		return *this;
 	}
 
