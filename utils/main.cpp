@@ -39,32 +39,9 @@ void starthere()
 int main( int argc, char * argv[] )
 {
 	starthere();
-	// test flags mapper
-	const char * flagsString = ""
-		"REG_EXTENDED 1 "
-		"REG_ICASE 2 "
-		"REG_NEWLINE 4 "
-		"REG_NOSUB 8 "
-		;
-
-	FlagsMapper fm ( flagsString );
-	try
-	{
-		cout << fm["REG_NOSUB"] << endl;
-		for ( int i = 1; i < 16; ++i )
-		{
-			cout << fm[i] << endl;
-		}
-		cout << fm[" REG_NOSUB|REG_EXTENDED "] << endl;
-	}
-	catch ( exception & e )
-	{
-		cerr << e.what() << endl;
-	}
-
+	
 	if ( argc > 1 )
 	{
-
 		cout << "Starting tests for fileutils" << endl;
 
 		// test file utils
@@ -77,15 +54,5 @@ int main( int argc, char * argv[] )
 		cout << boolalpha << FileUtils::exists("") << endl;
 	}
 
-	cout << "Starting tests for Smart Pointer" << endl;
-
-	// test smart pointer
-	Object o;
-	SmartPointer<Object> n = &o;
-
-	SmartPointer<char> p = new char[1024];
-	p = "Hello there";
-	SmartPointer<char> q = "Another const char *";
-	strlen ( p );
 	return 0;
 }
