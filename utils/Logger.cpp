@@ -32,6 +32,11 @@ std::ostream & operator<< ( std::ostream & os, EndLog & el )
 
 ostream & Logger::los()
 {
+	// this is quite tricky, because this might be
+	// called several times before endMessage is called
+	// so we need a count
+	_lock.acquire ( _mutex );
+	++_locks;
 	return _os;
 }
 
@@ -74,12 +79,5 @@ Logger * newInstance ( Logger * )
 
 ostream & Logger::os()
 {
-	// this is quite tricky, because this might be
-	// called several times before endMessage is called
-	// so we need a count
-	instance()._lock.acquire ( _mutex );
-	// for debugging only
-	int locks = instance()._locks;
-	++instance()._locks;
-	return Logger::instance().los();
+	return instance().los();
 }
