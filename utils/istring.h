@@ -32,25 +32,32 @@ using std::ostream;
 #include "Change.h"
 #include "utilsdlldef.h"
 
+/*
+	Defines the equality and comparison semantics of a case-insensitive string
+*/
 template<class E=char>
 struct UTILS_DLL_API IgnoreCaseTraits : public char_traits<char>
 {
-	static bool eq(const E & x, const E & y)
+	static bool eq ( const E & x, const E & y)
 	{
 		return std::tolower ( x, l ) == std::tolower ( y, l );
 	}
 
-	static bool lt(const E & x, const E & y)
+	static bool lt ( const E & x, const E & y)
 	{
 		return std::tolower ( x, l ) < std::tolower ( y, l );
 	}
 
-	static int compare(const E *x, const E *y, size_t n)
+	static int compare ( const E *x, const E *y, size_t n)
 	{
+#ifdef _WIN32
 		return strnicmp ( x, y, n );
+#else
+		return strncasecmp ( x, y, n );
+#endif
 	}
 
-	static const E *find(const E *x, size_t n, const E& y)
+	static const E *find ( const E *x, size_t n, const E& y)
 	{
 		E temp = std::tolower ( y, l );
 		for ( size_t i = 0; i < n; ++i )
@@ -65,9 +72,18 @@ private:
 	UTILS_DLL_API static locale l;
 };
 
-//typedef basic_string<char, IgnoreCaseTraits<char> > istring;
+/*
+	this doesn't work because you don't get a nice way to convert
+	between std::string and istring
+
+	typedef basic_string<char, IgnoreCaseTraits<char> > istring;
+*/
+
 // warning about base class not a dll interface. Which it is.
 #pragma warning(disable:4275)
+// some other MSVC warning
+#pragma warning(disable:4251)
+
 class UTILS_DLL_API istring : public basic_string<char, IgnoreCaseTraits<char> >
 {
 public:
@@ -112,7 +128,9 @@ public:
 private:
 	mutable Change<string> stringCache;
 };
+
 #pragma warning(default:4275)
+#pragma warning(default:4251)
 
 UTILS_DLL_API ostream & operator<< ( ostream & os, const istring & val );
 
