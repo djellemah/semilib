@@ -28,13 +28,13 @@ using namespace std;
 #include "functions.h"
 #include "matchfunctions.h"
 
-Soundex::Soundex ( const string & toMatch )
+SoundexFunctor::SoundexFunctor ( const string & toMatch )
 	: _toMatch ( PrepareTheString ( toMatch ) )
 	, _theString ( toMatch )
 {
 }
 
-Ranking Soundex::operator () ( const string & element )
+Ranking SoundexFunctor::operator () ( const string & element )
 {
 	// strip out punctuation and accented characters
 	string soundex = PrepareTheString ( element );
@@ -44,14 +44,14 @@ Ranking Soundex::operator () ( const string & element )
 	return Ranking ( percent, element );
 }
 
-string Soundex::PrepareTheString(const string & OriginStr)
+string SoundexFunctor::PrepareTheString(const string & original)
 {
 	string retval;
 
 	// change all punctuation things to spaces
 	transform (
-		OriginStr.begin()
-		, OriginStr.end()
+		original.begin()
+		, original.end()
 		, insert_iterator<string> ( retval, retval.begin() )
 		, stripThings
 	);
@@ -62,5 +62,5 @@ string Soundex::PrepareTheString(const string & OriginStr)
 	// strip all spaces
 	remove ( retval.begin(), retval.end(), ' ' );
 
-	return JLeffler::nsoundex ( retval.c_str(), 6 );
+	return nsoundex ( retval.c_str(), 6 );
 }

@@ -24,12 +24,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 using namespace std;
 
 #include "fuzzydlldef.h"
-#include "MatchFunction.h"
+#include "NGramFunctor.h"
 
 /**
-	This is to be used via the transform algorithm
+	Soundex match, to be used via the transform algorithm.
+	\ingroup match
 */
-class FUZZY_DLL_API Soundex
+class FUZZY_DLL_API SoundexFunctor
 {
 public:
 	Soundex ( const string & toMatch );
@@ -37,9 +38,11 @@ public:
 	Ranking operator () ( const string & element );
 
 protected:
-	// remove all punctuation and accents. Then remove
-	// all spaces. Then append _ to the beginning and end
-	// of the string
+	/**
+		remove all punctuation and accents. Then remove
+		all spaces. Then append _ to the beginning and end
+		of the string
+	*/
 	string PrepareTheString ( const string & OriginStr );
 
 private:
