@@ -222,14 +222,14 @@ EndLog & elog ( Level::LogLevel level )
 	return Logger::end ( level );
 }
 
-LoggerDecorator::LoggerDecorator ( Logger & l, Level::LogLevel level )
+LogChainer::LogChainer ( Logger & l, Level::LogLevel level )
 : _logger ( l )
 , _level ( level )
 , _copied ( false )
 {
 }
 
-LoggerDecorator::LoggerDecorator ( const LoggerDecorator & other )
+LogChainer::LogChainer ( const LogChainer & other )
 : _logger ( other._logger )
 , _level ( other._level )
 , _copied ( false )
@@ -237,7 +237,7 @@ LoggerDecorator::LoggerDecorator ( const LoggerDecorator & other )
 	other._copied = true;
 }
 
-LoggerDecorator::~LoggerDecorator()
+LogChainer::~LogChainer()
 {
 	// only send the elog if this copy is the last
 	// in the chain.
@@ -247,7 +247,7 @@ LoggerDecorator::~LoggerDecorator()
 	}
 }
 
-LoggerDecorator logdec ( Level::LogLevel level )
+LogChainer loch ( Level::LogLevel level )
 {
-	return LoggerDecorator ( Logger::instance(), level );
+	return LogChainer ( Logger::instance(), level );
 }

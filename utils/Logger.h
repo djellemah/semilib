@@ -56,7 +56,7 @@ LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, const EndLog & el 
 	\endcode
 
 	\warning elog is VERY IMPORTANT. Without it you might
-	deadlock the logger.
+	deadlock the logger. loch is better.
 
 	The class can be easily subclassed to log to a system logging
 	facility, or to a database, or whatever. It's also necessary to
@@ -67,13 +67,17 @@ LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, const EndLog & el 
 
 	\warning The mutex used for this class *must* be recursive.
 	
-	\todo allow for minimal overhead when there's no logging. Null iobuf
-	or something like that. Or set level at the start
 	\todo use TLS to store elog marker, and only lock for the write. Would
 	prevent things like socket DNS reverse-resolution locking up
 	all the other threads. Also, makes forgetting elog less dangerous.
 	\todo use an observer pattern for outputs, so we don't have link
 	weirdness, and we can set a default output.
+	
+	\see LogChainer
+	
+	\todo remove logger and replace with logger()
+
+	\todo rename loch(...) to logger(...)
 */
 class LOGGER_DLL_API Logger
 {
@@ -84,8 +88,8 @@ public:
 	virtual ~Logger() {};
 		
 	/**
-		Tell the logger to flush any caches it might have.
-		Does nothing by default.
+		Tell the logger implementation to flush any caches
+		it might have. Does nothing by default.
 	*/
 	virtual void flush() {}
 
@@ -113,6 +117,8 @@ public:
 		\code
 		logger << "Some message" << Logger::end( critical );
 		\endcode
+		
+		For an easier way, \see loch
 	*/
 	static EndLog & end ( Level::LogLevel level = Level::message );
 	
@@ -121,11 +127,13 @@ public:
 	*/
 	static std::string levelToString ( Level::LogLevel level );
 	
+	/**
+		Translate a string to the log level
+	*/
 	Level::LogLevel Logger::stringToLevel ( std::string stringLevel );
-
 	
 	/**
-		Only for use internally. User operator << ( Logger &, T & ).
+		Only for use internally. Use operator << ( Logger &, T & ) instead.
 	*/
 	std::ostream & os();
 
@@ -196,6 +204,8 @@ protected:
 
 /**
 	Convenience function that returns Logger::EndLog
+
+	\deprecated in favour of loch
 */
 LOGGER_DLL_API extern std::ostream& elog ( std::ostream& outs );
 
@@ -217,10 +227,14 @@ LOGGER_DLL_API Logger * newInstance ( Logger * );
 
 /**
 	allow << directly to a logger
+	
+	\deprecated in favour of loch
 */
 template<class T>
 std::ostream & operator<< ( Logger &, const T & type )
 {
+	// I'm sure there was a good reason, other than
+	// just convenience, to have the reference...
 	std::ostream & os = Logger::instance().os();
 	os << type;
 	return os;
@@ -231,14 +245,19 @@ LOGGER_DLL_API extern Logger & logger;
 /**
 	This is a wrapper for the logger that simplifies usage.
 
-	\see logdec
+	\see loch
+
+	This is a Sentry pattern with
+	a twist - the _copied flag is set by each recipient of a
+	copy, and the last uncopied instance in the chain will send elog
+	and unlock the logger instance.
 */
-class LoggerDecorator
+class LogChainer
 {
 public:
-	LoggerDecorator ( Logger &, Level::LogLevel );
-	LoggerDecorator ( const LoggerDecorator & );
-	virtual ~LoggerDecorator();
+	LogChainer ( Logger &, Level::LogLevel );
+	LogChainer ( const LogChainer & );
+	virtual ~LogChainer();
 	
 	template<class T>
 	void log ( const T & rhs)
@@ -258,11 +277,17 @@ private:
 };
 
 /**
-	allow << directly to a LoggerDecorator. The parameters and
-	return values are pass-by-value because 
+	allow << directly to a LogChainer. The parameters and
+	return values are pass-by-value because it allows LogChainer
+	to use its copy constructor to keep track of when to send the
+	elog.
+
+	\warning The logger lock will still be started by the first
+	call to the stream, so slow evaluations inside the chain
+	will then slow down the logging system because of the global lock.
 */
 template<class T>
-LoggerDecorator operator<< ( LoggerDecorator ld, const T & type )
+LogChainer operator<< ( LogChainer ld, const T & type )
 {
 	ld.log ( type );
 	return ld;
@@ -271,23 +296,30 @@ LoggerDecorator operator<< ( LoggerDecorator ld, const T & type )
 /**
 	This is the preferred interface. It allows you to do things like this:
 	\code
-	logdec ( Level::debug ) << "Oh My god, " << evilPerson << killed Kenny!";
+	loch ( Level::debug ) << "Oh My god, " << evilPerson << killed Kenny!";
 	\endcode
 
-	and the instance will auto-magically send elog for you so that
-	you don't have to remember to send it. It will also make sure
-	that the << operators do very little work if the current log
-	level is less than the specified level.
+	and the chained instance will auto-magically send elog for you and
+	unlock the logger instance so that
+	you don't have to remember to. It will also make sure
+	that the << operators use as little CPU as possible
+	if the current log level is less than the filter level.
 
-	This is also an occasionally useful pattern:
+	This is also an useful pattern:
 	\code
 	ostringstream os;
 	os << "This" << endl;
 	os << " is " << endl;
 	os << " a message" << endl;
-	logdec ( Level::info) << os.str();
+	loch ( Level::info) << os.str();
 	\endcode
 */
-LoggerDecorator logdec ( Level::LogLevel level );
+LogChainer loch ( Level::LogLevel level );
+
+/**
+	The verbose version in case you want to use a specific
+	logger instance rather than the global one.
+*/
+LogChainer loch ( Logger &, Level::LogLevel );
 
 #endif
