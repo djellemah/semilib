@@ -4,6 +4,13 @@
 
 using namespace std;
 
+#include "SoundexCharLookup.h"
+
+bool soundexMatch ( char a, char b )
+{
+	return soundex::lookup[a] == soundex::lookup[b];
+}
+
 pair<int,int> NGram::doMatch ( const string & b, const string & a )
 {
 	int	count = 0;
@@ -21,7 +28,8 @@ pair<int,int> NGram::doMatch ( const string & b, const string & a )
 		++MaxMatch;
 
 		// search for the ngram in the string, using iterators
-		if ( b.end() != search ( b.begin(), b.end(), beginNgram, endNgram ) )
+		if ( b.end() != search ( b.begin(), b.end(), beginNgram, endNgram, soundexMatch ) )
+//		if ( b.end() != search ( b.begin(), b.end(), beginNgram, endNgram ) )
 			count++;
 	}
 	// weight according to n-Gram length
