@@ -38,6 +38,13 @@ template <class Object, class Allocator = allocator<Object> >
 class UTILS_DLL_API StaticInit
 {
 public:
+	StaticInit()
+	{
+	}
+
+	~StaticInit()
+	{
+	}
 	/*
 		This uses one function for the first call
 		and then the other function for all subsequent calls.
@@ -80,7 +87,7 @@ private:
 		a.construct ( _item, Object() );
 		
 		// make sure we don't get null here
-		//assert(_item != 0);
+		assert(_item != 0);
 
 		// otherwise make sure we go to the other function next time
 		whichTime = subsequentTime;
