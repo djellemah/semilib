@@ -19,14 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma warning(disable: 4786)
 #include "Persistence.h"
 
-#ifdef _WIN32
-	PersistenceRegistry * registryInstance = 0;
-#else
-	PersistenceRegistry persistenceRegistryInstance;
-	PersistenceRegistry * registryInstance = &persistenceRegistryInstance;
-#endif
-
-long registryRefcount = 0;
+PersistenceRegistry * AbstractConstructor::persistenceRegistry = 0;
 
 PersistenceRegistry::PersistenceRegistry()
 {
@@ -50,11 +43,14 @@ PersistenceRegistry::~PersistenceRegistry()
 
 
 /*
-	These aren't really necessary with PersistenceRegistry. But
-	left them here in case things turn out differently.
+	Windows is handled by the DllMain function. Other things do it the normal way.
 */
 AbstractConstructor::AbstractConstructor()
 {
+	if ( persistenceRegistry == 0 )
+	{
+		persistenceRegistry = new PersistenceRegistry;
+	}
 }
 
 AbstractConstructor::~AbstractConstructor()
@@ -63,7 +59,7 @@ AbstractConstructor::~AbstractConstructor()
 
 AbstractConstructor::PersistentObjects & AbstractConstructor::getPersistentObjects()
 {
-	return registryInstance->persistentObjects();
+	return persistenceRegistry->persistentObjects();
 }
 
 /*
@@ -71,9 +67,7 @@ AbstractConstructor::PersistentObjects & AbstractConstructor::getPersistentObjec
 */
 #ifdef _WIN32
 
-#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
-
-#include <windows.h>
+long registryRefcount = 0;
 
 BOOL APIENTRY DllMain( HANDLE handle,  DWORD reason_for_call, LPVOID lpReserved )
 {
@@ -81,11 +75,11 @@ BOOL APIENTRY DllMain( HANDLE handle,  DWORD reason_for_call, LPVOID lpReserved 
 	{
 	case DLL_PROCESS_ATTACH:
 		if ( registryRefcount++ == 0 )
-			registryInstance = new PersistenceRegistry();
+			AbstractConstructor::persistenceRegistry = new PersistenceRegistry();
 		break;
 	case DLL_PROCESS_DETACH:
 		if ( --registryRefcount == 0 )
-			delete registryInstance;
+			delete AbstractConstructor::persistenceRegistry;
 		break;
 
 	case DLL_THREAD_ATTACH:
