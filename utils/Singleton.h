@@ -20,6 +20,7 @@ public:
 
 UTILS_DLL_API bool haveInstance ( const std::string & name );
 UTILS_DLL_API void keepInstance ( const std::string & name, SingletonBase * );
+UTILS_DLL_API void removeInstance ( const std::string & name );
 UTILS_DLL_API SingletonBase * getInstance ( const std::string & name );
 UTILS_DLL_API void acquireLock();
 UTILS_DLL_API void releaseLock();
@@ -166,7 +167,19 @@ public:
 		//return getMutex();
 #endif
 	}
-	
+
+#ifdef _WIN32
+	/*
+		Deregister the singleton from the list under win32
+	*/
+	~Singleton()
+	{
+		InstanceType * dummy = 0;
+		std::string name = typeid ( dummy ).name();
+		removeInstance ( name );
+	}
+#endif
+
 protected:
 	/**
 		Descendants should declare the default constructor as
