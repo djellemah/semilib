@@ -204,7 +204,11 @@ istream & operator >> ( istream & is, TestPersist & obj )
 #include "PersistenceManager.h"
 
 namespace {
-	Constructor<TestPersist> c;
+	// this should be added to the list
+	Constructor<TestPersist> a;
+
+	// this one shouldn't be added to the list
+	Constructor<TestPersist> b;
 }
 
 int test_Persistence ( int argc, char * argv[] )
