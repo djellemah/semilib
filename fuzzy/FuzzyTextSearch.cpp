@@ -106,6 +106,7 @@ int main( int argc, char * argv[] )
 		if ( !FileUtils::exists ( inputs ) )
 		{
 			cout << "Couldn't find file " << inputs << endl;
+			return 1;
 		}
 
 		// input collection
