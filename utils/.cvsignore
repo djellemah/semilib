@@ -32,3 +32,4 @@ testTimer
 log
 testRefcount
 testFileLogger
+test_strftime
