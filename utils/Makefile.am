@@ -39,6 +39,7 @@ lib_LTLIBRARIES = libutils.la liblogger.la libcoutlogger.la
 libutils_la_SOURCES = \
 	FileUtils.cpp \
 	FlagsMapper.cpp \
+	Lock.cpp \
 	Mutex.cpp \
 	Persistence.cpp \
 	PersistenceManager.cpp \

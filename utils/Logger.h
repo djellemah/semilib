@@ -205,7 +205,7 @@ LOGGER_DLL_API Logger * newInstance ( Logger * );
 template<class T>
 std::ostream & operator<< ( Logger &, T type )
 {
-	ostream & os = Logger::os();
+	std::ostream & os = Logger::os();
 	os << type;
 	return os;
 }
