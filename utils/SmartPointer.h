@@ -92,7 +92,7 @@ public:
 */
 #ifdef _WIN32
 template<class T, class Result, Result (__stdcall *deletefunction) (T*)>
-class StdCallFunctionDelete
+class UTILS_DLL_API StdCallFunctionDelete
 {
 public:
 	void operator() ( T * ptr )
@@ -109,7 +109,7 @@ public:
 	c_buffer = malloc ( 243 );
 */
 template<class T, class Result, Result ( *deletefunction) (T*)>
-class FunctionDelete
+class UTILS_DLL_API FunctionDelete
 {
 public:
 	void operator() ( T * ptr )
@@ -123,7 +123,7 @@ public:
 	Specialise to handle deallocation functions returning void
 */
 template<class T, void ( *deletefunction) (T*)>
-class VoidFunctionDelete
+class UTILS_DLL_API VoidFunctionDelete
 {
 public:
 	void operator() ( T * ptr )
