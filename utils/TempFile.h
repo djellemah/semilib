@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "utilsdlldef.h"
+
 namespace Utils
 {
 	using namespace std;
@@ -12,7 +14,7 @@ namespace Utils
 	and takes care of deleting the file when the object
 	goes out of scope.
 */
-class TempFile
+class UTILS_DLL_API TempFile
 {
 public:
 	TempFile ( const char * prefix = 0 );
