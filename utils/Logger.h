@@ -9,7 +9,8 @@
 #include <sstream>
 #include <string>
 
-#include "utilsdlldef.h"
+//#include "utilsdlldef.h"
+#define LOGGER_DLL_API
 
 class Logger;
 
@@ -18,7 +19,7 @@ enum LogLevel { critical, error, warning, message, info, debug, all };
 /**
 	Used as an iostream maninpulator to signal the end of a message
 */
-class UTILS_DLL_API EndLog
+class LOGGER_DLL_API EndLog
 {
 public:
 	EndLog ( Logger & logger )
@@ -35,13 +36,13 @@ private:
 	Logger & _logger;
 	LogLevel _level;
 	
-	friend UTILS_DLL_API std::ostream & operator<< ( std::ostream & os, EndLog & el );
+	friend LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, EndLog & el );
 };
 
 /**
 	Defined to allow Logger::end() as a stream manipulator
 */
-UTILS_DLL_API std::ostream & operator<< ( std::ostream & os, EndLog & el );
+LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, EndLog & el );
 
 /**
 	This object does logging that can be used either from a
@@ -60,7 +61,7 @@ UTILS_DLL_API std::ostream & operator<< ( std::ostream & os, EndLog & el );
 	\warning The mutex used for this class *must* be recursive.
 	\todo make the interface a bit neater
 */
-class UTILS_DLL_API Logger : public Singleton<Logger, Mutex, Lock>
+class LOGGER_DLL_API Logger : public Singleton<Logger, Mutex, Lock>
 {
 public:
 	/// Defined as virtual for subclasses
@@ -134,7 +135,7 @@ protected:
 	*/
 	virtual void doLog ( const std::string & message, LogLevel level ) = 0;
 	
-	friend UTILS_DLL_API Logger * newInstance ( Logger * );
+	friend LOGGER_DLL_API Logger * newInstance ( Logger * );
 
 	std::ostringstream _os;
 	LogLevel _filter;
@@ -158,6 +159,6 @@ protected:
 #endif
 };
 
-UTILS_DLL_API Logger * newInstance ( Logger * );
+LOGGER_DLL_API Logger * newInstance ( Logger * );
 
 #endif
