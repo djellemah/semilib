@@ -31,20 +31,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /**
 	A way to lock and release a Mutex object easily. Very ungeneral and mostly
-	a quick hack.
+	a quick hack. There are two ways to use it: either constructed with a
+	mutex, so that the mutex is release when the instance goes out of scope;
+	or using the acquire/release pair of methods when there isn't a clear scope,
+	ie in Logger.
 */
 class UTILS_DLL_API Lock
 {
 public:
 
-	// Default Constructor
+	/**
+		Doesn't attempt to release the mutex in
+		the destructor call
+	*/
 	Lock()
 		: _mutex ( 0 )
+		, _releaseOnDestruct ( false )
 	{
 	}
 
 	Lock ( Mutex & aMutex )
 		: _mutex ( &aMutex )
+		, _releaseOnDestruct ( true )
 	{
 		mutex().lock();
 	}
@@ -60,10 +68,17 @@ public:
 		mutex().release();
 	}
 
-	// Destructor
+	/**
+		Only release the mutex if _releaseOnDestruct
+		is true, ie this instance was constructed
+		with a mutex.
+	*/
 	virtual ~Lock()
 	{
-		mutex().release();
+		if ( _releaseOnDestruct )
+		{
+			mutex().release();
+		}
 	}
 
 	Mutex & mutex()
@@ -80,6 +95,7 @@ public:
 
 private:
 	Mutex * _mutex;
+	bool _releaseOnDestruct;
 };
 
 #endif
