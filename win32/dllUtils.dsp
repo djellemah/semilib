@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /G5 /MD /W3 /GX /O2 /Ob2 /I "..\Regex\src" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "BUILD_UTILS_DLL" /FD /c
+# ADD CPP /nologo /G5 /MD /W3 /GR /GX /O2 /Ob2 /I "..\Regex\src" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "UTILS_BUILD_DLL" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /o "NUL" /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /o "NUL" /win32
@@ -54,7 +54,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 sxlrt.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386 /out:"..\bin/utils.dll"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /machine:I386 /out:"../../dlls/utils.dll"
 # SUBTRACT LINK32 /pdb:none
 
 !ELSEIF  "$(CFG)" == "dllUtils - Win32 Debug"
@@ -71,7 +71,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\Regex\src" /I "..\sxl\include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "BUILD_UTILS_DLL" /FD /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "..\Regex\src" /I "..\sxl\include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "UTILS_BUILD_DLL" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /o "NUL" /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /o "NUL" /win32
@@ -82,7 +82,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 sxlrt.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"..\bin/utils.debug.dll" /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"../../dlls/utils.debug.dll" /pdbtype:sept
 # SUBTRACT LINK32 /pdb:none
 
 !ENDIF 
@@ -147,14 +147,40 @@ SOURCE=..\utils\istring.h
 # Begin Source File
 
 SOURCE=..\utils\Lock.cpp
+
+!IF  "$(CFG)" == "dllUtils - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "dllUtils - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\utils\Lock.h
+
+!IF  "$(CFG)" == "dllUtils - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "dllUtils - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\utils\minwin.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\utils\Mutex.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\utils\Mutex.h
 # End Source File
 # Begin Source File
 
@@ -167,10 +193,28 @@ SOURCE=..\utils\posException.h
 # Begin Source File
 
 SOURCE=..\utils\RefCount.cpp
+
+!IF  "$(CFG)" == "dllUtils - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "dllUtils - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=..\utils\RefCount.h
+
+!IF  "$(CFG)" == "dllUtils - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "dllUtils - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
@@ -179,6 +223,14 @@ SOURCE=..\utils\Result.cpp
 # Begin Source File
 
 SOURCE=..\utils\Result.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\utils\Singleton.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\utils\Singleton.h
 # End Source File
 # Begin Source File
 
