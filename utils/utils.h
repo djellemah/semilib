@@ -56,5 +56,13 @@ UTILS_DLL_API std::string now();
 */
 UTILS_DLL_API std::string trim ( const std::string & );
 
+/**
+	Do something like perl's join
+*/
+template<class Collection, class Joiner>
+UTILS_DLL_API std::string join ( const Collection & c, const Joiner & j )
+{
+}
+
 #endif
 
