@@ -14,7 +14,6 @@
 #include <algorithm>
 #include <numeric>
 #include <vector>
-#include <list>
 
 using namespace std;
 
@@ -45,9 +44,7 @@ private:
 	double _threshold;
 };
 
-// typedef multimap<float,string> Results;
-typedef list<Ranking> Results;
-
+typedef vector <Ranking> Results;
 // for outputting an element of the results array
 /*
 bool match_compare ( Results::key_type a, Results::key_type b )
@@ -69,12 +66,15 @@ private:
 };
 */
 
+>>>>>>> 1.6
 void help( char * argv[] )
 {
 	cout << argv[0] << endl;
 	exit ( 0 );
 }
 
+<<<<<<< FuzzyTextSearch.cpp
+=======
 /*
 Trying to sort a map...
 void test()
@@ -88,6 +88,7 @@ void test()
 }
 */
 
+>>>>>>> 1.6
 int main( int argc, char * argv[] )
 {
 	if ( argc < 3 || argc > 4 )
@@ -121,40 +122,18 @@ int main( int argc, char * argv[] )
 			, insert_iterator<Results> ( results, results.begin() )
 			, MatchFunction ( word )
 // an alternative to MatchFunction			
-//			, Soundex ( argv[2] )
+//			, Soundex ( word )
 		);
 
-		// output the first two results
-/*
-		cout << *(results.rbegin()) << endl;
-		cout << *(++results.rbegin()) << endl;
-*/		
-		
 		// sort results into match order, from best to worst
-
-/*
-		sort<Results::reverse_iterator> (
-			results.rbegin()
-			, results.rend()
-//			, match_compare
-		);
-*/		
-		// output all results
-		for_each (
-			results.begin()
-			, results.end()
-			, Out( cout, atof ( percent ) )
-		);
-/*
-		// This should work, but it complains about not finding
-		// the appropriate overloaded >> operator. Which is weird
-		// and I can't figure it out.
+		sort ( results.begin() , results.end() );
+		
+		// output best 10 (or number of elements in list) results to stdout
 		copy (
-			results.begin()
-			, results.end()
+			results.rbegin()
+			, results.rbegin() + min ( results.size(), (size_t)10 )
 			, ostream_iterator<Results::value_type> ( cout, "\n" )
 		);
-*/
 	}
 	return 0;
 }
