@@ -8,7 +8,7 @@ using namespace std;
 class CoutLogger : public Logger
 {
 public:
-	void doLog ( const string & msg, LogLevel level )
+	void doLog ( const string & msg, Level::LogLevel level )
 	{
 		cout << level << ": " << msg << endl;
 	}

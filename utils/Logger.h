@@ -14,7 +14,10 @@
 
 class Logger;
 
-enum LogLevel { critical, error, warning, message, info, debug, all };
+namespace Level
+{
+	enum LogLevel { critical, error, warning, message, info, debug, all };
+}
 
 /**
 	Used as an iostream maninpulator to signal the end of a message
@@ -27,14 +30,14 @@ public:
 	{
 	}
 	
-	void level ( LogLevel l )
+	void level ( Level::LogLevel l )
 	{
 		_level = l;
 	}
 	
 private:
 	Logger & _logger;
-	LogLevel _level;
+	Level::LogLevel _level;
 	
 	friend LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, EndLog & el );
 };
@@ -71,7 +74,7 @@ public:
 		This can either be called as is, or used via the stream
 		interface.
 	*/
-	void log ( const std::string & msg, LogLevel level = message );
+	void log ( const std::string & msg, Level::LogLevel level = Level::message );
 
 	/**
 		Provide a logging stream.
@@ -84,13 +87,13 @@ public:
 		end of one message. Used either directly or via
 		the EndLog manipulator.
 	*/
-	void endMessage( LogLevel level );
+	void endMessage( Level::LogLevel level );
 		
 	/**
 		Call this with the highest level of message to be
 		actually logged. Default is to log everything.
 	*/
-	void filter ( LogLevel level )
+	void filter ( Level::LogLevel level )
 	{
 		_filter = level;
 	}
@@ -98,7 +101,7 @@ public:
 	/**
 		Return the current filter level
 	*/
-	LogLevel filter() const
+	Level::LogLevel filter() const
 	{
 		return _filter;
 	}
@@ -120,7 +123,7 @@ public:
 		In fact, it's *necessary* to call this after using the
 		stream interface, otherwise the lock never gets released.
 	*/
-	static EndLog & end ( LogLevel level = message );
+	static EndLog & end ( Level::LogLevel level = Level::message );
 
 protected:
 	Logger();
@@ -133,12 +136,12 @@ protected:
 		for too long, whatever's using the logger will slow down
 		quite a bit.
 	*/
-	virtual void doLog ( const std::string & message, LogLevel level ) = 0;
+	virtual void doLog ( const std::string & message, Level::LogLevel level ) = 0;
 	
 	friend LOGGER_DLL_API Logger * newInstance ( Logger * );
 
 	std::ostringstream _os;
-	LogLevel _filter;
+	Level::LogLevel _filter;
 	
 	EndLog _end;
 

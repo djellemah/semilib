@@ -11,6 +11,7 @@
 	
 	If you know a better way to do this, please let me know.
 */
+
 #include "Singleton.h"
 #include <map>
 #include <algorithm>
@@ -18,10 +19,11 @@
 using namespace std;
 
 typedef map<string, void*> Instances;
+
 /**
 	This is a global set of all singleton instances. DO NOT
 	declare this as DLL exportable, or allow it to escape
-	from it's DLL.
+	from its DLL.
 */
 Instances instances;
 

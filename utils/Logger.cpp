@@ -4,14 +4,14 @@ using namespace std;
 
 #pragma warning( disable : 4355 ) 
 Logger::Logger()
-: _filter ( all )
+: _filter ( Level::all )
 , _end ( *this )
 , _locks ( 0 )
 {
 }
 #pragma warning( default : 4355 ) 
 
-void Logger::log ( const std::string & msg, LogLevel level )
+void Logger::log ( const std::string & msg, Level::LogLevel level )
 {
 	Lock lock ( _mutex );
 	// only log the message if the level is set above it
@@ -42,7 +42,7 @@ ostream & Logger::los()
 	return _os;
 }
 
-void Logger::endMessage( LogLevel level )
+void Logger::endMessage( Level::LogLevel level )
 {
 	log ( _os.str(), level );
 	
@@ -66,7 +66,7 @@ ostream & Logger::os()
 	return instance().los();
 }
 
-EndLog & Logger::end( LogLevel level )
+EndLog & Logger::end( Level::LogLevel level )
 {
 	Logger::instance()._end.level ( level );
 	return Logger::instance()._end;
