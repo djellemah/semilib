@@ -30,11 +30,8 @@ using namespace std;
 #include "SmartPointer.h"
 #include "StaticInit.h"
 
-#define RE_POSIX_COMPAT
-#include "Regexpp/jregex.h"
+#include "cregex"
 #define RXSPACE
-
-
 
 /**
 	exception for problems compiling a particular regular expression
