@@ -222,6 +222,7 @@ void Regex::checkSubs( int index ) const
 
 string Regex::operator [] ( int index ) const
 {
+	// make sure we have a valid index
 	checkSubs ( index );
 
 	// get the beginning and end of the subexpression from
@@ -237,15 +238,7 @@ string Regex::operator [] ( int index ) const
 	// _matched.begin() is an iterator that points to the beginning of the string
 	// _matched.begin() + begin is the beginning of the subexpression
 	// _matched.begin() + end is one past the end of the subexpression.
-
-	// this provokes an error in sxlrt
-	// return string ( _matched.begin() + begin, _matched.begin() + end - 1 );
-
-	// so try do it manually
-	SmartPointer<char> buf = new char[end-begin+1];
-	strncpy ( buf, _matched.c_str() + begin, end-begin );
-	buf[end-begin] = 0;
-	return string ( buf.data() );
+	return string ( _matched.begin() + begin, _matched.begin() + end );
 }
 
 int Regex::subExpBegin ( int index ) const
