@@ -37,11 +37,11 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\Release\fuzzyMatch"
+# PROP Output_Dir "..\lib\"
 # PROP Intermediate_Dir "..\Release\fuzzyMatch"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\utils" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\utils" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "NO_USE_FUZZY_DLL" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
@@ -61,11 +61,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\Debug\fuzzyMatch"
+# PROP Output_Dir "..\lib\"
 # PROP Intermediate_Dir "..\Debug\fuzzyMatch"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I "..\utils" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /FD /c
+# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I "..\utils" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "NO_USE_FUZZY_DLL" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
@@ -89,6 +89,10 @@ SOURCE=.\src\BasicSoundex.cpp
 # Begin Source File
 
 SOURCE=.\src\BasicSoundex.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\fuzzydlldef.h
 # End Source File
 # Begin Source File
 
