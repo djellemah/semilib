@@ -178,4 +178,3 @@ EndLog & elog ( Level::LogLevel level )
 {
 	return Logger::end ( level );
 }
-

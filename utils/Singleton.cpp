@@ -66,7 +66,6 @@ public:
 		Lock lock ( getMutex() );
 
 		// remove the instance order entry
-		//cout << "Searching for " << name << " in " << join ( instanceOrder ) << endl;
 		InstanceOrder::iterator orderit = std::find ( instanceOrder.begin(), instanceOrder.end(), name );
 		if ( orderit != instanceOrder.end() )
 		{
@@ -83,7 +82,6 @@ public:
 	
 	void add ( const std::string & name, SingletonBase * instance )
 	{
-		cout << "Adding " << name << " at " << instance << endl;
 		instanceOrder.push_back ( name );
 		operator[] ( name ) = instance;
 	}
@@ -97,28 +95,20 @@ public:
 		while ( instanceOrder.size() > 0 )
 		{
 			string name = instanceOrder.back();
-			cout << "Attempting " << name << "cleanup" << endl;
 			instanceOrder.pop_back();
 			iterator it = find ( name );
 			if ( it != end() )
 			{
-			cout << "Found " << name << endl;
 				SingletonBase * base = it->second;
-			cout << "Erasing " << name << endl;
 				erase ( it );
-			cout << "deleting " << name << " at " << base << endl;
 				delete base;
-			cout << "Finished " << name << endl;
 			}
-			cout << "Finished " << name << "cleanup" << endl;
 		}
 	}
 
 	~Instances()
 	{
-		cout << "semilib::~Instances" << endl;
 		cleanup();
-		cout << "finished semilib::~Instances" << endl;
 	}
 };
 
@@ -151,9 +141,7 @@ void keepInstance ( const std::string & name, SingletonBase * instance )
 
 void removeInstance ( const string & name )
 {
-	cout << "remove instance " << name << endl;
 	getInstances().remove ( name );
-	cout << "finished remove instance " << name << endl;
 }
 
 SingletonBase * getInstance ( const std::string & name )
@@ -218,16 +206,16 @@ BOOL APIENTRY DllMain(
 	switch (ul_reason_for_call)
 	{
 		case DLL_PROCESS_ATTACH:
-			cout << "Loading semilib dll" << endl;
+//			cout << "Loading semilib dll" << endl;
 			break;
 		case DLL_THREAD_ATTACH:
-			cout << "attach thread semilib dll" << endl;
+//			cout << "attach thread semilib dll" << endl;
 			break;
 		case DLL_THREAD_DETACH:
-			cout << "detach thread semilib dll" << endl;
+//			cout << "detach thread semilib dll" << endl;
 			break;
 		case DLL_PROCESS_DETACH:
-			cout << "Unloading semilib dll" << endl;
+//			cout << "Unloading semilib dll" << endl;
 			break;
 	}
 	return TRUE;
