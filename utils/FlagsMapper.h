@@ -69,37 +69,37 @@ public:
 	}
 
 	/// Provides a string representation of the integer for the defined flags
-	string stringForFlags ( unsigned int flag ) const;
+	string stringForFlags ( unsigned long flag ) const;
 
 	/// provides the integer representation of a series of flags
-	unsigned int flagForStrings ( const string & aString ) const;
+	unsigned long flagForStrings ( const string & aString ) const;
 
 	/// provides the string representation for one flag
-	string operator [] ( unsigned int index ) const
+	string operator [] ( unsigned long index ) const
 	{
 		return stringForOneFlag ( index );
 	}
 
 	/// provides the integer representation for one flag
-	unsigned int operator [] ( const string & aString ) const
+	unsigned long operator [] ( const string & aString ) const
 	{
 		return flagForOneString ( aString );
 	}
 
 protected:
 	void read ( istream & is );
-	unsigned int flagForOneString ( const string & aString ) const;
-	const string & stringForOneFlag ( unsigned int flag ) const;
+	unsigned long flagForOneString ( const string & aString ) const;
+	const string & stringForOneFlag ( unsigned long flag ) const;
 	void stripSpaces ( string & aString ) const;
 
 private:	
-	typedef map<unsigned int,string> FlagsToStrings;
-	typedef	map<string,unsigned int> StringsToFlags;
+	typedef map<unsigned long,string> FlagsToStrings;
+	typedef	map<string,unsigned long> StringsToFlags;
 
 	FlagsToStrings flagsToStrings;
 	StringsToFlags stringsToFlags;
 
-	unsigned int sum;
+	unsigned long sum;
 
 	/**
 		for summing the values in an STL collection. I'm sure this

@@ -23,7 +23,7 @@ using namespace std;
 
 #include "FlagsMapper.h"
 
-string FlagsMapper::stringForFlags ( unsigned int flag ) const
+string FlagsMapper::stringForFlags ( unsigned long flag ) const
 {
 	if ( flag == 0 )
 		return "";
@@ -34,8 +34,8 @@ string FlagsMapper::stringForFlags ( unsigned int flag ) const
 	string temp;
 	// iterate through the map adding each string
 
-	map<unsigned int,string>::const_iterator current = flagsToStrings.begin();
-	map<unsigned int,string>::const_iterator end = flagsToStrings.end();
+	map<unsigned long,string>::const_iterator current = flagsToStrings.begin();
+	map<unsigned long,string>::const_iterator end = flagsToStrings.end();
 	for (; current != end; ++current )
 	{
 		if ( ( (*current).first & flag ) != 0 )
@@ -46,9 +46,9 @@ string FlagsMapper::stringForFlags ( unsigned int flag ) const
 	return temp.substr ( 0, temp.length() - 3 );
 }
 
-unsigned int FlagsMapper::flagForStrings ( const string & aString ) const
+unsigned long FlagsMapper::flagForStrings ( const string & aString ) const
 {
-	unsigned int flags = 0;
+	unsigned long flags = 0;
 	istringstream is ( aString );
 	string temp;
 	while ( !is.eof() )
@@ -80,7 +80,7 @@ public:
 	}
 
 private:
-	unsigned int thesum;
+	unsigned long thesum;
 };
 
 void FlagsMapper::read ( istream & is )
@@ -90,10 +90,8 @@ void FlagsMapper::read ( istream & is )
 	while ( ws (is), is.good() )
 	{
 		is >> flagString >> hex >> flag;
-/*
 		if ( is.fail() )
-			throw runtime_error ( "Couldn't read from stream" );
-*/
+			throw runtime_error ( "FlagsMapper encountered an error while parsing input" );
 		flagsToStrings[flag] = flagString;
 		stringsToFlags[flagString] = flag;
 	}
@@ -103,7 +101,7 @@ void FlagsMapper::read ( istream & is )
 	sum = for_each ( stringsToFlags.begin(), stringsToFlags.end(), thesum );
 }
 
-unsigned int FlagsMapper::flagForOneString ( const string & aString ) const
+unsigned long FlagsMapper::flagForOneString ( const string & aString ) const
 {
 	if ( stringsToFlags.find ( aString ) == stringsToFlags.end() )
 	{
@@ -116,7 +114,7 @@ unsigned int FlagsMapper::flagForOneString ( const string & aString ) const
 	return const_cast<FlagsMapper*>(this)->stringsToFlags[aString];
 }
 
-const string & FlagsMapper::stringForOneFlag ( unsigned int flag ) const
+const string & FlagsMapper::stringForOneFlag ( unsigned long flag ) const
 {
 	if ( flagsToStrings.find ( flag ) == flagsToStrings.end() )
 	{
@@ -132,7 +130,7 @@ void FlagsMapper::stripSpaces ( string & aString ) const
 {
 	istringstream is ( aString );
 	ostringstream os;
-	unsigned int next = char_traits<char>::eof();
+	unsigned long next = char_traits<char>::eof();
 	while ( next = is.get(), !is.eof())
 	{
 		if ( !isspace ( next ) )
