@@ -70,7 +70,7 @@ public:
 		// as well. If Lock isn't re-entrant, we have a problem
 		// because decrement() also puts a lock on _sync.
 
-		Lock aLock ( _mutex );
+		Lock aLock ( mutex() );
 		decrement();
 	}
 
@@ -87,7 +87,7 @@ public:
 	// assignment operator
 	const RefCount & operator = ( const RefCount & other )
 	{
-		Lock aLock ( _mutex );
+		Lock aLock ( mutex() );
 		if ( _ptr != other._ptr )
 		{
 			decrement();
@@ -153,7 +153,7 @@ public:
 
 	References & references()
 	{
-		Lock aLock ( _mutex );
+		Lock aLock ( mutex() );
 		if ( _references == 0 )
 			_references = new References;
 		return *_references;
@@ -161,7 +161,7 @@ public:
 
 	References & references() const
 	{
-		Lock aLock ( _mutex );
+		Lock aLock ( mutex() );
 		if ( _references == 0 )
 			_references = new References;
 		return *_references;
@@ -183,7 +183,7 @@ protected:
 	*/
 	void decrement()
 	{
-		Lock aLock ( _mutex );
+		Lock aLock ( mutex() );
 		if ( _ptr == 0 ) return;
 
 		if ( --references()[_ptr] == 0 )
@@ -200,7 +200,7 @@ protected:
 	*/
 	void increment()
 	{
-		Lock aLock ( _mutex );
+		Lock aLock ( mutex() );
 		if ( _ptr == 0 ) return;
 
 		if ( references().find ( _ptr ) != references().end() )
@@ -216,7 +216,16 @@ private:
 		synchronize accesses to class members for multi-threaded situations,
 		since that's the most likely place a RefCount object will be used.
 	*/
-	static Mutex _mutex;
+	static SmartPointer<Mutex> _mutex;
+
+	static Mutex & mutex()
+	{
+		if ( _mutex == 0 )
+		{
+			_mutex = new Mutex;
+		}
+		return *_mutex;
+	}
 
 	/**
 		the list of references, which obviously must exist beyond the
@@ -238,7 +247,7 @@ RefCount<T>::_references;
 \ingroup smartpointer
 */
 template <class T>
-Mutex RefCount<T>::_mutex;
+SmartPointer<Mutex> RefCount<T>::_mutex;
 
 /**
 	insertion operator
