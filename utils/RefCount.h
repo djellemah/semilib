@@ -27,6 +27,9 @@ using namespace std;
 
 #include "Lock.h"
 
+// disable 'multiple assignment operator' warning
+#pragma warning(disable: 4522)
+
 /**
 	a reference count pointer object. More overhead than
 	a SmartPointer, but safer in certain situations. Like
