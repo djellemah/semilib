@@ -5,22 +5,11 @@
 #include "Mutex.h"
 
 #ifdef _WIN32
-#include <map>
-#include <algorithm>
 #include <string>
 #include "utilsdlldef.h"
 
-typedef std::map<std::string, void*> Instances;
-/**
-	This is a global set of all singleton instances. DO NOT
-	declare this as DLL exportable.
-*/
-extern Instances instances;
-
 UTILS_DLL_API bool haveInstance ( const std::string & name );
 UTILS_DLL_API void keepInstance ( const std::string & name, void * );
-UTILS_DLL_API void * getInstance ( const std::string & name );
-UTILS_DLL_API void * acqireMutex ( const std::string & name );
 UTILS_DLL_API void * getInstance ( const std::string & name );
 UTILS_DLL_API void acquireLock();
 UTILS_DLL_API void releaseLock();
@@ -29,8 +18,9 @@ UTILS_DLL_API void releaseLock();
 
 
 /**
-	This class is a threadsafe, polymorphic Singleton implementation.
-	It uses double-check utex locking to minimise overhead on calls
+	This class is a threadsafe, cross-DLL (for windoze), polymorphic Singleton
+	implementation.
+	It uses double-check mutex locking to minimise overhead on calls
 	to the instance() method. In other words, once the instance has
 	been created, no attempt is made to acquire a mutex lock.
 	
@@ -185,12 +175,12 @@ private:
 #endif
 };
 
+#ifndef _WIN32
 /**
 	Instantiate the mutex. This must be done at startup otherwise
 	there might be a race condition when instantiating it. Although
 	I'm not sure when static local variables are instantiated.
 */
-#ifndef _WIN32
 template<class InstanceType, class Mutex, class Lock>
 Mutex Singleton<InstanceType, Mutex, Lock>::_mutex;
 
