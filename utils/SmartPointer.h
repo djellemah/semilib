@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdexcept>
 #include <string>
 
+#include "utilsdlldef.h"
+
 using std::runtime_error;
 
 // disable 'multiple assignment operator' warning
@@ -57,7 +59,7 @@ using std::runtime_error;
 */
 
 template<class T>
-class NormalDelete
+class UTILS_DLL_API NormalDelete
 {
 public:
 	void operator () ( T * ptr )
@@ -67,7 +69,7 @@ public:
 };
 
 template<class T>
-class ArrayDelete
+class UTILS_DLL_API ArrayDelete
 {
 public:
 	void operator() ( T * ptr )
@@ -77,7 +79,7 @@ public:
 };
 
 template <class T, class Deallocator = NormalDelete<T> >
-class SmartPointer
+class UTILS_DLL_API SmartPointer
 {
 public:
 	/**
@@ -317,7 +319,7 @@ private:
 */
 
 template<>
-class SmartPointer<char>
+class UTILS_DLL_API SmartPointer<char>
 {
 public:
 	SmartPointer ( char * ptr = 0, bool aBool = true )
@@ -449,7 +451,7 @@ private:
 // #pragma warning(default: 4522)
 
 template<>
-class SmartPointer<void>
+class UTILS_DLL_API SmartPointer<void>
 {
 public:
 	SmartPointer ( void * ptr = 0, bool aBool = true )
