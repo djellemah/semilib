@@ -1,13 +1,15 @@
 # Process this file with autoconf to produce a configure script.
 AC_INIT(regex, 1.0.2, panic@semiosix.com)
 AM_INIT_AUTOMAKE(regex, 1.0.2)
-AM_CONFIG_HEADER(config.h)
+AM_CONFIG_HEADER(regexdlldef.h)
 
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_LIBTOOL
+AC_PROG_AWK
+AC_PROG_RANLIB
 
 # Checks for header files.
 AC_HEADER_STDCPP
@@ -22,7 +24,7 @@ AC_CHECK_TYPES([ptrdiff_t])
 
 # Checks for library functions.
 AC_FUNC_MALLOC
-AC_CHECK_FUNCS([mkdir strncasecmp])
+AC_CHECK_FUNCS([mkdir strncasecmp memset regcomp])
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

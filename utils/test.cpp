@@ -409,6 +409,9 @@ int test_mkdir ( int argc, char * argv[] )
 	if ( !FileUtils::exists ( temp ) )
 		throw runtime_error ( "directory " + temp + " not created" );
 	cout << "OK" << endl;
+	cout << "removing dirone: ";
+	cout << system ( "rm -R dirone" );
+	cout << endl;
 	
 	temp = string ( "dirdotone" ) + directorySeparator + "dirtwo";
 	cout << "Create " << temp;
@@ -416,6 +419,9 @@ int test_mkdir ( int argc, char * argv[] )
 	if ( !FileUtils::exists ( temp ) )
 		throw runtime_error ( "directory " + temp + " not created" );
 	cout << "OK" << endl;
+	cout << "removing dirdotone: ";
+	cout << system ( "rm -R dirdotone" );
+	cout << endl;
 
 	return 0;
 }

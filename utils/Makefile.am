@@ -3,7 +3,7 @@ include_HEADERS = \
 	Lock.h MarkStream.h Persistence.h PersistenceManager.h RefCount.h \
 	Result.h SmartPointer.h SmartPointer.specialised.h StaticInit.h \
 	TempFile.h Timer.h functions.h istring.h \
-	posException.h utils.h
+	posException.h utilsdlldef.h
 
 lib_LTLIBRARIES = libutils.la
 libutils_la_SOURCES = FileUtils.cpp \
@@ -13,3 +13,5 @@ libutils_la_LDFLAGS = -version-info 1:0:0
 check_PROGRAMS = test
 test_SOURCES = test.cpp
 test_LDADD = libutils.la
+
+TESTS=test

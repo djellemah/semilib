@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_INIT(utils, 1.0.2, panic@semiosix.com)
 #AM_INIT_AUTOMAKE(utils, 1.0.2)
-AM_CONFIG_HEADER(config.h)
+AM_CONFIG_HEADER(utilsdlldef.h)
 
 # Checks for programs.
 AC_PROG_CXX

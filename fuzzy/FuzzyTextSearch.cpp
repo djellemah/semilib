@@ -70,30 +70,10 @@ private:
 };
 
 typedef vector <Ranking> Results;
-// for outputting an element of the results array
-/*
-bool match_compare ( Results::key_type a, Results::key_type b )
-{
-    return a.first > b.first;
-}
-
-struct SortByMatch
-{
-	void operator ()( const pair<float,string> & value )
-	{
-		if ( value.first > _threshold )
-			_os << value << endl;
-	}
-
-private:
-	ostream & _os;
-	double _threshold;
-};
-*/
 
 void help( char * argv[] )
 {
-	cout << "test file word percent" << endl;
+	cout << "test <file> <word>" << endl;
 	exit ( 0 );
 }
 
@@ -130,7 +110,7 @@ int main( int argc, char * argv[] )
 			, istream_iterator<Line>()
 			, insert_iterator<Results> ( results, results.begin() )
 			, MatchFunction ( word )
-// an alternative to MatchFunction			
+// an alternative to MatchFunction
 //			, Soundex ( word )
 		);
 

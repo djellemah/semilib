@@ -38,12 +38,6 @@ const char * flagsString = ""
 SmartPointer<FlagsMapper> Regex::_mapper;
 
 /*
-#if !defined __BCPLUSPLUS__ && defined RSXPACE
-	using namespace rxSpace;
-#endif
-*/
-
-/*
 	rx_exception implementations
 */
 rx_exception::rx_exception ( int rxError, const RXSPACE regex_t & compiled, const string & pattern )
@@ -63,6 +57,8 @@ const char * rx_exception::what() const throw()
 /*
 	Regex implementations
 */
+
+// this is used as an initial value for flags
 const int Regex::notRegexFlag = ~ (REG_EXTENDED | REG_ICASE | REG_NEWLINE | REG_NOSUB);
 
 Regex::Regex()
@@ -176,8 +172,9 @@ bool Regex::match ( const string & toMatch, unsigned long pos ) const
 	int result = RXSPACE regexec (
 		&_patternBuffer // the pattern to match
 		, toMatch.c_str() + pos // the string to match
-// commented out cos jregex doesn't need it
-//		, toMatch.length() - pos
+#ifdef WITH_RX
+		, toMatch.length() - pos
+#endif
 		, hasSubexp() ? subexps() : 0 // number of subexpressions
 		, hasSubexp() ? _subExpressions.data() : 0 // the array of subexpressions
 		, 0 // flags REG_BOL and REG_EOL

@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <string>
 
-#include "config.h"
+#include "regexdlldef.h"
 
 #pragma warning ( disable:4251 )
 
@@ -42,7 +42,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#define RXSPACE
 #endif
 
-#include "regexdlldef.h"
 #include "AbstractRegex.h"
 #include "FlagsMapper.h"
 
