@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <ctime>
 #include <cstdlib>
 
@@ -32,6 +33,7 @@ using namespace std;
 #include "FileUtils.h"
 #include "functions.h"
 #include "SmartPointer.h"
+#include "TempFile.h"
 
 using namespace Utils;
 
@@ -253,19 +255,42 @@ int test_Persistence ( int argc, char * argv[] )
 {
 	try
 	{
-//		Constructor<TestPersist> a;
-		ostringstream os;
+		// make it persistent
 		TestPersist p ( 5 );
 		PersistenceManager<TestPersist> pm;
-		pm.persist ( os, p );
+		bool result = true;
+		
+		{
+			cout << "Testing with stringstreams"<< endl;
+			ostringstream ostr;
+			pm.persist ( ostr, p );
+			
+			// restore it
+			istringstream istr ( ostr.str() );
+			SmartPointer<TestPersist> ptr = pm.restore ( istr );
 
-		istringstream is ( os.str() );
-		SmartPointer<TestPersist> ptr = pm.restore ( is );
+			// results
+			cout << "Original: " << p.value() << endl;
+			cout << "Restored: " << ptr->value() << endl;
+			result = result && ( p == *ptr );
+		}
 
-		cout << "Original: " << p.value() << endl;
-		cout << "Restored: " << ptr->value() << endl;
-
-		if ( p == *ptr ) return -1;
+		{
+			cout << "Testing with iostreams"<< endl;
+			TempFile tempfile;
+			ofstream ofs ( tempfile );
+			pm.persist ( ofs, p );
+			ofs.flush();
+			
+			ifstream ifs ( tempfile );
+			SmartPointer<TestPersist> ptr = pm.restore ( ifs );
+			cout << "Original: " << p.value() << endl;
+			cout << "Restored: " << ptr->value() << endl;
+			
+			result = result && ( p == *ptr );
+		}
+		
+		return result ? 0 : -1;
 	}
 	catch ( exception & e )
 	{
