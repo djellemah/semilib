@@ -19,20 +19,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef Persistence_h
 #define Persistence_h
 
-#include <typeinfo>
-#include <string>
-#include <map>
-#include <functional>
-#include <algorithm>
-
-using namespace std;
-
 #include "utilsdlldef.h"
 #include "SmartPointer.h"
 
 #ifdef _WIN32
 #include "minwin.h"
 #endif
+
+#include <typeinfo>
+#include <string>
+#include <map>
+#include <functional>
+#include <algorithm>
+
+namespace semilib
+{
 
 class PersistenceRegistry;
 
@@ -53,7 +54,7 @@ public:
 
 		Don't want a smart pointer here, unless it's a refcount...
 	*/
-	typedef map<string, AbstractConstructor*, less<string> > PersistentObjects;
+	typedef std::map<std::string, AbstractConstructor*, std::less<std::string> > PersistentObjects;
 
 	AbstractConstructor();
 	virtual ~AbstractConstructor();
@@ -65,8 +66,8 @@ public:
 	*/
 	virtual void * operator ()()
 	{
-		throw runtime_error ( "No instance of the constructor object" );
-		return NULL;
+		throw std::runtime_error ( "No instance of the constructor object" );
+		return 0;
 	}
 
 	static PersistentObjects & getPersistentObjects();
@@ -145,7 +146,7 @@ public:
 	*/
 	Constructor()
 	{
-		string temp = typeid ( Persistent ).name();
+		std::string temp = typeid ( Persistent ).name();
 
 		// only insert the object if it doesn't already exist
 		if ( getPersistentObjects().find ( temp ) == getPersistentObjects().end() )
@@ -155,5 +156,7 @@ public:
 		}
 	}
 };
+
+}
 
 #endif

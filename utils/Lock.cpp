@@ -18,6 +18,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "Lock.h"
 
+using namespace semilib;
+
 Lock::Lock()
 	: _mutex ( 0 )
 	, _owned ( false )

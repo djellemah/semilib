@@ -6,6 +6,7 @@
 #include <vector>
 
 using namespace std;
+using namespace semilib;
 
 #ifdef _WIN32
 	UTILS_DLL_API const char * pathsep = "\\";
@@ -18,6 +19,9 @@ using namespace std;
 #endif
 
 #include <time.h>
+
+namespace semilib
+{
 
 /**
 	Strip all carriage returns.
@@ -132,4 +136,6 @@ UTILS_DLL_API string strftime ( const time_t & t, const string & format )
 	::strftime ( temp, maxbuf-1, format.c_str(), &tm_time );
 #endif
 	return string ( temp );
+}
+
 }

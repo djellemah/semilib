@@ -6,6 +6,8 @@
 #include <errno.h>
 #endif
 
+using namespace semilib;
+
 /**
 	create the Mutex object
 */

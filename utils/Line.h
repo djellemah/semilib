@@ -19,6 +19,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef Line_h
 #define Line_h
 
+namespace semilib
+{
+
 /**
 	This is a specialisation of basic_string which reads in a line
 	(\n terminated) at
@@ -64,6 +67,8 @@ basic_istream<charT> & operator >> ( basic_istream<charT> & is, basic_Line<charT
 }
 
 typedef basic_Line<char> Line;
+
+}
 
 #endif
 

@@ -27,6 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "utilsdlldef.h"
 #endif
 
+namespace semilib
+{
+
 /**
 	A way to lock and release a Mutex object easily. Very ungeneral and mostly
 	a quick hack. There are two ways to use it: either constructed with a
@@ -96,5 +99,7 @@ protected:
 private:
 	Mutex * _mutex;
 };
+
+}
 
 #endif

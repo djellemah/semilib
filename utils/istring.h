@@ -23,21 +23,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <locale>
 #include <iostream>
 
-using std::char_traits;
-using std::basic_string;
-using std::string;
-using std::locale;
-using std::ostream;
-
 #include "Change.h"
 #include "utilsdlldef.h"
+
+namespace semilib
+{
 
 /**
 	Defines the equality and comparison traits of a case-insensitive string.
 	\ingroup string
 */
 template<class E=char>
-struct UTILS_DLL_API IgnoreCaseTraits : public char_traits<char>
+struct UTILS_DLL_API IgnoreCaseTraits : public std::char_traits<char>
 {
 	static bool eq ( const E & x, const E & y)
 	{
@@ -73,7 +70,7 @@ private:
 #if _MSC_VER == 1100
 	UTILS_DLL_API
 #endif
-	static locale l;
+	static std::locale l;
 };
 
 // warning about base class not a dll interface. Which it is.
@@ -92,55 +89,57 @@ private:
 	a cache. Obviously this is not the most efficient way to do it.
 	\ingroup string
 */
-class UTILS_DLL_API istring : public basic_string<char, IgnoreCaseTraits<char> >
+class UTILS_DLL_API istring : public std::basic_string<char, IgnoreCaseTraits<char> >
 {
 public:
 	istring()
-		: basic_string<char, IgnoreCaseTraits<char> > ()
+		: std::basic_string<char, IgnoreCaseTraits<char> > ()
 	{
 	}
 
 	istring( const char * chstr )
-		: basic_string<char, IgnoreCaseTraits<char> > ( chstr )
+		: std::basic_string<char, IgnoreCaseTraits<char> > ( chstr )
 	{
 	}
 
-	istring( const string & astr )
-		: basic_string<char, IgnoreCaseTraits<char> > ( astr.c_str() )
+	istring( const std::string & astr )
+		: std::basic_string<char, IgnoreCaseTraits<char> > ( astr.c_str() )
 	{
 		stringCache.recalculate ( true );
 	}
 
 	istring & operator = ( const istring & other )
 	{
-		basic_string<char, IgnoreCaseTraits<char> >::operator = ( other );
+		std::basic_string<char, IgnoreCaseTraits<char> >::operator = ( other );
 		stringCache.recalculate ( true );
 
 		return *this;
 	}
 
-	operator const string & () const
+	operator const std::string & () const
 	{
 		return asString();
 	}
 
-	const string & asString() const
+	const std::string & asString() const
 	{
 		if ( stringCache.recalculate() )
 		{
-			stringCache = string ( c_str() );
+			stringCache = std::string ( c_str() );
 		}
 		return stringCache;
 	}
 
 private:
-	mutable Change<string> stringCache;
+	mutable Change<std::string> stringCache;
 };
 
 #pragma warning(default:4275)
 #pragma warning(default:4251)
 
 ///	\ingroup string
-UTILS_DLL_API ostream & operator<< ( ostream & os, const istring & val );
+UTILS_DLL_API std::ostream & operator<< ( std::ostream & os, const istring & val );
+
+}
 
 #endif

@@ -23,9 +23,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string>
 #include <stdexcept>
 
-using namespace std;
-
 #include "utilsdlldef.h"
+
+namespace semilib
+{
 
 /**
 	Used by PersistenceManager to report that it couldn't restore
@@ -35,17 +36,18 @@ using namespace std;
 */
 // warning about base class not a dll interface. Which it is.
 #pragma warning(disable:4275)
-class UTILS_DLL_API posException : public runtime_error
+class UTILS_DLL_API posException : public std::runtime_error
 {
 public:
-	posException( long savepos, const string & msg )
-		: runtime_error ( makeMsg ( savepos, msg ) )
+	posException( long savepos, const std::string & msg )
+		: std::runtime_error ( makeMsg ( savepos, msg ) )
 	{
 	}
 
 protected:
-	static string makeMsg ( long savepos, const string & message )
+	static std::string makeMsg ( long savepos, const std::string & message )
 	{
+		using namespace std;
 		ostringstream os;
 		os << "Error in stream at Position: ";
 		os << savepos;
@@ -55,5 +57,7 @@ protected:
 	}
 };
 #pragma warning(default:4275)
+
+}
 
 #endif

@@ -17,6 +17,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #pragma warning(disable: 4786)
+#include "functions.h"
+#include "SmartPointer.h"
+
+#ifdef _WIN32
+	#pragma comment(lib, "rpcrt4.lib")
+	#include <rpc.h>
+#else
+	#include <uuid/uuid.h>
+#endif
+
 #include <locale>
 #include <string>
 #include <algorithm>
@@ -25,8 +35,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <time.h>
 
-#include "functions.h"
-#include "SmartPointer.h"
+using namespace std;
+
+namespace semilib
+{
 
 std::locale loc;
 
@@ -117,13 +129,6 @@ UTILS_DLL_API string ssprintf ( const char * fmt, ... )
 }
 #endif
 
-#ifdef _WIN32
-	#pragma comment(lib, "rpcrt4.lib")
-	#include <rpc.h>
-#else
-	#include <uuid/uuid.h>
-#endif
-
 /*
 	RpcStringFree screws things up because it needs an extra level
 	of indirection to delete the string
@@ -177,4 +182,6 @@ UTILS_DLL_API string uuidAsString()
 
 	return sReturnValue;
 #endif
+}
+
 }

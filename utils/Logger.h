@@ -35,6 +35,10 @@
 
 //#include "utilsdlldef.h"
 #define LOGGER_DLL_API
+
+namespace semilib
+{
+
 class Logger;
 
 namespace Level
@@ -372,5 +376,7 @@ LogChainer loch ( Level::LogLevel level );
 	\ingroup logger
 */
 LogChainer loch ( Logger &, Level::LogLevel );
+
+}
 
 #endif

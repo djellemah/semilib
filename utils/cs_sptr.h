@@ -3,6 +3,9 @@
 
 #include "SmartPointer.h"
 
+namespace semilib
+{
+
 /**
 	This is a collection-safe smart pointer class
 	in that it lacks operator&
@@ -240,5 +243,7 @@ private:
 	mutable bool owner;
 	Deallocator _deallocator;
 };
+
+}
 
 #endif

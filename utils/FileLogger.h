@@ -5,6 +5,9 @@
 
 #include <string>
 
+namespace semilib
+{
+
 /**
 	Specialisation of the Logger class that writes to a log file.
 	
@@ -64,5 +67,7 @@ private:
 	std::string _home;
 	std::string _prefix;
 };
+
+}
 
 #endif

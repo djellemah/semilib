@@ -8,7 +8,8 @@
 #include <iostream>
 #include <iterator>
 
-using namespace std;
+namespace semilib
+{
 
 /**
 	This class allows for multiple trigger errors, with the
@@ -24,11 +25,11 @@ using namespace std;
 */
 template <
 	class Type
-	, class ExceptionType = SimpleMessageMaker<Type, runtime_error>
+	, class ExceptionType = SimpleMessageMaker<Type, std::runtime_error>
 >
-class MultiResult : public PredicateResult<Type, equal_to<Type>, ExceptionType>
+class MultiResult : public PredicateResult<Type, std::equal_to<Type>, ExceptionType>
 {
-	typedef PredicateResult<Type, equal_to<Type>, ExceptionType> Base;
+	typedef PredicateResult<Type, std::equal_to<Type>, ExceptionType> Base;
 public:
 	/**
 		Make a new result checker instance. This will have no trigger
@@ -60,9 +61,9 @@ public:
 		return *this;
 	}
 
-	void write ( ostream & os ) const
+	void write ( std::ostream & os ) const
 	{
-		copy ( _errors.begin(), _errors.end(), ostream_iterator<Type> ( os, ", " ) );
+		copy ( _errors.begin(), _errors.end(), std::ostream_iterator<Type> ( os, ", " ) );
 	}
 
 	bool checkResult()
@@ -87,13 +88,15 @@ public:
 		_errors.erase ( value );
 	}
 	
-	virtual void read ( istream & is )
+	virtual void read ( std::istream & is )
 	{
-		throw runtime_error ( "read (istream&) not implemented" );
+		throw std::runtime_error ( "read (istream&) not implemented" );
 	}
 	
 private:
-	set<Type> _errors;
+	std::set<Type> _errors;
 };
+
+}
 
 #endif

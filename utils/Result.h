@@ -27,7 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 using namespace std;
 
-
+namespace semilib
+{
 
 /**
 	\defgroup result Result Handling
@@ -267,7 +268,6 @@ ostream & operator << ( ostream & os, const Result<Type,ErrorType,ExceptionType>
 template <class Type, class ErrorType, class ExceptionType>
 istream & operator >> ( istream & is, const Result<Type,ErrorType,ExceptionType> & aResult );
 
-/**
-	Operator for creating a set of error codes.
-*/
+}
+
 #endif

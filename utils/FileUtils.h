@@ -39,7 +39,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma warning(disable:4290)
 
-namespace Utils
+namespace semilib
 {
 	using namespace std;
 #ifdef _WIN32
@@ -202,7 +202,8 @@ UTILS_DLL_API std::string executableDirectory( const std::string & envvar = "" )
 */
 UTILS_DLL_API std::string executableName();
 
-} // end of namespace Utils
+}
+
 #pragma warning(default:4290)
 
 #endif

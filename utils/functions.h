@@ -22,9 +22,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string>
 #include <sstream>
 
-using namespace std;
-
 #include "utilsdlldef.h"
+
+namespace semilib
+{
 
 /**
 	\defgroup string String Handling
@@ -34,27 +35,27 @@ using namespace std;
 	\@{
 */
 /// removes the eol characters from a line, whether they're there or not, just like Perl.
-UTILS_DLL_API void chomp ( string & line );
+UTILS_DLL_API void chomp ( std::string & line );
 
 /// returns a time stamp of the format "Tue Oct 13 12:44:26 1998".
-UTILS_DLL_API string longtimestamp();
+UTILS_DLL_API std::string longtimestamp();
 /// returns a short date as a string (dd/mmm/yy).
-UTILS_DLL_API string shortDateAsString();
+UTILS_DLL_API std::string shortDateAsString();
 
 /// overloads because the standard 'convenience' functions are not very convenient.
 UTILS_DLL_API bool isDigit ( char d );
 /// overloads because the standard 'convenience' functions are not very convenient.
 UTILS_DLL_API char toUpper ( char a );
 /// overloads because the standard 'convenience' functions are not very convenient.
-UTILS_DLL_API string toUpper ( const string & );
+UTILS_DLL_API std::string toUpper ( const std::string & );
 /// overloads because the standard 'convenience' functions are not very convenient.
-UTILS_DLL_API string toUpper ( const char * );
+UTILS_DLL_API std::string toUpper ( const char * );
 
 /// like sprintf, but returns a string.
-UTILS_DLL_API string ssprintf ( const char * fmt, ... );
+UTILS_DLL_API std::string ssprintf ( const char * fmt, ... );
 
 /// return a string representation of a uuid.
-UTILS_DLL_API string uuidAsString();
+UTILS_DLL_API std::string uuidAsString();
 
 /**
 	(win32) Convert from a Unicode string to a multibyte string.
@@ -63,7 +64,7 @@ UTILS_DLL_API string uuidAsString();
 */
 #ifdef WIN32
 template <class charType>
-string fromUnicode ( charType * ustring )
+std::string fromUnicode ( charType * ustring )
 {
 	const int wstrlen = wcslen ( (wchar_t*)ustring );
 	SmartPointer<char> buffer = new char[wstrlen + 1];
@@ -71,12 +72,14 @@ string fromUnicode ( charType * ustring )
 	int result = ::wcstombs( buffer, (wchar_t*)ustring, wstrlen );
 
 	// terminate string, cos WideCharToMultiByte doesn't
-	return string ( buffer, wstrlen );
+	return std::string ( buffer, wstrlen );
 }
 #endif
 
 /**
 \@}
 */
+
+}
 
 #endif

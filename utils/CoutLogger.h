@@ -5,6 +5,9 @@
 
 #include <string>
 
+namespace semilib
+{
+
 /**
 	Logger instance that outputs to stdout
 	
@@ -15,5 +18,7 @@ class CoutLogger : public Logger
 public:
 	void doLog ( const std::string & msg, Level::LogLevel level );
 };
+
+}
 
 #endif

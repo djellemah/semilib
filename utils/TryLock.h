@@ -4,6 +4,9 @@
 #include "Lock.h"
 #include "utilsdlldef.h"
 
+namespace semilib
+{
+
 /**
 	A try lock. This will never block on a locked mutex,
 	but will instead return true from acquired() if the
@@ -46,6 +49,8 @@ private:
 	// whether or not the lock was acquired
 	bool _acquired;
 };
+
+}
 
 #endif
 

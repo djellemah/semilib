@@ -19,17 +19,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef PersistenceManager_h
 #define PersistenceManager_h
 
+#include "SmartPointer.h"
+#include "Persistence.h"
+
 #include <typeinfo>
 #include <iostream>
 #include <string>
 
-// local include files
-#include "SmartPointer.h"
-#include "Persistence.h"
-
-#pragma hdrstop
-
-using namespace std;
+namespace semilib
+{
 
 /**
 	\defgroup persistence Lightweight Persistence
@@ -88,17 +86,17 @@ public:
 	}
 
 	/// persist an object on the given stream.
-	virtual void persist ( ostream & os, const Persistent & object ) const;
+	virtual void persist ( std::ostream & os, const Persistent & object ) const;
 
 	/**
 		restores an object from the given stream. You get back a pointer
 		because you might be getting a descendant of the object this
 		persistence manager can deal with.
 	*/
-	virtual SmartPointer<Persistent> restore ( istream & is ) const;
+	virtual SmartPointer<Persistent> restore ( std::istream & is ) const;
 
 	/// For debugging. Write a list of all objects that this persistence manager deals with
-	void writePersistentObjectNames ( ostream & os ) const;
+	void writePersistentObjectNames ( std::ostream & os ) const;
 
 protected:
 
@@ -106,8 +104,10 @@ protected:
 		makes a new object depending on the type information coming
 		from the stream.
 	*/
-	virtual Persistent * makeNewObject( const string & line ) const;
+	virtual Persistent * makeNewObject( const std::string & line ) const;
 };
+
+}
 
 // have to do this cos MSVC 6.0 doesn't support
 // the 'export' keyword for templates.

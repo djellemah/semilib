@@ -4,6 +4,7 @@
 #include "RefCount.h"
 
 using namespace std;
+using namespace semilib;
 
 int main()
 {

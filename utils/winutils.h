@@ -6,7 +6,12 @@
 
 #include "utilsdlldef.h"
 
+namespace semilib
+{
+
 UTILS_DLL_API std::ostream & operator << ( std::ostream &, const _com_error & e );
+
+}
 
 #endif
 

@@ -19,6 +19,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // "debug info trancated" warning
 #pragma warning(disable: 4786)
 
+#include "FileUtils.h"
+#include "utils.h"
+
 #include <sstream>
 #include <iostream>
 
@@ -36,22 +39,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#define _close close
 #endif
 
-#include "FileUtils.h"
-#include "utils.h"
 
 // "exception specfication ignored" warning
 #pragma warning(disable: 4290)
 
-namespace Utils
-{
+using namespace std;
+using namespace semilib;
 
 #ifdef _WIN32
-	UTILS_DLL_API const char * directorySeparator = "\\";
+	UTILS_DLL_API const char * semilib::directorySeparator = "\\";
 #else
-	const char * directorySeparator = "/";
+	const char * semilib::directorySeparator = "/";
 #endif
-
-using namespace std;
 
 FileUtils::ErrorMessages * FileUtils::_errorMessages = 0;
 bool FileUtils::_initialised;
@@ -128,7 +127,7 @@ const string FileUtils::reason() const
 		return retval + errorMessages()[_reason];
 }
 
-bool fileExists ( const string & filename ) throw ( exception )
+bool semilib::fileExists ( const string & filename ) throw ( exception )
 {
 	FileUtils fu ( filename );
 	return fu.exists();
@@ -138,7 +137,7 @@ bool fileExists ( const string & filename ) throw ( exception )
 	Split a path into segments given a particular split char.
 	Has some special case handling for win32 paths
 */
-vector<string> splitPath( const string & dirname, char splitOn )
+vector<string> semilib::splitPath( const string & dirname, char splitOn )
 {
 	istringstream is ( dirname );
 	vector<string> retval;
@@ -165,7 +164,7 @@ vector<string> splitPath( const string & dirname, char splitOn )
 	return retval;
 }
 
-void mkdir( const string & dirname ) throw ( runtime_error )
+void semilib::mkdir( const string & dirname ) throw ( runtime_error )
 {
 	vector<string> dirs = splitPath ( dirname );
 
@@ -200,7 +199,7 @@ void mkdir( const string & dirname ) throw ( runtime_error )
 	}
 }
 
-UTILS_DLL_API std::string executableName()
+UTILS_DLL_API std::string semilib::executableName()
 {
 	string retval;
 #ifdef _WIN32
@@ -214,7 +213,7 @@ UTILS_DLL_API std::string executableName()
 #endif
 }
 
-UTILS_DLL_API string executableDirectory( const std::string & envvar )
+UTILS_DLL_API string semilib::executableDirectory( const std::string & envvar )
 {
 	string directory;
 	// directory can be cached because it will only be set
@@ -254,10 +253,6 @@ UTILS_DLL_API string executableDirectory( const std::string & envvar )
 			directory = ".";
 		}
 	}
-	directory += Utils::directorySeparator;
+	directory += semilib::directorySeparator;
 	return directory;
 }
-
-} // end of namespace Utils
-
-#pragma warning(default: 4290)

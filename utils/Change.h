@@ -23,6 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 using std::runtime_error;
 
+namespace semilib
+{
+
 /**
 	Change allows you to store change information as part
 	of the type, rather than having separate bool instance
@@ -90,5 +93,7 @@ private:
 	bool _recalculate;
 	T _data;
 };
+
+}
 
 #endif

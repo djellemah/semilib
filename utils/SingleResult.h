@@ -3,6 +3,9 @@
 
 #include "PredicateResult.h"
 
+namespace semilib
+{
+
 /**
 	This class allows for exactly one trigger error.
 	
@@ -12,8 +15,8 @@
 */
 template <
 	class Type
-	, class Comparator = equal_to<Type>
-	, class ExceptionType = SimpleMessageMaker<Type, runtime_error>
+	, class Comparator = std::equal_to<Type>
+	, class ExceptionType = SimpleMessageMaker<Type, std::runtime_error>
 >
 class SingleResult : public PredicateResult<Type, Comparator, ExceptionType>
 {
@@ -43,7 +46,7 @@ public:
 		return *this;
 	}
 
-	void write ( ostream & os ) const
+	void write ( std::ostream & os ) const
 	{
 		os << _error;
 	}
@@ -64,14 +67,16 @@ public:
 		_active = false;
 	}
 	
-	virtual void read ( istream & is )
+	virtual void read ( std::istream & is )
 	{
-		throw runtime_error ( "read (istream&) not implemented" );
+		throw std::runtime_error ( "read (istream&) not implemented" );
 	}
 	
 private:
 	Type _error;
 	bool _active;
 };
+
+}
 
 #endif

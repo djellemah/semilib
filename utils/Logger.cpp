@@ -8,8 +8,9 @@
 #include <map>
 
 using namespace std;
+using namespace semilib;
 
-Logger & logger = Singleton<Logger,Mutex,Lock>::instance();
+Logger & semilib::logger = Singleton<Logger,Mutex,Lock>::instance();
 
 Logger & Logger::instance()
 {
@@ -61,7 +62,7 @@ void Logger::log ( const std::string & msg, Level::LogLevel level )
 	_lock.release();
 }
 
-std::ostream & operator<< ( std::ostream & os, const EndLog & el )
+std::ostream & semilib::operator<< ( std::ostream & os, const EndLog & el )
 {
 	// signal to the Logger that this is the end of a message
 	el._logger.endMessage( el._level );
@@ -205,19 +206,19 @@ int Logger::thread() const
 }
 
 
-ostream & elog ( std::ostream & os )
+ostream & semilib::elog ( std::ostream & os )
 {
 	os << Logger::end();
 	return os;
 }
 
-void elog ( Logger & logger )
+void semilib::elog ( Logger & logger )
 {
 	logger << Logger::end();
 }
 
 
-EndLog & elog ( Level::LogLevel level )
+EndLog & semilib::elog ( Level::LogLevel level )
 {
 	return Logger::end ( level );
 }
@@ -247,7 +248,7 @@ LogChainer::~LogChainer()
 	}
 }
 
-LogChainer loch ( Level::LogLevel level )
+LogChainer semilib::loch ( Level::LogLevel level )
 {
 	return LogChainer ( Logger::instance(), level );
 }

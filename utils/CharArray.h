@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 
+namespace semilib
+{
+
 /**
 	To allow easy insertion of elements into something that starts
 	off as a char ** array, and must end up as a char ** array
@@ -99,5 +102,7 @@ private:
 	std::vector<std::string> _elements;
 	CharType ** _argsptr;
 };
+
+}
 
 #endif

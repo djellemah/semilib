@@ -8,6 +8,9 @@
 #include <string>
 #include "utilsdlldef.h"
 
+namespace semilib
+{
+
 /**
 	Just provides a base class so that cleanup can
 	be done, and destructors can be called.
@@ -27,8 +30,12 @@ UTILS_DLL_API void releaseLock();
 UTILS_DLL_API void deleteSingletons();
 UTILS_DLL_API Mutex & getMutex();
 
+}
+
 #endif
 
+namespace semilib
+{
 
 /**
 	This class is a threadsafe, cross-DLL (for windoze), polymorphic Singleton
@@ -94,7 +101,7 @@ UTILS_DLL_API Mutex & getMutex();
 	
 	\ingroup utils
 */
-template<class InstanceType, class MutexClass=Mutex, class LockClass=Lock>
+template<class InstanceType, class MutexClass=semilib::Mutex, class LockClass=semilib::Lock>
 class UTILS_DLL_API Singleton
 #ifdef _WIN32
 : public SingletonBase
@@ -235,5 +242,7 @@ MutexClass Singleton<InstanceType, MutexClass, LockClass>::_mutex;
 template<class InstanceType, class MutexClass, class LockClass>
 SmartPointer<InstanceType> Singleton<InstanceType, MutexClass, LockClass>::_instance;
 #endif
+
+}
 
 #endif

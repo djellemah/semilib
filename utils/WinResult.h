@@ -5,6 +5,9 @@
 
 #include "minwin.h"
 
+namespace semilib
+{
+
 /**
 	This class deals with win32 api error messages and uses
 	FormatMessage to fetch the error message for the trapped
@@ -67,6 +70,8 @@ public:
 		return os.str();
 	}
 };
+
+}
 
 #endif
 

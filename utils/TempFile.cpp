@@ -10,7 +10,7 @@
 
 #include "FileUtils.h"
 
-namespace Utils
+namespace semilib
 {
 
 #ifndef _WIN32

@@ -4,6 +4,7 @@
 #include "CoutLogger.h"
 
 using namespace std;
+using namespace semilib;
 
 int main()
 {

@@ -19,9 +19,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef Cloneable_h
 #define Cloneable_h
 
-using namespace std;
-
 #include "SmartPointer.h"
+
+namespace semilib
+{
 
 /**
 	generic clone class. Simply makes a copy of itself and
@@ -37,5 +38,7 @@ public:
 	}
 
 };
+
+}
 
 #endif

@@ -25,11 +25,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <map>
 #include <algorithm>
 
-using namespace std;
-
 #include "utilsdlldef.h"
 
 #pragma warning ( disable:4251 )
+
+namespace semilib
+{
 
 /**
 	This class turns bitmap-type options fields into strings.
@@ -61,45 +62,45 @@ public:
 	/**
 		read the flags in from the specified string
 	*/
-	FlagsMapper( const string & aString )
+	FlagsMapper( const std::string & rhs )
 	{
-		istringstream is ( aString );
+		std::istringstream is ( rhs );
 		read ( is );
 	}
 
 	/// read the flags in from the specified stream
-	FlagsMapper( istream & is )
+	FlagsMapper( std::istream & is )
 	{
 		read ( is );
 	}
 
 	/// Provides a string representation of the integer for the defined flags
-	string stringForFlags ( unsigned long flag ) const;
+	std::string stringForFlags ( unsigned long flag ) const;
 
 	/// provides the integer representation of a series of flags
-	unsigned long flagForStrings ( const string & aString ) const;
+	unsigned long flagForStrings ( const std::string & aString ) const;
 
 	/// provides the string representation for one flag
-	string operator [] ( unsigned long index ) const
+	std::string operator [] ( unsigned long index ) const
 	{
 		return stringForOneFlag ( index );
 	}
 
 	/// provides the integer representation for one flag
-	unsigned long operator [] ( const string & aString ) const
+	unsigned long operator [] ( const std::string & rhs ) const
 	{
-		return flagForOneString ( aString );
+		return flagForOneString ( rhs );
 	}
 
 protected:
-	void read ( istream & is );
-	unsigned long flagForOneString ( const string & aString ) const;
-	const string & stringForOneFlag ( unsigned long flag ) const;
-	void stripSpaces ( string & aString ) const;
+	void read ( std::istream & is );
+	unsigned long flagForOneString ( const std::string & rhs ) const;
+	const std::string & stringForOneFlag ( unsigned long flag ) const;
+	void stripSpaces ( std::string & rhs ) const;
 
 private:	
-	typedef map<unsigned long,string> FlagsToStrings;
-	typedef	map<string,unsigned long> StringsToFlags;
+	typedef std::map<unsigned long,std::string> FlagsToStrings;
+	typedef	std::map<std::string,unsigned long> StringsToFlags;
 
 	FlagsToStrings flagsToStrings;
 	StringsToFlags stringsToFlags;
@@ -112,6 +113,8 @@ private:
 	*/
 	class SumPredicate;
 };
+
+}
 
 #pragma warning ( default:4251 )
 

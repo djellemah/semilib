@@ -9,6 +9,9 @@
 
 #include "utilsdlldef.h"
 
+namespace semilib
+{
+
 /**
 	Mutex class. Create on of these whenever a critical section is
 	necessary. Then, on entering the critical section do:
@@ -63,5 +66,7 @@ private:
 	pthread_mutex_t _mutex;
 #endif
 };
+
+}
 
 #endif

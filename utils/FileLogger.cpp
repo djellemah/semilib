@@ -7,12 +7,13 @@
 #include <iomanip>
 
 using namespace std;
+using namespace semilib;
 
 FileLogger::FileLogger ( const std::string & prefix, const std::string & home )
 {
 	if ( prefix.empty() )
 	{
-		_prefix = Utils::executableName();
+		_prefix = executableName();
 	}
 	else
 	{
@@ -21,11 +22,11 @@ FileLogger::FileLogger ( const std::string & prefix, const std::string & home )
 	
 	if ( home.empty() )
 	{
-		_directory = Utils::executableDirectory ();
+		_directory = executableDirectory ();
 	}
 	else
 	{
-		_directory = Utils::executableDirectory ( home );
+		_directory = executableDirectory ( home );
 	}
 }
 

@@ -25,10 +25,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "posException.h"
 #include "functions.h"
 
+namespace semilib
+{
+
 template <class Persistent>
 void
 PersistenceManager<Persistent>::
-persist ( ostream & os, const Persistent & object ) const
+persist ( std::ostream & os, const Persistent & object ) const
 {
 	os << endl;
 	os << typeid ( object ).name() << endl;
@@ -40,7 +43,7 @@ persist ( ostream & os, const Persistent & object ) const
 template <class Persistent>
 Persistent *
 PersistenceManager<Persistent>::
-makeNewObject( const string & line ) const
+makeNewObject( const std::string & line ) const
 {
 	if (
 		AbstractConstructor::getPersistentObjects().find(line)
@@ -48,7 +51,7 @@ makeNewObject( const string & line ) const
 		AbstractConstructor::getPersistentObjects().end()
 	)
 	{
-		ostringstream os;
+		std::ostringstream os;
 		os << "Couldn't find Constructor instance for " << line << ".\n\n";
 		os << "Existing Constructor instances are: " << endl;
 		writePersistentObjectNames ( os );		
@@ -63,12 +66,12 @@ makeNewObject( const string & line ) const
 template <class Persistent>
 SmartPointer<Persistent>
 PersistenceManager<Persistent>::
-restore ( istream & is ) const // throw ( runtime_error )
+restore ( std::istream & is ) const // throw ( runtime_error )
 {
 	// for debugging. Allow setting of conditional breakpoints
 	// long pos = is.tellg();
 
-	string line;
+	std::string line;
 
 	// ignore empty lines
 	while ( getline ( is, line ), chomp ( line ), line.empty() )
@@ -102,7 +105,7 @@ restore ( istream & is ) const // throw ( runtime_error )
 template <class Persistent>
 void
 PersistenceManager<Persistent>::
-writePersistentObjectNames ( ostream & os ) const
+writePersistentObjectNames ( std::ostream & os ) const
 {
 	AbstractConstructor::PersistentObjects::const_iterator current = AbstractConstructor::getPersistentObjects().begin();
 	AbstractConstructor::PersistentObjects::const_iterator end = AbstractConstructor::getPersistentObjects().end();
@@ -111,6 +114,8 @@ writePersistentObjectNames ( ostream & os ) const
 	{
 		os << current->first << endl;
 	}
+}
+
 }
 
 #endif

@@ -21,7 +21,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <iostream>
 
-using namespace std;
+namespace semilib
+{
+
 /**
 	This is a stream marker which acquires a position in an istream
 	on construction, and restores that position on destruction. Obviously
@@ -67,5 +69,6 @@ private:
 	bool active;
 };
 
+}
 
 #endif

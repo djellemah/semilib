@@ -5,9 +5,8 @@
 
 #include "utilsdlldef.h"
 
-namespace Utils
+namespace semilib
 {
-	using namespace std;
 
 /**
 	Creates a temporary filename with the specified prefix
@@ -25,7 +24,7 @@ public:
 	TempFile ( const char * prefix = 0, const char * dir = 0 );
 	~TempFile();
 
-	operator const string & () const
+	operator const std::string & () const
 	{
 		return asString();
 	}
@@ -35,16 +34,15 @@ public:
 		return asString().c_str();
 	}
 
-	const string & asString() const
+	const std::string & asString() const
 	{
 		return filename;
 	}
 
 private:
-	string filename;
+	std::string filename;
 };
 
 }
 
 #endif
-

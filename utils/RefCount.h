@@ -32,6 +32,9 @@ using namespace std;
 // disable 'multiple assignment operator' warning
 #pragma warning(disable: 4522)
 
+namespace semilib
+{
+
 /**
 	a reference count pointer object. More overhead than
 	a SmartPointer, but safer in certain situations. Like
@@ -277,5 +280,7 @@ ostream & operator << ( ostream & os, const RefCount<T,D> & aRefCount )
 */
 template <class T, class D>
 istream & operator >> ( istream & is, RefCount<T,D> & aRefCount );
+
+}
 
 #endif

@@ -21,9 +21,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <memory>
 
-using namespace std;
-
 #include "utilsdlldef.h"
+
+namespace semilib
+{
 
 /**
 	This provices a once-off initialisation of something
@@ -35,7 +36,7 @@ using namespace std;
 	already been constructed.
 	\ingroup utils
 */
-template <class Object, class Allocator = allocator<Object> >
+template <class Object, class Allocator = std::allocator<Object> >
 class UTILS_DLL_API StaticInit
 {
 public:
@@ -102,5 +103,7 @@ Object * StaticInit<Object, Allocator>::_item;
 
 template <class Object, class Allocator>
 Object & (*StaticInit<Object, Allocator>::whichTime)() = StaticInit<Object, Allocator>::firstTime;
+
+}
 
 #endif

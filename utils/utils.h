@@ -12,6 +12,9 @@
 #include <string>
 #include <sstream>
 
+namespace semilib
+{
+
 UTILS_DLL_API void stripCr ( std::string & s );
 
 /**
@@ -146,5 +149,7 @@ void for_each_delete ( C & collection )
 	\ingroup utils
 */
 UTILS_DLL_API std::string strftime ( const time_t & t, const std::string & format );
+
+}
 
 #endif

@@ -11,6 +11,7 @@
 #include <vector>
 
 using namespace std;
+using namespace semilib;
 
 int main ( int argc, char * argv[] )
 {

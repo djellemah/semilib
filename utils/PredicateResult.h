@@ -28,7 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "SmartPointer.h"
 
-using namespace std;
+namespace semilib
+{
 
 /**
 	This is a class that takes an exception type
@@ -43,7 +44,7 @@ class SimpleMessageMaker
 public:
 	Exception operator () ( const Type & result )
 	{
-		ostringstream os;
+		std::ostringstream os;
 		os << "Caught error " << result;
 		return Exception ( os.str() );
 	}
@@ -62,7 +63,7 @@ class ErrnoMessageMaker
 public:
 	Exception operator () ( const Type & result )
 	{
-		ostringstream os;
+		std::ostringstream os;
 		SmartPointer<char> buf = new char[1024];
 		os << "Caught error: ";
 		os << strerror_r (errno, buf, 1024);
@@ -121,8 +122,8 @@ public:
 */
 template <
 	class Type
-	, class Comparator = equal_to<Type>
-	, class MessageMaker = SimpleMessageMaker<Type, runtime_error>
+	, class Comparator = std::equal_to<Type>
+	, class MessageMaker = SimpleMessageMaker<Type, std::runtime_error>
 >
 class PredicateResult
 {
@@ -211,12 +212,12 @@ public:
 	/**
 		to write out the trigger errors to a stream
 	*/
-	virtual void write ( ostream & os ) const = 0;
+	virtual void write ( std::ostream & os ) const = 0;
 
 	/**
 		to read in trigger codes from a stream
 	*/
-	virtual void read ( istream & is ) = 0;
+	virtual void read ( std::istream & is ) = 0;
 
 protected:
 	/**
@@ -240,8 +241,8 @@ template <
 	, class Comparator
 	, class ExceptionType
 >
-ostream &
-operator << ( ostream & os, const PredicateResult<Type,Comparator,ExceptionType> & result )
+std::ostream &
+operator << ( std::ostream & os, const PredicateResult<Type,Comparator,ExceptionType> & result )
 {
 	result.write ( os );
 	return os;
@@ -255,8 +256,8 @@ template <
 	, class Comparator
 	, class ExceptionType
 >
-istream &
-operator >> ( istream & is, const PredicateResult<Type,Comparator,ExceptionType> & result )
+std::istream &
+operator >> ( std::istream & is, const PredicateResult<Type,Comparator,ExceptionType> & result )
 {
 	result.read ( is );
 	return is;
@@ -297,6 +298,8 @@ operator >> (
 {
 	result.unexclude ( error );
 	return result;
+}
+
 }
 
 #endif

@@ -19,6 +19,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma warning(disable: 4786)
 #include "Persistence.h"
 
+namespace semilib
+{
+
 PersistenceRegistry * AbstractConstructor::persistenceRegistry = 0;
 
 PersistenceRegistry::PersistenceRegistry()
@@ -42,7 +45,7 @@ PersistenceRegistry::~PersistenceRegistry()
 }
 
 
-/*
+/**
 	Windows is handled by the DllMain function. Other things do it the normal way.
 */
 AbstractConstructor::AbstractConstructor()
@@ -94,9 +97,12 @@ BOOL APIENTRY DllMain( HANDLE handle,  DWORD reason_for_call, LPVOID lpReserved 
 
 #else
 
-/*
-	These don't work. For some reason.
-void _init ( void )
+/**
+\todo fix this
+void semilib_persistence_init(void) __attribute__((constructor));
+void semilib_persistence_fini(void) __attribute__((destructor));
+
+void semilib_persistence_init ( void )
 {
 	if ( registryRefcount++ == 0 )
 	{
@@ -104,12 +110,13 @@ void _init ( void )
 	}
 }
 
-void _fini ( void )
+void semilib_persistence_fini ( void )
 {
 	if ( --registryRefcount == 0 )
 		delete registryInstance;
 }
 */
-
 #endif
+
+}
 

@@ -4,8 +4,9 @@
 #include "FileLogger.h"
 
 using namespace std;
+using namespace semilib;
 
-Logger * newInstance ( Logger * )
+Logger * semilib::newInstance ( Logger * )
 {
 	return new FileLogger();
 }

@@ -21,9 +21,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <numeric>
 #include <stdexcept>
 
-using namespace std;
-
 #include "FlagsMapper.h"
+
+using namespace std;
+using namespace semilib;
 
 string FlagsMapper::stringForFlags ( unsigned long flag ) const
 {
