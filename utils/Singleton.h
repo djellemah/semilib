@@ -91,7 +91,7 @@ public:
 			*/
 			if ( _instance == 0 )
 			{
-				InstanceType * dummy;
+				InstanceType * dummy = 0;
 				_instance = newInstance( dummy );
 			}
 		}
