@@ -54,7 +54,28 @@ using std::runtime_error;
 	worry about it, there are supposed to be multiple assignment
 	operators. Three, to be precise.
 */
-template <class T>
+
+template<class T>
+class NormalDelete
+{
+public:
+	void operator () ( T * ptr )
+	{
+		delete ptr;
+	}
+};
+
+template<class T>
+class ArrayDelete
+{
+public:
+	void operator() ( T * ptr )
+	{
+		delete[] ptr;
+	}
+};
+
+template <class T, class Deallocator = NormalDelete<T> >
 class SmartPointer
 {
 public:
@@ -95,9 +116,9 @@ public:
 	}
 
 	/// deallocate the pointer only if this instance is the owner
-	virtual ~SmartPointer()
+	~SmartPointer()
 	{
-		if ( owner ) delete _ptr;
+		if ( owner ) deallocator ( _ptr );
 	}
 
 	/**
@@ -127,7 +148,7 @@ public:
 	SmartPointer & operator = ( const SmartPointer & right )
 	{
 		// deallocate previously held pointer
-		if ( owner ) delete _ptr;
+		if ( owner ) deallocator ( _ptr );
 
 		// assign pointer
 		_ptr = right._ptr;
@@ -151,7 +172,7 @@ public:
 	*/
 	SmartPointer & operator = ( T * right )
 	{
-		if ( owner ) delete _ptr;
+		if ( owner ) deallocator ( _ptr );
 		_ptr = right;
 		owner = true;
 
@@ -165,7 +186,7 @@ public:
 	*/
 	SmartPointer & operator = ( const T * right )
 	{
-		if ( owner ) delete _ptr;
+		if ( owner ) deallocator ( _ptr );
 		_ptr = right;
 		owner = false;
 
@@ -263,6 +284,7 @@ public:
 private:
 	T * _ptr;
 	mutable bool owner;
+	Deallocator deallocator;
 };
 
 /**
@@ -292,6 +314,7 @@ private:
 	to delete[] an area of memory that's in the constant data segment.
 	With corresponding error messages and chokings from the OS.
 */
+
 template<>
 class SmartPointer<char>
 {
@@ -309,9 +332,9 @@ public:
 		operator = ( right );
 	}
 
-	virtual ~SmartPointer()
+	~SmartPointer()
 	{
-		if ( owner ) delete _ptr;
+		if ( owner ) deallocator ( _ptr );
 	}
 
 	SmartPointer & operator = ( SmartPointer & other )
@@ -322,7 +345,7 @@ public:
 	SmartPointer & operator = ( const SmartPointer & right )
 	{
 		// deallocate previously held pointer
-		if ( owner ) delete _ptr;
+		if ( owner ) deallocator ( _ptr );
 
 		// assign pointer
 		_ptr = right;
@@ -348,7 +371,7 @@ public:
 	*/
 	SmartPointer & operator = ( char * right )
 	{
-		if ( owner ) delete _ptr;
+		if ( owner ) deallocator ( _ptr );
 		_ptr = right;
 		owner = true;
 
@@ -416,6 +439,7 @@ public:
 private:
 	char * _ptr;
 	mutable bool owner;
+	ArrayDelete<char> deallocator;
 };
 
 // 'turn multiple assignment operator' warning back on
@@ -440,9 +464,9 @@ public:
 		operator = ( right );
 	}
 
-	virtual ~SmartPointer()
+	~SmartPointer()
 	{
-		if ( owner ) delete _ptr;
+		if ( owner ) deallocator ( _ptr );
 	}
 
 	SmartPointer & operator = ( SmartPointer & other )
@@ -453,7 +477,7 @@ public:
 	SmartPointer & operator = ( const SmartPointer & right )
 	{
 		// deallocate previously held pointer
-		if ( owner ) delete _ptr;
+		if ( owner ) deallocator ( _ptr );
 
 		// assign pointer
 		_ptr = right;
@@ -479,7 +503,7 @@ public:
 	*/
 	SmartPointer & operator = ( void * right )
 	{
-		if ( owner ) delete _ptr;
+		if ( owner ) deallocator ( _ptr );
 		_ptr = right;
 		owner = true;
 
@@ -547,6 +571,7 @@ public:
 private:
 	void * _ptr;
 	mutable bool owner;
+	Deallocator deallocator;
 };
 
 #endif
