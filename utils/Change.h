@@ -52,6 +52,8 @@ public:
 	{
 		_recalculate = other._recalculate;
 		_data = other._data;
+
+		return *this;
 	}
 
 	const bool recalculate() const
