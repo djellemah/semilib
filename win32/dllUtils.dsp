@@ -199,6 +199,14 @@ SOURCE=.\StaticInit.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\TempFile.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\TempFile.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Timer.h
 # End Source File
 # Begin Source File
