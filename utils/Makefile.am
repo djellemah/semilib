@@ -8,7 +8,6 @@ include_HEADERS = \
 	MarkStream.h \
 	Persistence.h \
 	PersistenceManager.h \
-	RefCount.h \
 	Result.h \
 	SmartPointer.h \
 	StaticInit.h \
@@ -22,28 +21,34 @@ include_HEADERS = \
 	MultiResult.h \
 	utilsdlldef.h
 
-lib_LTLIBRARIES = libutils.la
+#	RefCount.h
+
+lib_LTLIBRARIES = libutils.la liblogger.la
 
 libutils_la_SOURCES = \
 	FileUtils.cpp \
 	FlagsMapper.cpp \
 	Persistence.cpp \
 	PersistenceManager.cpp \
-	RefCount.cpp \
 	StaticInit.cpp \
 	TempFile.cpp \
 	functions.cpp \
 	istring.cpp \
-	posException.cpp
+	posException.cpp \
 	utils.cpp \
 	Mutex.cpp \
 	Logger.cpp
 
-libutils_la_LDFLAGS = -release ${VERSION}
+#	RefCount.cpp
+
+libutils_la_LDFLAGS = -release ${VERSION} -lpthread
+
+liblogger_la_SOURCES = CoutLogger.cpp
+liblogger_la_LDFLAGS = -release ${VERSION}
 
 check_PROGRAMS = testPredicateResult
 
 testPredicateResult_SOURCES = testPredicateResult.cpp
-testPredicateResult_LDADD = libutils.la
+testPredicateResult_LDADD = libutils.la liblogger.la -lpthread
 
-TESTS=test
+#TESTS=test

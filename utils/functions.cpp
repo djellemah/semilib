@@ -55,7 +55,7 @@ UTILS_DLL_API void chomp ( string & line )
 	}
 }
 
-UTILS_DLL_API string timestamp()
+UTILS_DLL_API string longtimestamp()
 {
 	time_t ltime;
 	time( &ltime );

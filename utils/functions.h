@@ -36,7 +36,7 @@ using namespace std;
 UTILS_DLL_API void chomp ( string & line );
 
 /// returns a time stamp of the format "Tue Oct 13 12:44:26 1998".
-UTILS_DLL_API string timestamp();
+UTILS_DLL_API string longtimestamp();
 /// returns a short date as a string (dd/mmm/yy).
 UTILS_DLL_API string shortDateAsString();
 
