@@ -60,8 +60,22 @@ UTILS_DLL_API std::string trim ( const std::string & );
 	Do something like perl's join
 */
 template<class Collection, class Joiner>
-UTILS_DLL_API std::string join ( const Collection & c, const Joiner & j )
+UTILS_DLL_API std::string join ( const Collection & collection, const Joiner & joiner )
 {
+	using namespace std;
+	ostringstream os;
+	
+	typename Collection::const_iterator begin = collection.begin();
+	typename Collection::const_iterator cur = collection.begin();
+	for ( ; cur != collection.end(); ++cur )
+	{
+		if ( cur != begin )
+		{
+			os << joiner;
+		}
+		os << *cur;
+	}
+	return os.str();
 }
 
 #endif
