@@ -11,7 +11,7 @@ namespace JLeffler
 using namespace std;
 
 // arbitrary Soundex. Makes a soundex of n characters
-FUZZY_DLL_API string nsoundex ( const string & str, int n );
+FUZZY_DLL_API string nsoundex ( const string & str, unsigned int n );
 
 // normal Soundex. Makes a soundex of 4 characters
 FUZZY_DLL_API string soundex(const string & str);
