@@ -26,10 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 /**
-	millisecond timer class. Works OK in windows, not so good with
-	glibc-2.2.5 and linux-2.4.18.
-	
-	\todo fix GNU timings
+	millisecond timer class.
 */
 class Timer
 {
