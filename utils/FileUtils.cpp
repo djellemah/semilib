@@ -38,6 +38,8 @@ using namespace std;
 
 #include "FileUtils.h"
 
+#pragma warning(disable: 4290)
+
 FileUtils::ErrorMessages * FileUtils::_errorMessages = 0;
 bool FileUtils::_initialised;
 
@@ -166,3 +168,4 @@ void mkdir( const string & dirname )
 	}
 }
 
+#pragma warning(default: 4290)

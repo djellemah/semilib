@@ -33,6 +33,8 @@ using namespace std;
 
 #include "utilsdlldef.h"
 
+#pragma warning(disable:4290)
+
 /**
 This is the central place for file utilities.
 Currently it:
@@ -92,12 +94,10 @@ public:
 		find out if a file exists. If the file exists but is inaccessible, throw
 		a runtime_error
 	*/
-#pragma warning(disable:4290)
 	bool exists () const throw ( exception );
 
 	/// get the size of a file
 	long size() const throw ( exception );
-#pragma warning(default:4290)
 
 	// get the reason for the failure of the last operation
 	const string reason() const;
@@ -140,11 +140,12 @@ istream & operator >> ( istream & is, FileUtils & aFileUtils );
 
 // a helper function
 UTILS_DLL_API bool fileExists ( const string & filename ) throw ( exception );
-
 /// return a vector containing the elements of a path
 UTILS_DLL_API vector<string> splitPath( const string & dirname, char splitOn = '\\' );
 
 /// make a directory containing subdirectories. Make all of them. Make every last one...
 UTILS_DLL_API void mkdir ( const string & name );
+
+#pragma warning(default:4290)
 
 #endif
