@@ -1,3 +1,5 @@
+#pragma warning ( disable : 4275 )
+
 #include "Logger.h"
 
 using namespace std;

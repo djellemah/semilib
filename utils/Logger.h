@@ -11,7 +11,6 @@
 
 //#include "utilsdlldef.h"
 #define LOGGER_DLL_API
-
 class Logger;
 
 namespace Level
