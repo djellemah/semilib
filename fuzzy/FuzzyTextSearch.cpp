@@ -1,4 +1,5 @@
 #pragma warning(disable: 4786)
+#pragma warning(disable: 4290)
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,10 +45,12 @@ private:
 	double _threshold;
 };
 
+typedef multimap<float,string> Results;
+
 // for outputting an element of the results array
-bool match_compare ( const pair<const float,string> & a, const pair<const float,string> & b )
+bool match_compare ( Results::key_type a, Results::key_type b )
 {
-    return a.first > b.first;
+    //return a.first > b.first;
 }
 
 struct SortByMatch
@@ -68,6 +71,17 @@ void help( char * argv[] )
 	cout << argv[0] << endl;
 	exit ( 0 );
 }
+
+void test()
+{
+	typedef map<int,float> TestMap;
+	TestMap testmap;
+	sort<TestMap::reverse_iterator> (
+		testmap.begin()
+		, testmap.end()
+	);
+}
+
 
 int main( int argc, char * argv[] )
 {
@@ -90,7 +104,6 @@ int main( int argc, char * argv[] )
 		ifstream is ( inputs );
 
 		// output collection
-		typedef multimap<float,string> Results;
 		Results results;
 
 		// create a collection of results from the input
@@ -113,12 +126,14 @@ int main( int argc, char * argv[] )
 */		
 		
 		// sort results into match order, from best to worst
-		sort (
-			results.begin()
-			, results.end()
-			, match_compare
+
+/*
+		sort<Results::reverse_iterator> (
+			results.rbegin()
+			, results.rend()
+//			, match_compare
 		);
-		
+*/		
 		// output all results
 		for_each (
 			results.begin()
