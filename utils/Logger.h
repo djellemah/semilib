@@ -169,11 +169,6 @@ protected:
 		are unlocked the correct number of times by endMessage().
 	*/
 	int _locks;
-
-	// because the win32 singleton doesn't have a builtin mutex
-#ifdef _WIN32
-	Mutex _mutex;
-#endif
 };
 
 LOGGER_DLL_API Logger * newInstance ( Logger * );
