@@ -27,6 +27,35 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 using namespace std;
 
+template <class ErrorType>
+class ErrorOnZero
+{
+public:
+	bool isError( const ErrorType & value ) const
+	{
+		return value == 0;
+	}
+};
+
+template <class ErrorType>
+class ErrorOnNonZero
+{
+public:
+	bool isError( const ErrorType & value ) const
+	{
+		return value != 0;
+	}
+};
+
+template <class ErrorType>
+class ErrorOnSet
+{
+public:
+	bool isError( const ErrorType & value ) const
+	{
+	}
+};
+
 /**
 	to simplify interacting with API calls that return an error code
 	of some kind. Use it like this:
@@ -48,19 +77,22 @@ using namespace std;
 	to throw an exception for one value, but occasionally occasionally
 	it's necessary to throw an exception for other values as well.
 */
-template <class Type = unsigned long, Type excluding = 0, class ExceptionType = runtime_error >
+template <class Type = unsigned long, class ErrorType = ErrorOnNonZero<Type>, class ExceptionType = runtime_error >
 class Result
 {
 public:
+
+	Result()
+	{
+	}
 
 	/**
 		make an instance of Result that excludes the specified
 		parameter.  Which is by default whatever was specified
 		as the template parameter
 	*/
-	Result( Type result = excluding )
+	Result( Type result )
 	{
-		excluded.insert ( result );
 		operator = ( result );
 	}
 
@@ -164,10 +196,11 @@ public:
 		_result = other;
 		return *this;
 	}
+
 protected:
 	void checkResult ()
 	{
-		if ( excluded.find ( _result ) == excluded.end() )
+		if ( errorType.isError( _result ) )
 		{
 			throwException();
 		}
@@ -177,14 +210,15 @@ private:
 	// data members
 	Type _result;
 	set<Type> excluded;
+	ErrorType errorType;
 };
 
 /// insertion operator
-template<class Type, Type excluding, class ExceptionType>
-ostream & operator << ( ostream & os, const Result<Type,excluding,ExceptionType> & aResult );
+template <class Type, class ErrorType, class ExceptionType>
+ostream & operator << ( ostream & os, const Result<Type,ErrorType,ExceptionType> & aResult );
 
 /// extraction operator
-template<class Type, Type excluding, class ExceptionType>
-istream & operator >> ( istream & is, Result<Type,excluding,ExceptionType> & aResult );
+template <class Type, class ErrorType, class ExceptionType>
+istream & operator >> ( istream & is, const Result<Type,ErrorType,ExceptionType> & aResult );
 
 #endif
