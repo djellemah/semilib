@@ -4,14 +4,14 @@ pkginclude_HEADERS = \
 	regexdlldef.h \
 	AbstractRegex.h
 
-lib_LTLIBRARIES = libregex.la
-libregex_la_SOURCES = Regex.cpp
+lib_LTLIBRARIES = libsemiregex.la
+libsemiregex_la_SOURCES = Regex.cpp
 	
-libregex_la_LDFLAGS = -release ${VERSION} ${BOOST_LIB}
+libsemiregex_la_LDFLAGS = -release ${VERSION} ${BOOST_LIB}
 
 check_PROGRAMS = test
 test_SOURCES = regexTest.cpp
-test_LDADD = libregex.la ../utils/libutils.la ${BOOST_LIB}
+test_LDADD = libsemiregex.la ../utils/libsemiutils.la ${BOOST_LIB}
 INCLUDES=-I../utils ${BOOST_INCLUDE}
 
 TESTS=test
