@@ -22,14 +22,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string>
 #include <sstream>
 
+#include "SmartPointer.h"
+#include "Regex.h"
+
 using namespace std;
 
-#include "Regex.h"
-#include "SmartPointer.h"
-#include <boost/cregex.hpp>
-
-using namespace boost;
-
+// for use with FlagsMapper
 const char * flagsString = ""
 	"REG_EXTENDED 1"
 	"REG_ICASE 2"
@@ -48,7 +46,7 @@ SmartPointer<FlagsMapper> Regex::_mapper;
 /*
 	rx_exception implementations
 */
-rx_exception::rx_exception ( int rxError, const regex_t & compiled, const string & pattern )
+rx_exception::rx_exception ( int rxError, const RXSPACE regex_t & compiled, const string & pattern )
 {
 	size_t length = regerror ( rxError, &compiled, NULL, 0 );
 	SmartPointer<char> buffer ( new char[length+1] );

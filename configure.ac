@@ -7,8 +7,17 @@ AM_CONFIG_HEADER([config.h])
 AC_PREFIX_DEFAULT(/usr/local/semiosix)
 
 AC_ARG_WITH(boost,
-AC_HELP_STRING([--with-boost], [use boost libraries. default is to use system regex]),
-test "$withval" = no || with_boost=$withval, with_boost=no
+AC_HELP_STRING(
+	[--with-boost]
+	, [use boost libraries. default is to use system regex (regex.h) ])
+	,
+		test "$withval" = no || with_boost=$withval
+		AC_DEFINE(WITH_BOOST, 1, [Are we using the boost regex library?]) 
+		BOOST_LIB=-L$withval/lib -lboost_regex
+		AC_SUBST(BOOST_LIB)
+		BOOST_INCLUDE=-I$withval/include
+		AC_SUBST(BOOST_INCLUDE)
+	, with_boost=no
 )
 AC_SUBST(with_boost)
 
@@ -21,6 +30,7 @@ AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_LIBTOOL
 AC_PROG_MAKE_SET
+AC_PROG_RANLIB
 
 # Checks for libraries.
 
@@ -37,7 +47,7 @@ AC_CHECK_TYPES([ptrdiff_t])
 
 # Checks for library functions.
 AC_FUNC_MALLOC
-AC_CHECK_FUNCS([memset mkdir strncasecmp])
+AC_CHECK_FUNCS([memset mkdir strncasecmp regcomp])
 
 AC_CONFIG_FILES([Makefile utils/Makefile fuzzy/Makefile regex/Makefile])
 AC_OUTPUT

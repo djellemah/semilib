@@ -21,7 +21,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <string>
 
-using namespace std;
+#include "config.h"
+
+#pragma warning ( disable:4251 )
+
+#ifdef WITH_BOOST
+	#include <boost/cregex.hpp>
+	#define RXSPACE boost::
+	using namespace boost;
+	using RXSPACE REG_EXTENDED;
+	using RXSPACE REG_NOSUB;
+	using RXSPACE REG_ICASE;
+	using RXSPACE REG_NEWLINE;
+	using RXSPACE REG_ESPACE;
+	using RXSPACE REG_NOMATCH;
+#else
+	extern "C" {
+		#include "regex.h"
+	}
+	#define RXSPACE
+#endif
 
 #include "regexdlldef.h"
 #include "AbstractRegex.h"
@@ -30,17 +49,7 @@ using namespace std;
 #include "SmartPointer.h"
 #include "StaticInit.h"
 
-#include <boost/cregex.hpp>
-
-#pragma warning ( disable:4251 )
-
-#define RXSPACE boost::
-using RXSPACE REG_EXTENDED;
-using RXSPACE REG_NOSUB;
-using RXSPACE REG_ICASE;
-using RXSPACE REG_NEWLINE;
-using RXSPACE REG_ESPACE;
-using RXSPACE REG_NOMATCH;
+using namespace std;
 
 /**
 	exception for problems compiling a particular regular expression
@@ -56,6 +65,7 @@ protected:
 };
 
 /*
+	For one of the rx implementations
 You can also set these parameters at run-time (before calling any
 regexp functions) by tweaking the corresponding variables:
 	rx_default_cache->bytes_allowed

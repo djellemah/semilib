@@ -27,6 +27,9 @@
 /* Define to 1 if the system has the type `ptrdiff_t'. */
 #undef HAVE_PTRDIFF_T
 
+/* Define to 1 if you have the `regcomp' function. */
+#undef HAVE_REGCOMP
+
 /* Define to 1 if you have the <stddef.h> header file. */
 #undef HAVE_STDDEF_H
 
@@ -80,6 +83,9 @@
 
 /* Version number of package */
 #undef VERSION
+
+/* Are we using the boost regex library? */
+#undef WITH_BOOST
 
 /* Define to empty if `const' does not conform to ANSI C. */
 #undef const
