@@ -1,0 +1,1 @@
+fix #include name.cpp for template objects to use the export keword where possible
