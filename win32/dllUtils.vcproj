@@ -269,6 +269,9 @@
 			RelativePath="..\utils\utils.cpp">
 		</File>
 		<File
+			RelativePath="..\utils\utils.h">
+		</File>
+		<File
 			RelativePath="..\utils\utilsdlldef.h">
 		</File>
 	</Files>
