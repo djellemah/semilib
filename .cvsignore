@@ -2,7 +2,7 @@
 *.lo
 *.la
 test
-config.h
+config.h*
 config.log
 config.sub
 config.guess
