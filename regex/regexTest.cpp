@@ -28,9 +28,11 @@ void main ()
 		cout << "Subexpression 0 - the whole matched string: " + regexString << endl;
 		string temp = regex[0];
 		cout << temp << endl;
+		cout << "Should be FORMS=TECE13," << endl;
 		cout << "Subexpression 1 - " + subexpression << endl;
 		temp = regex[1];
 		cout << temp << endl;
+		cout << "Should be 13" << endl;
 
 		try
 		{
