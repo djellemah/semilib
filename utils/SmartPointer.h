@@ -58,6 +58,9 @@ using std::runtime_error;
 	operators. Three, to be precise.
 */
 
+/*
+	Normal delete operations. This is the default deallocator
+*/
 template<class T>
 class UTILS_DLL_API NormalDelete
 {
@@ -68,6 +71,9 @@ public:
 	}
 };
 
+/*
+	Array delete operations
+*/
 template<class T>
 class UTILS_DLL_API ArrayDelete
 {
@@ -78,6 +84,56 @@ public:
 	}
 };
 
+/*
+	To handle __stdcall deallocation functions, for example
+
+  	typedef StdCallFunctionDelete<unsigned char*, RPC_STATUS, &::RpcStringFree> RpcSmartFree;
+	
+	SmartPointer<unsigned char*, RpcSmartFree > buf;
+*/
+template<class T, class Result, Result (__stdcall *deletefunction) (T*)>
+class StdCallFunctionDelete
+{
+public:
+	void operator() ( T * ptr )
+	{
+		Result r = deletefunction ( ptr );
+	}
+};
+
+/*
+	To handle __cdecl deallocation functions, for example
+
+	typedef FunctionDelete<void, void, &free> freemem;
+	SmartPointer<char, freemem> c_buffer;
+	c_buffer = malloc ( 243 );
+*/
+template<class T, class Result, Result ( *deletefunction) (T*)>
+class FunctionDelete
+{
+public:
+	void operator() ( T * ptr )
+	{
+		Result r = deletefunction ( ptr );
+	}
+};
+
+/*
+	Specialise to handle deallocation functions returning void
+*/
+template<class T, void ( *deletefunction) (T*)>
+class VoidFunctionDelete
+{
+public:
+	void operator() ( T * ptr )
+	{
+		deletefunction ( ptr );
+	}
+};
+
+/*
+	And at last, the Smart Pointer
+*/
 template <class T, class Deallocator = NormalDelete<T> >
 class UTILS_DLL_API SmartPointer
 {
