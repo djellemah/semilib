@@ -178,7 +178,10 @@ protected:
 /**
 	Convenience function that returns Logger::EndLog
 */
+#ifndef _MSC_VER
 extern std::ostream& elog(std::ostream& outs);
+#endif
+
 extern EndLog & elog ( Level::LogLevel level = Level::message );
 
 /**
