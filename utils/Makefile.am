@@ -17,7 +17,6 @@ pkginclude_HEADERS = \
 	MarkStream.h \
 	MultiResult.h \
 	Mutex.h \
-	NiceDate.h \
 	Persistence.h \
 	PersistenceManager.h \
 	posException.h \
@@ -44,7 +43,6 @@ libutils_la_SOURCES = \
 	FlagsMapper.cpp \
 	Lock.cpp \
 	Mutex.cpp \
-	NiceDate.cpp \
 	Persistence.cpp \
 	PersistenceManager.cpp \
 	Result.cpp \
@@ -59,8 +57,7 @@ libutils_la_SOURCES = \
 	utils.cpp
 
 libutils_la_LDFLAGS = \
-	$(AM_LDFLAGS) \
-	$(BOOST_LIB)
+	$(AM_LDFLAGS)
 
 LDADD = libutils.la liblogger.la libcoutlogger.la -lpthread ${LIBADD}
 

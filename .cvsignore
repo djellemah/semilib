@@ -28,3 +28,5 @@ doc
 *.suo
 semilib.pc
 semilogger.pc
+semiutils.pc
+semiregex.pc

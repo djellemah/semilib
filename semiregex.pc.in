@@ -3,8 +3,8 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: semilib
-Description: Logging framework
+Name: semiregex
+Description: Wrapper for POSIX regex api
 Version: @VERSION@
-Libs: -L${libdir} -lutils -llogger
+Libs: -L${libdir} -lutils -lregex
 Cflags: -I${includedir}

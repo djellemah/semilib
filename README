@@ -1,20 +1,14 @@
 This package contains some c++ classes I've written along the
-way to make things easier. They're aimed at coder-friendliness
-in other words they should make things easier for a programmer.
+way to make things easier. They're aimed at coder-friendliness.
 
-regex
+regex - contains a Regex class to wrap up the POSIX regex calls.
 
-contains a Regex class to wrap up the POSIX regex calls.
-
-utils
-
-various stuff
-
-fuzzymatch
-
-contains Soundex and NGram (fuzzy match) classes
+utils - various stuff
 
 Building
+
+linux
+=====
 
 The usual.
 
@@ -27,3 +21,11 @@ default prefix for configure is /usr/local/semiosix
 --with-boost allows you to specify that the boost regex library should
 be used rather than the system regex. Boost is at http://www.boost.org
 
+win32
+=====
+
+You'll need rsync to automagically copy headers, or just use them in
+place if you like.
+
+You'll need boost to implement the regex stuff, or some other regex
+compatible library and light hacking.

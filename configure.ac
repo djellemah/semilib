@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([semilib],2.3.0,[panic@semiosix.com])
+AC_INIT([semilib],2.4.0,[panic@semiosix.com])
 AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
 AC_CONFIG_SRCDIR([utils/istring.h])
 AM_CONFIG_HEADER([config.h])
@@ -7,20 +7,6 @@ AM_CONFIG_HEADER([config.h])
 AC_PREFIX_DEFAULT(/usr/local/semiosix)
 
 # check to see if the user wants to use the boost regex library
-AC_ARG_WITH(boost,
-	AC_HELP_STRING(
-		[--with-boost]
-		, [location of boost. Defaults to /usr/local])
-	,
-		BOOST_LIB="-L$withval/lib -lboost_date_time-gcc-mt"
-		BOOST_INCLUDE="-I$withval"
-	,
-		BOOST_LIB="-L/usr/local/lib -lboost_date_time-gcc-mt"
-		BOOST_INCLUDE="-I/usr/local/include"
-)
-AC_SUBST(BOOST_INCLUDE)
-AC_SUBST(BOOST_LIB)
-
 AC_ARG_WITH(boost-regex,
 AC_HELP_STRING(
 	[--with-boost-regex]
@@ -60,6 +46,8 @@ AC_CONFIG_FILES([
 	Makefile
 	semilib.pc
 	semilogger.pc
+	semiregex.pc
+	semiutils.pc
 	utils/Makefile
 	regex/Makefile
 	regex/regex-switch.h

@@ -267,6 +267,12 @@ public:
 		return *this;
 	}
 
+	/// for comparing with other pointers
+	bool operator == ( void * rhs ) const
+	{
+		return _ptr == rhs;
+	}
+
 	/// for storing instances in STL collection classes
 	bool operator == ( const SmartPointer & right ) const
 	{
