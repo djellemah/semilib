@@ -150,10 +150,10 @@ istream & operator >> ( istream & is, FileUtils & aFileUtils );
 // a helper function
 UTILS_DLL_API bool fileExists ( const string & filename ) throw ( exception );
 /// return a vector containing the elements of a path
-UTILS_DLL_API vector<string> splitPath( const string & dirname, char splitOn = '\\' );
+UTILS_DLL_API vector<string> splitPath( const string & dirname, char splitOn = directorySeparator );
 
 /// make a directory containing subdirectories. Make all of them. Make every last one...
-UTILS_DLL_API void mkdir ( const string & name );
+UTILS_DLL_API void mkdir( const string & dirname ) throw ( runtime_error );
 
 } // end of namespace Utils
 #pragma warning(default:4290)
