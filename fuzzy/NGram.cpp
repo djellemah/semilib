@@ -26,7 +26,7 @@ using namespace std;
 
 bool soundexMatch ( char a, char b )
 {
-	return soundex::lookup[a] == soundex::lookup[b];
+	return Soundex::lookup[a] == Soundex::lookup[b];
 }
 
 pair<int,int> NGram::doMatch ( const string & b, const string & a )

@@ -30,12 +30,15 @@ Slightly modified by John Anderson (panic@semiosix.com) circa 2000
 #include "BasicSoundex.h"
 #include "functions.h"
 
+#include "SoundexCharLookup.h"
+
+using Soundex::lookup;
+
 namespace JLeffler
 {
 
 using namespace std;
 
-#include "SoundexCharLookup.h"
 
 /**
 	Soundex for arbitrary number of characters of information
