@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <vector>
 #include <string>
+#include <functional>
 
 using namespace std;
 
@@ -141,7 +142,7 @@ int testSmartPointer ( int argc, char * argv[] )
 	return 0;
 }
 
-int main ( int argc, char * argv[] )
+int test_ssprintf ( int argc, char * argv[] )
 {
 	cout << ssprintf ( "%s %s", "hello", "you" );
 	cout << ssprintf ( "%s %69s", "hello", "you" );
