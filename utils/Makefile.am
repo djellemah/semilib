@@ -1,4 +1,4 @@
-LIBADD = -lpthread
+LIBADD = -lpthread -luuid
 AM_LDFLAGS = -release ${VERSION} ${LIBADD}
 
 pkginclude_HEADERS = \

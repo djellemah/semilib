@@ -42,7 +42,6 @@ namespace Utils
 	const char directorySeparator = '\\';
 #else
 	const char directorySeparator = '/';
-	#include <unistd.h>
 #endif
 
 

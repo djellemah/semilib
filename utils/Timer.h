@@ -78,7 +78,7 @@ public:
 	/**
 		returns the number of milliseconds since start
 	*/
-	unsigned long elapsed()
+	unsigned long elapsed() const
 	{
 		if ( running )
 		{

@@ -40,9 +40,6 @@ UTILS_DLL_API char toUpper ( char a )
 	return std::toupper ( a, loc );
 }
 
-#include <time.h>
-#include "functions.h"
-
 UTILS_DLL_API void chomp ( string & line )
 {
 	if ( !line.empty() )
@@ -121,9 +118,11 @@ UTILS_DLL_API string ssprintf ( const char * fmt, ... )
 #endif
 
 #ifdef _WIN32
-
-#pragma comment(lib, "rpcrt4.lib")
-#include <rpc.h>
+	#pragma comment(lib, "rpcrt4.lib")
+	#include <rpc.h>
+#else
+	#include <uuid/uuid.h>
+#endif
 
 /*
 	RpcStringFree screws things up because it needs an extra level
@@ -134,12 +133,24 @@ class RpcDeallocate
 public:
 	void operator() ( unsigned char * p )
 	{
+#ifdef _WIN32
 		::RpcStringFree ( & p );
-	}
+#endif
+		}
 };
 
+/**
+	Generate a string representation of a uuid
+*/
 UTILS_DLL_API string uuidAsString()
 {
+#ifndef _WIN32
+	uuid_t uuid;
+	::uuid_generate ( uuid );
+	char buffer[40];
+	::uuid_unparse ( uuid, buffer );
+	return string ( buffer );
+#else
 	// create a Universally Unique Identifier
 	// based on date, time and ethernet address or something
 	// see MSVC documentation under the RPC subsystem
@@ -165,6 +176,5 @@ UTILS_DLL_API string uuidAsString()
 	string sReturnValue ( (char*)(unsigned char *)buf );
 
 	return sReturnValue;
-}
 #endif
-
+}

@@ -52,7 +52,7 @@ UTILS_DLL_API string toUpper ( const char * );
 /// like sprintf, but returns a string.
 UTILS_DLL_API string ssprintf ( const char * fmt, ... );
 
-/// (win32) creates a uuid.
+/// return a string representation of a uuid.
 UTILS_DLL_API string uuidAsString();
 
 /**
@@ -72,9 +72,10 @@ string fromUnicode ( charType * ustring )
 	// terminate string, cos WideCharToMultiByte doesn't
 	return string ( buffer, wstrlen );
 }
+#endif
+
 /**
 \@}
 */
-#endif
 
 #endif
