@@ -216,7 +216,7 @@ private:
 		synchronize accesses to class members for multi-threaded situations,
 		since that's the most likely place a RefCount object will be used.
 	*/
-	static SmartPointer<Mutex> _mutex;
+	static Mutex * _mutex;
 
 	static Mutex & mutex()
 	{
@@ -233,21 +233,22 @@ private:
 		not to use a pointer here, but then we run into trouble with
 		the order in which static objects are constructed.
 	*/
-	static SmartPointer<References> _references;
+	static References * _references;
 };
 
 /**
 \ingroup smartpointer
 */
 template <class T>
-SmartPointer<typename RefCount<T>::References>
+typename RefCount<T>::References *
 RefCount<T>::_references;
 
 /**
 \ingroup smartpointer
 */
 template <class T>
-SmartPointer<Mutex> RefCount<T>::_mutex;
+Mutex *
+RefCount<T>::_mutex;
 
 /**
 	insertion operator
