@@ -56,7 +56,7 @@ string today()
 	// convert to a string
 	const size_t maxbufsize = 40;
 	char buf[maxbufsize];
-	size_t result = strftime (buf, maxbufsize, "%0d-%b-%y" , &btime );
+	size_t result = strftime (buf, maxbufsize, "%d-%b-%y" , &btime );
 	return string ( buf );
 }
 
