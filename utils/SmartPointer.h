@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SmartPointer_h
 
 #include <stdexcept>
+#include <string>
 
 using std::runtime_error;
 

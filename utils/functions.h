@@ -61,6 +61,7 @@ UTILS_DLL_API string uuidAsString();
 	This functions assumes that actually multibyte
 	strings can be treated as char strings.
 */
+#ifdef WIN32
 template <class charType>
 string fromUnicode ( charType * ustring )
 {
@@ -72,6 +73,6 @@ string fromUnicode ( charType * ustring )
 	// terminate string, cos WideCharToMultiByte doesn't
 	return string ( buffer, wstrlen );
 }
-
+#endif
 
 #endif

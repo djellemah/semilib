@@ -87,11 +87,16 @@ UTILS_DLL_API string toUpper ( const char * other )
 UTILS_DLL_API string toUpper ( const string & other )
 {
 	// doesn't work with Dinkumware
+#ifdef WIN32
 	string retval ( other );
 	ctype<char>().toupper ( &(*(retval.begin())), &(*(retval.end())) );
 	return retval;
+#else
+	assert ( 0 );
+#endif
 }
 
+#ifdef WIN32
 UTILS_DLL_API string ssprintf ( const char * fmt, ... )
 {
 	// 32 bytes should be enough for now...
@@ -113,7 +118,9 @@ UTILS_DLL_API string ssprintf ( const char * fmt, ... )
 	// the new! string
 	return string ( buf );
 }
+#endif
 
+#ifdef WIN32
 UTILS_DLL_API string uuidAsString()
 {
 /*
@@ -144,4 +151,5 @@ UTILS_DLL_API string uuidAsString()
 */
 	return "";
 }
+#endif
 

@@ -27,6 +27,13 @@ using namespace std;
 #else
 	#include <sys/stat.h>
 	#include <asm/errno.h>
+	#include <fcntl.h>
+	#include <errno.h>
+	#include <unistd.h>
+	
+	#define _O_RDONLY O_RDONLY
+	#define _open open
+	#define _close close
 #endif
 
 #include "FileUtils.h"
@@ -65,7 +72,7 @@ void FileUtils::init()
 	instead of _open and _close.
 	But I'm not sure if it's portable.
 */
-bool FileUtils::exists () const
+bool FileUtils::exists () const throw ( exception )
 {
 	if ( _filename.empty() )
 		throw runtime_error ( "No filename specified" );

@@ -137,7 +137,7 @@ ostream & operator << ( ostream & os, const FileUtils & aFileUtils );
 istream & operator >> ( istream & is, FileUtils & aFileUtils );
 
 // a helper function
-UTILS_DLL_API bool fileExists ( const string & filename );
+UTILS_DLL_API bool fileExists ( const string & filename ) throw ( exception );
 
 /// return a vector containing the elements of a path
 UTILS_DLL_API vector<string> splitPath( const string & dirname, char splitOn = '\\' );

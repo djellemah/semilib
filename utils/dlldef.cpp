@@ -17,6 +17,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "utilsdlldef.h"
+#ifdef WIN32
 #include "minwin.h"
 
 #ifdef BUILD_UTILS_DLL
@@ -52,3 +53,5 @@ BOOL APIENTRY DllMain(HANDLE hModule,
 }
 
 #endif
+
+#endif // WIN32

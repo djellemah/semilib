@@ -18,7 +18,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "istring.h"
 
+#ifdef WIN32
 UTILS_DLL_API locale IgnoreCaseTraits<char>::l ( locale::empty() );
+#else
+UTILS_DLL_API locale IgnoreCaseTraits<char>::l;
+#endif
 
 UTILS_DLL_API ostream & operator<< ( ostream & os, const istring & val )
 {
