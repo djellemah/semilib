@@ -23,9 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Mutex.h"
 
 #ifdef _WIN32
-#define WIN32_LEAN_AND_MEAN
-#define VC_EXTRA_LEAN
-#include <windows.h>
+#include "minwin.h"
 #include "utilsdlldef.h"
 #endif
 

@@ -3,8 +3,7 @@
 
 #include "Result.h"
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include "minwin.h"
 
 /**
 	This class deals with win32 api error messages and uses

@@ -1,8 +1,7 @@
 #ifndef _WIN32
 #include <unistd.h>
 #else
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include "minwin.h"
 #endif
 
 #include "utils.h"

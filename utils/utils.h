@@ -132,9 +132,23 @@ void for_each_delete ( C & collection )
 #endif
 
 /**
+	same as strftime, except it works with std::string instead of
+	char *.
+
 	\todo might need a mutex here, because localtime
 	shares a return value with several other calls.
 */
 UTILS_DLL_API std::string strftime ( const time_t & t, const std::string & format );
+
+/**
+	Return the directory, with trailing /,
+	where the current executable lives.
+
+	\param envvar allows you to specify an environment variable
+	to search first
+
+	\todo always returns ./ for non win32 systems.
+*/
+UTILS_DLL_API string executableDirectory( const std::string & envvar = "" );
 
 #endif

@@ -61,6 +61,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define NOMCX
 #define NOIME
 #define NOSVC
+#define VC_EXTRA_LEAN
+
+// prevent inclusion of winsock.h in favour of winsock2.h
+#define _WINSOCKAPI_
 
 // include what's left of the windows.h file
 #include <windows.h>
