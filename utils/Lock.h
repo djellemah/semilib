@@ -67,6 +67,7 @@ public:
 	void release ()
 	{
 		mutex().release();
+		_owned = false;
 	}
 
 	/**
