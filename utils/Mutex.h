@@ -1,80 +1,59 @@
-/*
-Copyright (C) 1998, 1999, 2000 John Anderson
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU Library General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU Library General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
-
-#ifndef Lock_h
-#define Lock_h
-
-#include <cassert>
+#ifndef Mutex_h
+#define Mutex_h
 
 #ifdef _WIN32
-	#include "minwin.h"
+#error need thread include here
+#else
+	#include <pthread.h>
 #endif
 
 /**
-	A way to lock and release a Sync object easily.
+	Mutexhronisation class. Create on of these whenever a critical section is
+	necessary. Then, on entering the critical section do:
+	<pre>
+		Mutex aMutex ( mutex );
+	</pre>
+	the Mutex will be released when aMutex goes out of scope.
+
+	The Mutex object should be in a scope outside that of aMutex. A good
+	way to do it is to make Mutex class member, and then for each
+	method that needs to control access, have the above line as the
+	first line in the method implementation.
+
+	\todo this is a _WIN32 specific class, but the functionality it uses
+	should be available in any thread implementation. So, implement it, already!
 */
-class Lock
+class Mutex
 {
 public:
 
-	// Default Constructor
-	Lock()
-		: _sync ( 0 )
-	{
-	}
+	/**
+		create the Mutex object
+	*/
+	Mutex();
 
-	Lock ( Sync & aSync )
-		: _sync ( &aSync )
-	{
-		sync().lock();
-	}
+	/**
+		Mutex the Mutex object
+	*/
+	void lock();
 
-	void acquire ( Sync & aSync )
-	{
-		sync ( aSync );
-		sync().lock();
-	}
+	/**
+		release the Mutexhronisation object
+	*/
+	void release();
 
-	void release ()
-	{
-		sync().release();
-	}
-
-	// Destructor
-	virtual ~Lock()
-	{
-		sync().release();
-	}
-
-	Sync & sync()
-	{
-		assert ( _sync == 0 );
-		return *_sync;
-	}
-
-	Lock & sync ( Sync & aSync )
-	{
-		_sync = &aSync;
-		return *this;
-	}
+	/**
+		delete the Mutexhronisation object
+	*/
+	~Mutex();
 
 private:
-	Sync * _sync;
+	/// where the OS-level Mutex object is stored
+#ifdef _WIN32
+	CRITICAL_SECTION criticalSection;
+#else
+	pthread_mutex_t _mutex;
+#endif
 };
 
 #endif
