@@ -1,0 +1,34 @@
+SHELL = bash
+
+CPPFILES = $(shell ls *.cpp)
+CPPFILES := $(CPPFILES::=)
+OBJFILES = $(CPPFILES.obj:=.obj)
+OBJDIR = ..\Debug
+INCLUDE = /ID:\Tools\DevStudio\VC\include
+#optimise for pentium
+#enable exceptions
+
+CC = cl.exe
+CPPFLAGS = /G5 /GX $(INCLUDE)
+
+.SUFFIXES: .cpp .obj .exe .h
+
+all: utils.dll
+
+utils.dll: $(OBJFILES)
+
+FileUtils.obj: FileUtils.cpp
+FlagsMapper.obj: FlagsMapper.cpp
+functions.obj: functions.cpp
+Lock.obj: Lock.cpp
+main.obj: main.cpp
+Persistence.obj: Persistence.cpp
+PersistenceManager.obj: PersistenceManager.cpp
+RefCount.obj: RefCount.cpp
+Result.obj: Result.cpp
+SmartPointer.obj: SmartPointer.cpp
+test.obj: test.cpp
+
+.cpp.obj:
+	$(CC) $(CPPFLAGS) $<
+
