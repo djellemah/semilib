@@ -43,7 +43,7 @@ UTILS_DLL_API string toUpper ( const char * );
 
 // convert a long to a string
 template<class T>
-UTILS_DLL_API string numberToString ( T number )
+string numberToString ( T number )
 {
 	ostringstream os;
 	os << number;
