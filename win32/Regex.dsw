@@ -11,21 +11,6 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name Utils
-    End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "Utils"=..\Utils\Utils.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
 }}}
 
 ###############################################################################
@@ -53,6 +38,21 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name dllUtils
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name regexppdll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "regexppdll"=..\regexpp\regexppdll.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
 }}}
 
 ###############################################################################
