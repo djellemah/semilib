@@ -1,8 +1,9 @@
 #include "Mutex.h"
 
-#ifndef _WIN32
+#ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <winbase.h>
+#else
 #include <errno.h>
 #endif
 
