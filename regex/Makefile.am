@@ -1,8 +1,7 @@
 pkginclude_HEADERS = \
 	Regex.h \
 	regex-switch.h \
-	regexdlldef.h \
-	AbstractRegex.h
+	regexdlldef.h
 
 lib_LTLIBRARIES = libsemiregex.la
 libsemiregex_la_SOURCES = Regex.cpp

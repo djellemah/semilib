@@ -45,7 +45,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#include "regex-switch.h"
 #endif
 
-#include "AbstractRegex.h"
 #include "FlagsMapper.h"
 
 #include "SmartPointer.h"
@@ -118,7 +117,7 @@ protected:
 	
 	\ingroup regex
 */
-class UTILS_DLL_API Regex : public AbstractRegex
+class UTILS_DLL_API Regex
 {
 public:
 	/**
