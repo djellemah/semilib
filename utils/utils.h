@@ -15,10 +15,6 @@ void stripCr ( std::string & s );
 	Convert a number into a string. Instantiates an ostringstream
 	each time, for thread safety, so it's not extremely lightweight.
 	OTOH this is the Stroustrup recommended way.
-	
-	\todo it might be better to have this mutex protected, and
-	use the static. Since there probably won't be much contention
-	for this function.
 */
 template<class T>
 std::string numberToString ( T num )

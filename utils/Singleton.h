@@ -57,10 +57,9 @@
 	to a subclass of Something.
 	
 	\warning This class may be a source of deadlock, if many template
-	instances of it are used. I'm not sure how to address that problem
-	right now, unless we use try-locks, or timed locks. Or something.
-	
-	\todo potential deadlock issues
+	instances of it are used in a deadlock-producing way. It shouldn't
+	be a problem because it's only used on startup, and threads all follow
+	the same startup code path.
 */
 template<class InstanceType, class Mutex, class Lock>
 class Singleton
