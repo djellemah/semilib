@@ -36,7 +36,10 @@
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+				Description="Installing Headers"
+				CommandLine="install.cmd"
+				Outputs="install.log"/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
@@ -53,7 +56,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\bin/dllUtils.tlb"/>
+				TypeLibraryName="..\..\bin/dllUtils.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -92,7 +95,10 @@
 				DebugInformationFormat="4"
 				CompileAs="0"/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCCustomBuildTool"
+				Description="Installing Headers"
+				CommandLine="install.cmd"
+				Outputs="install.log"/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
@@ -110,7 +116,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName=".\..\bin/dllUtils.tlb"/>
+				TypeLibraryName="../../bin/dllUtils.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
