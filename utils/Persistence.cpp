@@ -19,7 +19,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma warning(disable: 4786)
 #include "Persistence.h"
 
-PersistenceRegistry * registryInstance;
+#ifdef _WIN32
+	PersistenceRegistry * registryInstance = 0;
+#else
+	PersistenceRegistry persistenceRegistryInstance;
+	PersistenceRegistry * registryInstance = &persistenceRegistryInstance;
+#endif
+
 long registryRefcount = 0;
 
 PersistenceRegistry::PersistenceRegistry()
@@ -43,8 +49,10 @@ PersistenceRegistry::~PersistenceRegistry()
 }
 
 
-// this relies on the fact that static variables
-// are initialised to 0
+/*
+	These aren't really necessary with PersistenceRegistry. But
+	left them here in case things turn out differently.
+*/
 AbstractConstructor::AbstractConstructor()
 {
 }
@@ -58,16 +66,17 @@ AbstractConstructor::PersistentObjects & AbstractConstructor::getPersistentObjec
 	return registryInstance->persistentObjects();
 }
 
+/*
+	All processes share a reference-counted registry
+*/
 #ifdef _WIN32
+
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
 #include <windows.h>
 
 BOOL APIENTRY DllMain( HANDLE handle,  DWORD reason_for_call, LPVOID lpReserved )
 {
-	/*
-		All processes share a reference-counted registry
-	*/
 	switch ( reason_for_call )
 	{
 	case DLL_PROCESS_ATTACH:
@@ -88,6 +97,25 @@ BOOL APIENTRY DllMain( HANDLE handle,  DWORD reason_for_call, LPVOID lpReserved 
 	// initialise the registry for persistence objects
     return TRUE;
 }
+
+#else
+
+/*
+	These don't work. For some reason.
+void _init ( void )
+{
+	if ( registryRefcount++ == 0 )
+	{
+		registryInstance = new PersistenceRegistry();
+	}
+}
+
+void _fini ( void )
+{
+	if ( --registryRefcount == 0 )
+		delete registryInstance;
+}
+*/
 
 #endif
 
