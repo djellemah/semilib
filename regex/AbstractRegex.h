@@ -34,7 +34,7 @@ using namespace std;
 	regular expression operators to mark the beginning and the end of a string.
 	
 	In fact it may slow down Regex slightly due to the virtual match method
-	\ingroup Regex
+	\ingroup regex
 */
 class /*UTILS_DLL_API*/ AbstractRegex
 {
