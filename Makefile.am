@@ -1,4 +1,4 @@
-SUBDIRS = utils regex fuzzy win32
+SUBDIRS = utils regex win32
 INCLUDES = -I../utils -I../regex -I../fuzzy
 EXTRA_DIST = Doxyfile semilib.pc
 
