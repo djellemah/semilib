@@ -93,16 +93,16 @@ struct DividedSum
 	{
 	}
 
-	template<class N>
-	DividedSum ( const pair<N,N> & aPair )
-	{
-		_sum = aPair.first / aPair.second;
-	}
-
 #ifdef _MSVC
 	DividedSum ( const pair<int,int> & aPair )
 	{
 		_sum = (T)(aPair.first) / (T)(aPair.second);
+	}
+#else
+	template<class N>
+	DividedSum ( const pair<N,N> & aPair )
+	{
+		_sum = (T)aPair.first / (T)aPair.second;
 	}
 #endif
 	
