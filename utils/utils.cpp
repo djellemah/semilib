@@ -74,11 +74,22 @@ string now()
 
 string trim ( const string & s )
 {
+	if ( s.empty() )
+	{
+		return string();
+	}
+	
 	// strip spaces from beginning of string
 	string::const_iterator begin = s.begin();
-	while ( *begin == ' ' )
+	
+	while ( *begin == ' ' && begin != s.end() )
 	{
 		++begin;
+	}
+	
+	if ( begin == s.end() )
+	{
+		return string();
 	}
 
 	// strip spaces from end of string
