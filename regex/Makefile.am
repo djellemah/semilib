@@ -3,7 +3,7 @@ include_HEADERS = Regex.h regexdlldef.h
 lib_LTLIBRARIES = libregex.la
 libregex_la_SOURCES = Regex.cpp
 	
-libregex_la_LDFLAGS = -version-info 1:0:0
+libregex_la_LDFLAGS = -release ${VERSION}
 
 check_PROGRAMS = test
 test_SOURCES = regexTest.cpp

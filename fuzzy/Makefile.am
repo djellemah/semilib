@@ -13,7 +13,7 @@ libfuzzy_la_SOURCES = \
 	Soundex.cpp \
 	matchfunctions.cpp
 	
-libfuzzy_la_LDFLAGS = -version-info 1:0:0
+libfuzzy_la_LDFLAGS = -release ${VERSION}
 
 check_PROGRAMS = test
 test_SOURCES = FuzzyTextSearch.cpp

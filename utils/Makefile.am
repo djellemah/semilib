@@ -8,7 +8,7 @@ include_HEADERS = \
 lib_LTLIBRARIES = libutils.la
 libutils_la_SOURCES = FileUtils.cpp \
 FlagsMapper.cpp Lock.cpp Persistence.cpp PersistenceManager.cpp RefCount.cpp Result.cpp SmartPointer.cpp StaticInit.cpp TempFile.cpp functions.cpp istring.cpp posException.cpp
-libutils_la_LDFLAGS = -version-info 1:0:0
+libutils_la_LDFLAGS = -release ${VERSION}
 
 check_PROGRAMS = test
 test_SOURCES = test.cpp
