@@ -12,6 +12,8 @@
 	If you know a better way to do this, please let me know.
 */
 
+#pragma warning(disable: 4786)
+
 #include "Singleton.h"
 #include "Lock.h"
 #include <map>
