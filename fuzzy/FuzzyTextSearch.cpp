@@ -40,14 +40,9 @@ using namespace std;
 
 using namespace Utils;
 
-#include "MatchFunction.h"
-#include "Soundex.h"
+#include "NGramFunctor.h"
+#include "SoundexFunctor.h"
 #include "Ranking.h"
-
-ostream & operator << ( ostream & os, const pair<float,string> & p )
-{
-		os << "(" << p.first << "," << p.second << ")";
-}
 
 // for outputting an element of the results array
 struct Out
@@ -77,6 +72,36 @@ void help( char * argv[] )
 	exit ( 0 );
 }
 
+template<class Iterator, class Functor>
+void printBestMatches ( Iterator begin, Iterator end, Functor match )
+{
+	// output collection
+	Results results;
+
+	// create a collection of results from the input
+	transform (
+		begin
+		, end
+		, insert_iterator<Results> ( results, results.begin() )
+		, match
+	);
+
+	// sort results into match order, from worst to best
+	sort ( results.begin() , results.end() );
+	
+	// output best 10 (or number of elements in list) results to stdout
+	copy (
+		results.rbegin()
+#ifdef WIN32
+// min was a define in windows.h or something. Fucken.
+		, results.rbegin() + _MIN ( results.size(), (size_t)10 )
+#else
+		, results.rbegin() + min ( results.size(), (size_t)10 )
+#endif
+		, ostream_iterator<Results::value_type> ( cout, "\n" )
+	);
+}
+
 int main( int argc, char * argv[] )
 {
 	if ( argc < 3 || argc > 4 )
@@ -94,40 +119,37 @@ int main( int argc, char * argv[] )
 			cout << "Couldn't find file " << inputs << endl;
 			return 1;
 		}
-
-		// input collection
+		
+		// input stream (collection, see next comment)
 		ifstream is ( inputs );
-
-		// output collection
-		Results results;
-
-		// create a collection of results from the input
-		// collection, which happens in this case to be an iostream
-		// Line is a descendant of string that reads one line
-		// with it's >> operator, rather than the next token
-		transform (
+		
+		/*
+			Line is a descendant of string that reads one line
+			with it's >> operator, rather than the next token.
+			so when used with istream_iterator<Line>, the
+			input file is a collection of strings.
+		*/
+		
+		cout << "Doing ngram matching for " << word << endl;
+		// print ngram matches
+		printBestMatches (
 			istream_iterator<Line>(is)
 			, istream_iterator<Line>()
-			, insert_iterator<Results> ( results, results.begin() )
-			, MatchFunction ( word )
-// an alternative to MatchFunction
-//			, Soundex ( word )
+			, NGramFunctor ( word )
 		);
-
-		// sort results into match order, from worst to best
-		sort ( results.begin() , results.end() );
+		cout << "-------------------------------" << endl;
 		
-		// output best 10 (or number of elements in list) results to stdout
-		copy (
-			results.rbegin()
-#ifdef WIN32
-// min was a define in windows.h or something. Fucken.
-			, results.rbegin() + _MIN ( results.size(), (size_t)10 )
-#else
-			, results.rbegin() + min ( results.size(), (size_t)10 )
-#endif
-			, ostream_iterator<Results::value_type> ( cout, "\n" )
+		is.seekg(0);
+
+		cout << "Doing soundex matching for " << word << endl;
+		// print soundex matches
+		printBestMatches (
+			istream_iterator<Line>(is)
+			, istream_iterator<Line>()
+			, SoundexFunctor ( word )
 		);
+		
+		cout << "all tests OK" << endl;
 	}
 	return 0;
 }

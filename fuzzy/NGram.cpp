@@ -22,17 +22,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 using namespace std;
 
-#include "SoundexCharLookup.h"
-
-bool soundexMatch ( char a, char b )
-{
-	return Soundex::lookup[a] == Soundex::lookup[b];
-}
-
 pair<int,int> NGram::doMatch ( const string & b, const string & a )
 {
 	int	count = 0;
-	int MaxMatch = 0;
+	int maxMatch = 0;
 	string::const_iterator beginNgram = a.begin();
 	string::const_iterator endNgram = beginNgram + length;
 
@@ -40,19 +33,16 @@ pair<int,int> NGram::doMatch ( const string & b, const string & a )
 	for(; endNgram <= a.end(); ++beginNgram, ++endNgram )
 	{
 		string temp ( beginNgram, endNgram );
-//		MaxMatch += length;
 		// number of potential matches should be incremented
 		// once per iteration
-		++MaxMatch;
+		++maxMatch;
 
 		// search for the ngram in the string, using iterators
-//		if ( b.end() != search ( b.begin(), b.end(), beginNgram, endNgram, soundexMatch ) )
 		if ( b.end() != search ( b.begin(), b.end(), beginNgram, endNgram ) )
 			count++;
 	}
 	// weight according to n-Gram length
 	// ie number of n-grams actually matched * n-gram length
 	// and the total number of possible n-gram matches in the string
-//	return make_pair ( count * length, MaxMatch );
-	return make_pair ( count, MaxMatch );
+	return make_pair ( count, maxMatch );
 }

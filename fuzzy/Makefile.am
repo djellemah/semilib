@@ -1,16 +1,17 @@
-include_HEADERS = MatchFunction.h Soundex.h \
-	Ranking.h NGram.h fuzzydlldef.h \
-	BasicSoundex.h SoundexCharLookup.h \
+include_HEADERS = \
+	NGramFunctor.h \
+	SoundexFunctor.h \
+	Ranking.h \
+	NGram.h \
+	fuzzydlldef.h \
 	matchfunctions.h
 
 lib_LTLIBRARIES = libfuzzy.la
 libfuzzy_la_SOURCES = \
-	BasicSoundex.cpp \
-	MatchFunction.cpp \
+	NGramFunctor.cpp \
+	SoundexFunctor.cpp \
 	Ranking.cpp \
-	SoundexCharLookup.cpp \
 	NGram.cpp \
-	Soundex.cpp \
 	matchfunctions.cpp
 	
 libfuzzy_la_LDFLAGS = -release ${VERSION}

@@ -30,7 +30,7 @@ using namespace std;
 // disable non dll-interface warnings
 #pragma warning(disable: 4275)
 
-/*
+/**
 	This class stores the results of a matching run
 */
 class FUZZY_DLL_API Ranking : public pair<double,string>
@@ -56,6 +56,6 @@ public:
 	bool operator < ( const Ranking & other ) const;
 };
 
-FUZZY_DLL_API ostream & operator << ( ostream &, const Ranking & );
+FUZZY_DLL_API ostream & operator << ( ostream &, const pair<double,string> & );
 
 #endif

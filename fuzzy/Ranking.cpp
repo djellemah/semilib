@@ -2,7 +2,7 @@
 
 #include <iomanip>
 
-FUZZY_DLL_API ostream & operator << ( ostream & os, const Ranking & r )
+FUZZY_DLL_API ostream & operator << ( ostream & os, const pair<double,string> & r )
 {
 	os << setw ( 8 ) << setprecision ( 4 ) << fixed << showpoint;
 	os << r.first * 100.0;

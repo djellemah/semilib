@@ -26,6 +26,12 @@ using namespace std;
 
 #include "fuzzydlldef.h"
 
+/**
+	NGrams are a way of calculating a percentage match
+	between two strings. There are some documents Out There
+	on the details. This is a fairly simple implementation.
+	\ingroup match
+*/
 class FUZZY_DLL_API NGram
 {
 public:
@@ -36,7 +42,7 @@ public:
 	{
 	}
 
-	/*
+	/**
 		pair.first contains the ngram match value for this string
 		pair.second contains the largest possible ngram value match for this string
 	*/
@@ -59,18 +65,19 @@ public:
 	}
 
 protected:
-	// find a percentage match of a in b
-	// length of b should be less than length of a
 
 	/**
+		Match one string against another
+		length of b should be less than length of a
 		pair.first contains the ngram match value for this string
 		pair.second contains the largest possible ngram value match for this string
+
+		@see match
 	*/
 	pair<int,int> doMatch ( const string & b, const string & a );
 
 private:
 	int length;
 };
-
 
 #endif
