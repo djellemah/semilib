@@ -77,13 +77,13 @@ public:
 	/// provides the string representation for one flag
 	string operator [] ( unsigned int index ) const
 	{
-		return stringForFlags ( index );
+		return stringForOneFlag ( index );
 	}
 
 	/// provides the integer representation for one flag
 	unsigned int operator [] ( const string & aString ) const
 	{
-		return flagForStrings ( aString );
+		return flagForOneString ( aString );
 	}
 
 protected:
