@@ -9,7 +9,7 @@ using namespace std;
 
 //#include "Thread.h"
 
-int main ()
+void main ()
 {
 	string subexpression = "([L1][1345])";
 	string regexString = "FORM[AST]*=T[A-Z]*" + subexpression + ",";
@@ -25,10 +25,12 @@ int main ()
 	{
 		cout << "Does it match FORMS=TECE13,FORMAT=TECE13,END;?" << endl;
 		cout << boolalpha << regex.match ( aString ) << endl;
-		cout << "Subexpression 0 - the whole matched string." + regexString << endl;
-		cout << regex[0] << endl;
+		cout << "Subexpression 0 - the whole matched string: " + regexString << endl;
+		string temp = regex[0];
+		cout << temp << endl;
 		cout << "Subexpression 1 - " + subexpression << endl;
-		cout << regex[1] << endl;
+		temp = regex[1];
+		cout << temp << endl;
 
 		try
 		{
@@ -71,6 +73,4 @@ int main ()
 	{
 		cerr << e.what() << endl;
 	}
-
-	return 0;
 }
