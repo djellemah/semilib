@@ -29,3 +29,5 @@ testLogger
 tmp
 testJoin
 testTimer
+log
+testRefcount
