@@ -120,6 +120,9 @@
 			RelativePath="..\utils\Change.h">
 		</File>
 		<File
+			RelativePath="..\utils\CharArray.h">
+		</File>
+		<File
 			RelativePath="..\utils\Cloneable.h">
 		</File>
 		<File

@@ -5,6 +5,7 @@ AM_LDFLAGS = -release ${VERSION} ${LIBADD}
 pkginclude_HEADERS = \
 	cs_sptr.h \
 	Change.h \
+	CharArray.h \
 	Cloneable.h \
 	FileUtils.h \
 	FlagsMapper.h \
