@@ -87,7 +87,7 @@ UTILS_DLL_API string toUpper ( const char * other )
 UTILS_DLL_API string toUpper ( const string & other )
 {
 	// doesn't work with Dinkumware
-#ifdef WIN32
+#ifdef _WIN32
 	string retval ( other );
 	ctype<char>().toupper ( &(*(retval.begin())), &(*(retval.end())) );
 	return retval;
@@ -96,7 +96,7 @@ UTILS_DLL_API string toUpper ( const string & other )
 #endif
 }
 
-#ifdef WIN32
+#ifdef _WIN32
 UTILS_DLL_API string ssprintf ( const char * fmt, ... )
 {
 	// 32 bytes should be enough for now...
@@ -120,9 +120,24 @@ UTILS_DLL_API string ssprintf ( const char * fmt, ... )
 }
 #endif
 
-#ifdef WIN32
+#ifdef _WIN32
+
 #pragma comment(lib, "rpcrt4.lib")
 #include <rpc.h>
+
+/*
+	RpcStringFree screws things up because it needs an extra level
+	of indirection to delete the string
+*/
+class RpcDeallocate
+{
+public:
+	void operator() ( unsigned char * p )
+	{
+		::RpcStringFree ( & p );
+	}
+};
+
 UTILS_DLL_API string uuidAsString()
 {
 	// create a Universally Unique Identifier
@@ -134,19 +149,20 @@ UTILS_DLL_API string uuidAsString()
 	//NB remember to link in RPC libraries.
 
 	UUID uuid;
-	unsigned char * pszBuffer;
 
 	// make the new id
 	if ( ::UuidCreate ( &uuid ) != RPC_S_OK )
 		throw runtime_error ( "Couldn't create uuid" );
 
+	// make the buffer
+	SmartPointer<unsigned char, RpcDeallocate> buf;
+
 	// get a string representation of the uuid
-	if ( ::UuidToString ( &uuid, &pszBuffer ) != RPC_S_OK )
+	if ( ::UuidToString ( &uuid, &buf ) != RPC_S_OK )
 		throw runtime_error ( "Couldn't convert uuid to string representation" );
 
 	// make the string representation palatable
-	string sReturnValue ( (char*)pszBuffer );
-	::RpcStringFree ( &pszBuffer );
+	string sReturnValue ( (char*)(unsigned char *)buf );
 
 	return sReturnValue;
 }
