@@ -2,7 +2,7 @@
 #define Mutex_h
 
 #ifdef _WIN32
-#error need thread include here
+	#include <windows.h>
 #else
 	#include <pthread.h>
 #endif

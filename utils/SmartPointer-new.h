@@ -25,7 +25,7 @@ using std::runtime_error;
 
 // disable 'multiple assignment operator' warning
 #pragma warning(disable: 4522)
-
+#pragma warning(disable: 4786)
 /**
 	Normal delete operations, this is the default deallocator.
 	\ingroup smartpointer
