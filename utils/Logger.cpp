@@ -2,12 +2,14 @@
 
 using namespace std;
 
+#pragma warning( disable : 4355 ) 
 Logger::Logger()
 : _filter ( all )
 , _end ( *this )
 , _locks ( 0 )
 {
 }
+#pragma warning( default : 4355 ) 
 
 void Logger::log ( const std::string & msg, LogLevel level )
 {
