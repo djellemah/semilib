@@ -12,6 +12,12 @@ using namespace std;
 	const char * pathsep = "/";
 #endif
 
+#ifdef _MSC_VER
+#include <tchar.h>
+#endif
+
+#include <time.h>
+
 /**
 	Strip all carriage returns.
 */
