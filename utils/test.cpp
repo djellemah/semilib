@@ -209,7 +209,6 @@ namespace {
 
 int test_Persistence ( int argc, char * argv[] )
 {
-	Constructor<TestPersist> c;
 	try
 	{
 		ostringstream os;

@@ -65,7 +65,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "..\Debug\utils\static"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /G5 /MDd /W3 /GX /Z7 /Od /I "..\Thread\src" /D "_DEBUG" /D "NO_USE_UTILS_DLL" /D "WIN32" /D "_WINDOWS" /FD /c
+# ADD CPP /nologo /G5 /MDd /W3 /GX /Z7 /Od /I "..\Thread\src" /D "_DEBUG" /D "UTILS_NO_USE_DLL" /D "WIN32" /D "_WINDOWS" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
@@ -130,13 +130,6 @@ SOURCE=.\functions.h
 # Begin Source File
 
 SOURCE=.\istring.cpp
-
-!IF  "$(CFG)" == "Utils - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "Utils - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -153,22 +146,6 @@ SOURCE=.\Lock.h
 # Begin Source File
 
 SOURCE=.\minwin.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Persistence.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\Persistence.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\PersistenceManager.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\PersistenceManager.h
 # End Source File
 # Begin Source File
 

@@ -19,32 +19,61 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma warning(disable: 4786)
 #include "Persistence.h"
 
-SmartPointer<AbstractConstructor::PersistentObjects> AbstractConstructor::persistentObjects;
-long AbstractConstructor::refcount = 0;
+PersistenceRegistry * registryInstance;
+long registryRefcount = 0;
+
+PersistenceRegistry::PersistenceRegistry()
+{
+	_persistentObjects = new AbstractConstructor::PersistentObjects();
+}
+
+PersistenceRegistry::~PersistenceRegistry()
+{
+	delete _persistentObjects;
+}
+
 
 // this relies on the fact that static variables
 // are initialised to 0
 AbstractConstructor::AbstractConstructor()
 {
-	refcount++;
 }
 
 AbstractConstructor::~AbstractConstructor()
 {
-	if ( --refcount == 0 )
-	{
-/*
-		delete persistentObjects;
-		persistentObjects = NULL;
-*/
-	}
 }
 
 AbstractConstructor::PersistentObjects & AbstractConstructor::getPersistentObjects()
 {
-	if ( persistentObjects == 0 )
+	return registryInstance->persistentObjects();
+}
+
+#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+
+#include <windows.h>
+
+BOOL APIENTRY DllMain( HANDLE handle,  DWORD reason_for_call, LPVOID lpReserved )
+{
+	/*
+		All processes share a reference-counted registry
+	*/
+	switch ( reason_for_call )
 	{
-		persistentObjects = new PersistentObjects();
+	case DLL_PROCESS_ATTACH:
+		if ( registryRefcount++ == 0 )
+			registryInstance = new PersistenceRegistry();
+		break;
+	case DLL_PROCESS_DETACH:
+		if ( --registryRefcount == 0 )
+			delete registryInstance;
+		break;
+
+	case DLL_THREAD_ATTACH:
+	case DLL_THREAD_DETACH:
+	default:
+		break;
 	}
-	return *persistentObjects;
+
+	// initialise the registry for persistence objects
+    return TRUE;
 }

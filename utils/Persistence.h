@@ -57,14 +57,22 @@ public:
 		return NULL;
 	}
 
-	/**
-		get a reference to the map of names to classes.
-	*/
 	static PersistentObjects & getPersistentObjects();
+};
+
+class PERSISTENCE_DLL_API PersistenceRegistry
+{
+public:
+	PersistenceRegistry();
+	~PersistenceRegistry();
+
+	AbstractConstructor::PersistentObjects & persistentObjects()
+	{
+		return *_persistentObjects;
+	}
 
 protected:
-	static SmartPointer<PersistentObjects> persistentObjects;
-	static long refcount;
+	AbstractConstructor::PersistentObjects * _persistentObjects;
 };
 
 /**

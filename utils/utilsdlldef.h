@@ -33,27 +33,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 /*
-	This is normally not a dll because of linkage problems with some
-	classes.
-	Although some of them weren't DLL classes anyway, which may have been the problem...?
+	Make this always a DLL
 */
 
-#define PERSISTENCE_DLL_API
-	
-/*
-#if defined ( PERSISTENCE_NO_USE_DLL ) || !defined ( WIN32 )
-	#define PERSISTENCE_DLL_API
-	#pragma message ( "PERSISTENCE - Not building for DLL" )
+#ifdef PERSISTENCE_BUILD_DLL
+	#define PERSISTENCE_DLL_API __declspec ( dllexport )
+	#pragma message ( "PERSISTENCE - Building DLL" )
 #else
-	#ifdef BUILD_PERSISTENCE_DLL
-		#define PERSISTENCE_DLL_API __declspec ( dllexport )
-		#pragma message ( "PERSISTENCE - Building DLL" )
-	#else
-		#define PERSISTENCE_DLL_API __declspec ( dllimport )
-		#pragma message ( "PERSISTENCE - Including DLL" )
-	#endif
+	#define PERSISTENCE_DLL_API __declspec ( dllimport )
+	#pragma message ( "PERSISTENCE - Including DLL" )
 #endif
-*/
 
 
 // disable warnings about requiring DLL interface

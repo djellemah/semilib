@@ -11,6 +11,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name persistence
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -27,7 +30,19 @@ Package=<4>
 
 ###############################################################################
 
-Project: "investigate"=.\investigate.dsp - Package Owner=<4>
+Project: "persistence"=.\persistence.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "pert"=.\pert\pert.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -49,6 +64,9 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name dllUtils
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name persistence
     End Project Dependency
 }}}
 
