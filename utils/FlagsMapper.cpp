@@ -87,7 +87,9 @@ void FlagsMapper::read ( istream & is )
 {
 	string flagString;
 	unsigned long flag;
-	while ( ws (is), is.good() )
+
+	// remove whitespace, then check if the stream is OK
+	while ( ws ( is ), is.good() )
 	{
 		is >> flagString >> hex >> flag;
 		if ( is.fail() )
