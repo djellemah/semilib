@@ -1,0 +1,577 @@
+<HTML>
+<HEAD>
+<TITLE>Source: SmartPointer.h</TITLE>
+<META NAME="Generator" CONTENT="KDOC ">
+</HEAD>
+<BODY bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#000099" alink= "#ffffff">
+<TABLE WIDTH="100%" BORDER="0">
+<TR>
+<TD>
+	<TABLE BORDER="0">
+		<TR><TD valign="top" align="left" cellspacing="10">
+		<h1>Source: SmartPointer.h</h1>
+		</TD>
+		<TD valign="top" align="right" colspan="1"></TD></TR>
+	</TABLE>
+	<HR>
+	<TABLE BORDER="0">
+		
+	</TABLE>
+	</TD>
+<TD align="right"><TABLE BORDER="0"><TR><TD><small><A HREF="index-long.html">Annotated List</small></TD></TR>
+<TR><TD><small><A HREF="header-list.html">Files</small></TD></TR>
+<TR><TD><small><A HREF="all-globals.html">Globals</small></TD></TR>
+<TR><TD><small><A HREF="hier.html">Hierarchy</small></TD></TR>
+<TR><TD><small><A HREF="index.html">Index</small></TD></TR>
+</TABLE></TD></TR></TABLE>
+<pre>
+/*
+Copyright (C) 1998, John Anderson
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU Library General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU Library General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+
+#ifndef SmartPointer_h
+#define SmartPointer_h
+
+#include &lt;stdexcept&gt;
+
+using std::runtime_error;
+
+// disable 'multiple assignment operator' warning
+#pragma warning(disable: 4522)
+
+/**
+	A Smart Pointer template class. This is similar to the Standard
+	Library auto_ptr class, except with one or two useability
+	enhancements.  An instance of a smart pointer encapsulates a
+	pointer to some other type and manages deallocation, for example:
+	&lt;pre&gt;
+	void ofn ( Object * );
+
+	void fn()
+	{
+		SmartPointer&amp;lt;Object&amp;gt; p = new Object ("Whatever");
+		p-&gt;method();
+
+		ofn ( p );
+	}
+	&lt;/pre&gt;
+	The dynamically-allocated instance of Object will be deallocated
+	by the destructor for p.
+&lt;p&gt;
+	SmartPointer has ownership-transfer semantics for copies, which
+	doesn't work for every possible situation, but well enough most of
+	the time. For situations where it isn't good enough (like multi-threading)
+	see RefCount, which does full reference counting.
+&lt;p&gt;
+	If you see a 'multiple assignment operator' warning. Don't
+	worry about it, there are supposed to be multiple assignment
+	operators. Three, to be precise.
+*/
+template &lt;class T&gt;
+class SmartPointer
+{
+public:
+	/**
+		default initialiser, so this acts as the default constructor as well.
+		It will also be called for statements like:
+		&lt;pre&gt;
+		SmartPointer&amp;lt;Object&amp;gt; p = new Object ("Whatever");
+		&lt;/pre&gt;
+		although if you need to specify that the instance should not
+		be an owner, for some unlikely reason:
+		&lt;pre&gt;
+		SmartPointer&amp;lt;Object&amp;gt; p ( new Object ("Whatever"), false );
+		&lt;/pre&gt;
+	*/
+	SmartPointer ( T * ptr = 0, bool aBool = true )
+		: _ptr (ptr)
+		, owner ( aBool )
+	{
+	}
+
+	/// copy constructor. No, really?
+	SmartPointer ( const SmartPointer &amp; right )
+		: _ptr (0)
+		, owner ( false )
+	{
+		operator = ( right );
+	}
+
+	/// deallocate the pointer only if this instance is the owner
+	virtual ~SmartPointer()
+	{
+		if ( owner ) delete _ptr;
+	}
+
+	/**
+		copy the pointer, and make sure the other object is no
+		longer the owner. After this instance has copied ownership
+		(or not-ownership) from the instance being copied, the other
+		smart pointer loses it's ownership.
+		&lt;p&gt;
+		Of course, if this smart pointer is already the owner of some
+		memory object, it will delete it. otherwise memory leaks
+		would happen every time you assigned a smart pointer.
+	*/
+	SmartPointer &amp; operator = ( SmartPointer &amp; other )
+	{
+		return operator = ( const_cast&lt;const SmartPointer &amp;&gt;(other) );
+	}
+
+	/**
+		Yet another assignment operator. This is necessary because
+		otherwise in certain copying situations, operator T * gets
+		called, followed by operator = ( T * ).  Which obviously
+		destroys the copy semantics because the ownership is set to true
+		regardless of the fact that actually it's another smart
+		pointer being copied. This method simply calls the other
+		assignment operator.
+	*/
+	SmartPointer &amp; operator = ( const SmartPointer &amp; right )
+	{
+		// deallocate previously held pointer
+		if ( owner ) delete _ptr;
+
+		// assign pointer
+		_ptr = right._ptr;
+
+		// make sure ownership is transferred
+		// Note that we don't use owner = true;
+		owner = right.owner;
+
+		// right no longer owns the pointer.
+		right.owner = false;
+
+		return *this;
+	}
+
+	/**
+		for statements like:
+		&lt;pre&gt;
+		SmartPointer&amp;lt;Object&amp;gt; p;
+		p = new Object ("Whatever");
+		&lt;/pre&gt;
+	*/
+	SmartPointer &amp; operator = ( T * right )
+	{
+		if ( owner ) delete _ptr;
+		_ptr = right;
+		owner = true;
+
+		return *this;
+	}
+
+	/// for storing instances in STL collection classes
+	bool operator == ( const SmartPointer &amp; right ) const
+	{
+		return _ptr == right._ptr;
+	}
+
+	/// for storing instances in STL collection classes
+	bool operator &lt; ( const SmartPointer &amp; right ) const
+	{
+		return _ptr &lt; right._ptr;
+	}
+
+	/**
+		for pointer comparisons. It may be that operators
+		other than ==, != and &lt; are needed, but I haven't found that
+		yet.
+	*/
+	bool operator != ( const SmartPointer &amp; right ) const
+	{
+		return _ptr != right._ptr;
+	}
+
+	/**
+		member reference operator. In case what is being pointed
+		to is a class obviously this won't work if is keeping
+		a char * or some other basic type.
+		&lt;p&gt;
+		There is a specialisation for char *, but not for other
+		basic types. This is trivial and left as an exercise
+		for the reader (heehee)
+	*/
+	T * operator -&gt; () const
+	{
+		return _ptr;
+	}
+
+	/// a dereference operator
+	T &amp; operator * ()
+	{
+		return *_ptr;
+	}
+
+	/// another derefence operator
+	const T &amp; operator * () const
+	{
+		return *_ptr;
+	}
+
+	/// an address-of operator operator
+	T** operator &amp; ()
+	{
+		return &amp;_ptr;
+	}
+
+	/**
+		conversion operator. Use an instance
+		of this object wherever a T * is expected.
+	*/
+	operator T * () const
+	{
+		return _ptr;
+	}
+
+	/**
+		make this no longer the owner. Useful in certain situations. But
+		beware of using it because it makes this behave not like a pointer.
+	*/
+	const SmartPointer &amp; release () const
+	{
+		owner = false;
+		return *this;
+	}
+
+	/// an attempt not to break pointer semantics
+	SmartPointer ( const T * _ptr )
+	{
+		if ( _ptr != 0 )
+			throw runtime_error ("Bad idea to use a Smart Pointer with a const T *" );
+	}
+
+	/// another attempt not to break pointer semantics
+	SmartPointer &amp; operator = ( const T * right )
+	{
+		if ( right != 0 )
+			throw runtime_error ("Bad idea to use a Smart Pointer with a const T *" );
+
+		return *this;
+	}
+
+	/**
+		explicitly access the object being smartly pointed to. Breaks
+		pointer semantics, so use only if the instance is does not need to
+		be changed to and from the basic pointer type in the code.
+		&lt;p&gt;
+		In other words, say you have an &lt;code&gt;Object * ptr&lt;/code&gt; which
+		you change to a &lt;code&gt;SmartPointer&amp;lt;Object&amp;gt; ptr&lt;/code&gt;. You can now do
+		&lt;code&gt;ptr.data()&lt;/code&gt;. But obviously you can't do &lt;code&gt;ptr.data()&lt;/code&gt;
+		with a variable of type &lt;code&gt;Object *&lt;/code&gt;
+	*/
+	T * data() const
+	{
+		return _ptr;
+	}
+
+private:
+	T * _ptr;
+	mutable bool owner;
+};
+
+/**
+	SmartPointer specialised for char *, See the SmartPointer template
+	documentation for details. This documentation contains some
+	notes specific to SmartPointer&amp;lt;char&amp;gt;, whereas SmartPointer
+	contains (surprise!) generic SmartPointer information.
+	&lt;p&gt;
+	It works quite nicely for the
+	ubiquitous buffers one has to assign in dealing with various
+	API's and libraries.  For example:
+	&lt;pre&gt;
+	void fn()
+	{
+		SmartPointer&amp;lt;char*&amp;gt; ptr = new char[1024];
+		strcpy ( ptr, "Hello, there" );
+	}
+	&lt;/pre&gt;
+
+	&lt;strong&gt;Don't&lt;/strong&gt; do something like:
+	&lt;pre&gt;
+	SmartPointer&amp;lt;char*&amp;gt; ptr = "Some string constant";
+	&lt;/pre&gt;
+	on compilers that treat string constants as char *, not as const
+	char * as they should (IMNSHO, anyway).  What happens then is that
+	when the ptr object goes out of scope, the destructor will attempt
+	to delete[] an area of memory that's in the constant data segment.
+	With corresponding error messages and chokings from the OS.
+*/
+template&lt;&gt;
+class SmartPointer&lt;char&gt;
+{
+public:
+	SmartPointer ( char * ptr = 0, bool aBool = true )
+		: _ptr (ptr)
+		, owner ( aBool )
+	{
+	}
+
+	SmartPointer ( const SmartPointer &amp; right )
+		: _ptr (0)
+		, owner ( false )
+	{
+		operator = ( right );
+	}
+
+	virtual ~SmartPointer()
+	{
+		if ( owner ) delete _ptr;
+	}
+
+	SmartPointer &amp; operator = ( SmartPointer &amp; other )
+	{
+		return operator = ( const_cast&lt;const SmartPointer &amp;&gt;(other) );
+	}
+
+	SmartPointer &amp; operator = ( const SmartPointer &amp; right )
+	{
+		// deallocate previously held pointer
+		if ( owner ) delete _ptr;
+
+		// assign pointer
+		_ptr = right;
+
+		// make sure ownership is transferred
+		// Note that we don't use owner = true;
+		owner = right.owner;
+
+		// right no longer owns the pointer.
+		right.owner = false;
+
+		return *this;
+	}
+
+	/**
+		&lt;strong&gt;Don't&lt;/strong&gt; do something like:
+		&lt;pre&gt;
+		SmartPointer&lt;char*&gt; ptr = "Some string constant";
+		&lt;/pre&gt;
+		because some compilers treat string constants as
+		char *, not as const char * as they should. See class
+		documentation for details.
+	*/
+	SmartPointer &amp; operator = ( char * right )
+	{
+		if ( owner ) delete _ptr;
+		_ptr = right;
+		owner = true;
+
+		return *this;
+	}
+
+	bool operator == ( const SmartPointer &amp; right ) const
+	{
+		return _ptr == right._ptr;
+	}
+
+	bool operator &lt; ( const SmartPointer &amp; right ) const
+	{
+		return _ptr &lt; right._ptr;
+	}
+
+	bool operator != ( const SmartPointer &amp; right ) const
+	{
+		return _ptr != right._ptr;
+	}
+
+	operator char * () const
+	{
+		return _ptr;
+	}
+
+	const SmartPointer &amp; release () const
+	{
+		owner = false;
+		return *this;
+	}
+
+	/**
+		an attempt not to break pointer semantics doesn't work
+		with compilers that treat string constants as char *,
+		not as const char *. See class documentation for details.
+	*/
+	SmartPointer ( const char * _ptr )
+	{
+		throw runtime_error ("Bad idea to use a Smart Pointer with a const char *" );
+	}
+
+	/**
+		another attempt not to break pointer semantics doesn't
+		work with compilers that treat string constants as char *,
+		not as const char *. See class documentation for details.
+	*/
+	SmartPointer &amp; operator = ( const char * right )
+	{
+		throw runtime_error ("Bad idea to use a Smart Pointer with a const char *" );
+		return *this;
+	}
+
+	/**
+		explicit reference to the ptr held by this object. Don't
+		use this too much if you want a perfect replacement for
+		a char *, because (obviously) a char * variable doesn't
+		have a method called data().
+	*/
+	char * data() const
+	{
+		return _ptr;
+	}
+
+private:
+	char * _ptr;
+	mutable bool owner;
+};
+
+// 'turn multiple assignment operator' warning back on
+// doesn't work cos the warnings only get generated when the compiler
+// instantiates the templates, which happens wherever they're referenced from
+// #pragma warning(default: 4522)
+
+template&lt;&gt;
+class SmartPointer&lt;void&gt;
+{
+public:
+	SmartPointer ( void * ptr = 0, bool aBool = true )
+		: _ptr (ptr)
+		, owner ( aBool )
+	{
+	}
+
+	SmartPointer ( const SmartPointer &amp; right )
+		: _ptr (0)
+		, owner ( false )
+	{
+		operator = ( right );
+	}
+
+	virtual ~SmartPointer()
+	{
+		if ( owner ) delete _ptr;
+	}
+
+	SmartPointer &amp; operator = ( SmartPointer &amp; other )
+	{
+		return operator = ( const_cast&lt;const SmartPointer &amp;&gt;(other) );
+	}
+
+	SmartPointer &amp; operator = ( const SmartPointer &amp; right )
+	{
+		// deallocate previously held pointer
+		if ( owner ) delete _ptr;
+
+		// assign pointer
+		_ptr = right;
+
+		// make sure ownership is transferred
+		// Note that we don't use owner = true;
+		owner = right.owner;
+
+		// right no longer owns the pointer.
+		right.owner = false;
+
+		return *this;
+	}
+
+	/**
+		&lt;strong&gt;Don't&lt;/strong&gt; do something like:
+		&lt;pre&gt;
+		SmartPointer&lt;void*&gt; ptr = "Some string constant";
+		&lt;/pre&gt;
+		because some compilers treat string constants as
+		void *, not as const void * as they should. See class
+		documentation for details.
+	*/
+	SmartPointer &amp; operator = ( void * right )
+	{
+		if ( owner ) delete _ptr;
+		_ptr = right;
+		owner = true;
+
+		return *this;
+	}
+
+	bool operator == ( const SmartPointer &amp; right ) const
+	{
+		return _ptr == right._ptr;
+	}
+
+	bool operator &lt; ( const SmartPointer &amp; right ) const
+	{
+		return _ptr &lt; right._ptr;
+	}
+
+	bool operator != ( const SmartPointer &amp; right ) const
+	{
+		return _ptr != right._ptr;
+	}
+
+	operator void * () const
+	{
+		return _ptr;
+	}
+
+	const SmartPointer &amp; release () const
+	{
+		owner = false;
+		return *this;
+	}
+
+	/**
+		an attempt not to break pointer semantics doesn't work
+		with compilers that treat string constants as void *,
+		not as const void *. See class documentation for details.
+	*/
+	SmartPointer ( const void * _ptr )
+	{
+		throw runtime_error ("Bad idea to use a Smart Pointer with a const void *" );
+	}
+
+	/**
+		another attempt not to break pointer semantics doesn't
+		work with compilers that treat string constants as void *,
+		not as const void *. See class documentation for details.
+	*/
+	SmartPointer &amp; operator = ( const void * right )
+	{
+		throw runtime_error ("Bad idea to use a Smart Pointer with a const void *" );
+		return *this;
+	}
+
+	/**
+		explicit reference to the ptr held by this object. Don't
+		use this too much if you want a perfect replacement for
+		a void *, because (obviously) a void * variable doesn't
+		have a method called data().
+	*/
+	void * data() const
+	{
+		return _ptr;
+	}
+
+private:
+	void * _ptr;
+	mutable bool owner;
+};
+
+#endif</pre>
+<HR>
+	<table>
+	<tr><td><small>Generated by: panic@GROOVIOUS on Wed Mar 22 18:23:58 2000, using kdoc $.</small></td></tr>
+	</table>
+</BODY>
+</HTML>

@@ -1,0 +1,174 @@
+<HTML>
+<HEAD>
+<TITLE>class SmartPointer</TITLE>
+<META NAME="Generator" CONTENT="KDOC ">
+</HEAD>
+<BODY bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#000099" alink= "#ffffff">
+<TABLE WIDTH="100%" BORDER="0">
+<TR>
+<TD>
+	<TABLE BORDER="0">
+		<TR><TD valign="top" align="left" cellspacing="10">
+		<h1>class SmartPointer</h1>
+		</TD>
+		<TD valign="top" align="right" colspan="1">
+	A Smart Pointer template class. <small><A HREF="#longdesc">More...</A></small></TD></TR>
+	</TABLE>
+	<HR>
+	<TABLE BORDER="0">
+		<TR><TH>Definition</TH><TD><code>#include &lt;<A HREF="SmartPointer_h.html">SmartPointer.h</A>&gt;</code></TD></TR>
+<TR><TH>Template form</TH><TD>SmartPointer&lt;template class T&gt; </code></TD></TR>
+<TR><TH><A HREF="full-list-SmartPointer.html">List of all Methods</A></TH></TR>
+	</TABLE>
+	</TD>
+<TD align="right"><TABLE BORDER="0"><TR><TD><small><A HREF="index-long.html">Annotated List</small></TD></TR>
+<TR><TD><small><A HREF="header-list.html">Files</small></TD></TR>
+<TR><TD><small><A HREF="all-globals.html">Globals</small></TD></TR>
+<TR><TD><small><A HREF="hier.html">Hierarchy</small></TD></TR>
+<TR><TD><small><A HREF="index.html">Index</small></TD></TR>
+</TABLE></TD></TR></TABLE>
+<h4>Public Methods</h4><ul><LI>&nbsp;<b><A HREF="#ref1">SmartPointer</A></b> ( T * ptr = 0, bool aBool = true ) 		: _ptr (ptr) 		, owner ( aBool ) 
+</LI>
+<LI>&nbsp;<b>SmartPointer</b> ( const <A HREF="SmartPointer.html">SmartPointer</A> &amp; right ) 		: _ptr (0) 		, owner ( false ) 
+</LI>
+<LI>virtual  ~&nbsp;<b>SmartPointer</b> () 
+</LI>
+<LI><A HREF="SmartPointer.html">SmartPointer</A> &amp; &nbsp;<b><A HREF="#ref4">operator =</A></b> ( <A HREF="SmartPointer.html">SmartPointer</A> &amp; other ) 
+</LI>
+<LI><A HREF="SmartPointer.html">SmartPointer</A> &amp; &nbsp;<b><A HREF="#ref5">operator =</A></b> ( const <A HREF="SmartPointer.html">SmartPointer</A> &amp; right ) 
+</LI>
+<LI><A HREF="SmartPointer.html">SmartPointer</A> &amp; &nbsp;<b><A HREF="#ref6">operator =</A></b> ( T * right ) 
+</LI>
+<LI>bool &nbsp;<b>operator ==</b> ( const <A HREF="SmartPointer.html">SmartPointer</A> &amp; right )  const
+</LI>
+<LI>bool &nbsp;<b>operator &lt;</b> ( const <A HREF="SmartPointer.html">SmartPointer</A> &amp; right )  const
+</LI>
+<LI>bool &nbsp;<b><A HREF="#ref9">operator !=</A></b> ( const <A HREF="SmartPointer.html">SmartPointer</A> &amp; right )  const
+</LI>
+<LI>T * &nbsp;<b><A HREF="#ref10">operator -&gt;</A></b> ()  const
+</LI>
+<LI>T &amp; &nbsp;<b>operator *</b> () 
+</LI>
+<LI>const T &amp; &nbsp;<b>operator *</b> ()  const
+</LI>
+<LI>T** &nbsp;<b>operator &amp;</b> () 
+</LI>
+<LI>&nbsp;<b><A HREF="#ref14">operator T *</A></b> ()  const
+</LI>
+<LI>const <A HREF="SmartPointer.html">SmartPointer</A> &amp; &nbsp;<b><A HREF="#ref15">release</A></b> ()  const
+</LI>
+<LI>&nbsp;<b>SmartPointer</b> ( const T * _ptr ) 
+</LI>
+<LI><A HREF="SmartPointer.html">SmartPointer</A> &amp; &nbsp;<b>operator =</b> ( const T * right ) 
+</LI>
+<LI>T * &nbsp;<b><A HREF="#ref18">data</A></b> ()  const
+</LI>
+</ul><h4>Private Members</h4><ul><LI>T *<b>_ptr</b></LI>
+<LI>mutable bool <b>owner</b></LI>
+</ul><HR><A NAME="longdesc"><H2>Detailed Description</H2><p>
+	A Smart Pointer template class. This is similar to the Standard
+	Library auto_ptr class, except with one or two useability
+	enhancements.  An instance of a smart pointer encapsulates a
+	pointer to some other type and manages deallocation, for example:
+</p><pre>
+
+	void ofn ( Object * );
+
+	void fn()
+	{
+		SmartPointer&amp;lt;Object&amp;gt; p = new Object ("Whatever");
+		p-&gt;method();
+
+		ofn ( p );
+	}
+
+</pre><p>	The dynamically-allocated instance of Object will be deallocated
+	by the destructor for p.
+&lt;p&gt;
+	SmartPointer has ownership-transfer semantics for copies, which
+	doesn't work for every possible situation, but well enough most of
+	the time. For situations where it isn't good enough (like multi-threading)
+	see RefCount, which does full reference counting.
+&lt;p&gt;
+	If you see a 'multiple assignment operator' warning. Don't
+	worry about it, there are supposed to be multiple assignment
+	operators. Three, to be precise.
+</p><A NAME="SmartPointer"></A><A NAME="ref1"></A><table width="100%"><tr bgcolor="#eeeeee"><td><strong>&nbsp;<underline>SmartPointer</underline> ( T * ptr = 0, bool aBool = true ) 		: _ptr (ptr) 		, owner ( aBool )
+</strong></td></tr></table><p></p><p>
+		default initialiser, so this acts as the default constructor as well.
+		It will also be called for statements like:
+</p><pre>
+
+		SmartPointer&amp;lt;Object&amp;gt; p = new Object ("Whatever");
+
+</pre><p>		although if you need to specify that the instance should not
+		be an owner, for some unlikely reason:
+</p><pre>
+
+		SmartPointer&amp;lt;Object&amp;gt; p ( new Object ("Whatever"), false );
+
+</pre><p>	</p><A NAME="operator%2520="></A><A NAME="ref4"></A><table width="100%"><tr bgcolor="#eeeeee"><td><strong><A HREF="SmartPointer.html">SmartPointer</A> &amp; &nbsp;<underline>operator =</underline> ( <A HREF="SmartPointer.html">SmartPointer</A> &amp; other )
+</strong></td></tr></table><p></p><p>
+		copy the pointer, and make sure the other object is no
+		longer the owner. After this instance has copied ownership
+		(or not-ownership) from the instance being copied, the other
+		smart pointer loses it's ownership.
+		&lt;p&gt;
+		Of course, if this smart pointer is already the owner of some
+		memory object, it will delete it. otherwise memory leaks
+		would happen every time you assigned a smart pointer.
+	</p><A NAME="operator%2520="></A><A NAME="ref5"></A><table width="100%"><tr bgcolor="#eeeeee"><td><strong><A HREF="SmartPointer.html">SmartPointer</A> &amp; &nbsp;<underline>operator =</underline> ( const <A HREF="SmartPointer.html">SmartPointer</A> &amp; right )
+</strong></td></tr></table><p></p><p>
+		Yet another assignment operator. This is necessary because
+		otherwise in certain copying situations, operator T * gets
+		called, followed by operator = ( T * ).  Which obviously
+		destroys the copy semantics because the ownership is set to true
+		regardless of the fact that actually it's another smart
+		pointer being copied. This method simply calls the other
+		assignment operator.
+	</p><A NAME="operator%2520="></A><A NAME="ref6"></A><table width="100%"><tr bgcolor="#eeeeee"><td><strong><A HREF="SmartPointer.html">SmartPointer</A> &amp; &nbsp;<underline>operator =</underline> ( T * right )
+</strong></td></tr></table><p></p><p>
+		for statements like:
+</p><pre>
+
+		SmartPointer&amp;lt;Object&amp;gt; p;
+		p = new Object ("Whatever");
+
+</pre><p>	</p><A NAME="operator%2520!="></A><A NAME="ref9"></A><table width="100%"><tr bgcolor="#eeeeee"><td><strong>bool &nbsp;<underline>operator !=</underline> ( const <A HREF="SmartPointer.html">SmartPointer</A> &amp; right )
+</strong></td></tr></table><p> <small>[const]</small></p><p>
+		for pointer comparisons. It may be that operators
+		other than ==, != and &lt; are needed, but I haven't found that
+		yet.
+	</p><A NAME="operator%2520-%253E"></A><A NAME="ref10"></A><table width="100%"><tr bgcolor="#eeeeee"><td><strong>T * &nbsp;<underline>operator -&gt;</underline> ()
+</strong></td></tr></table><p> <small>[const]</small></p><p>
+		member reference operator. In case what is being pointed
+		to is a class obviously this won't work if is keeping
+		a char * or some other basic type.
+		&lt;p&gt;
+		There is a specialisation for char *, but not for other
+		basic types. This is trivial and left as an exercise
+		for the reader (heehee)
+	</p><A NAME="operator%2520T%2520*"></A><A NAME="ref14"></A><table width="100%"><tr bgcolor="#eeeeee"><td><strong>&nbsp;<underline>operator T *</underline> ()
+</strong></td></tr></table><p> <small>[const]</small></p><p>
+		conversion operator. Use an instance
+		of this object wherever a T * is expected.
+	</p><A NAME="release"></A><A NAME="ref15"></A><table width="100%"><tr bgcolor="#eeeeee"><td><strong>const <A HREF="SmartPointer.html">SmartPointer</A> &amp; &nbsp;<underline>release</underline> ()
+</strong></td></tr></table><p> <small>[const]</small></p><p>
+		make this no longer the owner. Useful in certain situations. But
+		beware of using it because it makes this behave not like a pointer.
+	</p><A NAME="data"></A><A NAME="ref18"></A><table width="100%"><tr bgcolor="#eeeeee"><td><strong>T * &nbsp;<underline>data</underline> ()
+</strong></td></tr></table><p> <small>[const]</small></p><p>
+		explicitly access the object being smartly pointed to. Breaks
+		pointer semantics, so use only if the instance is does not need to
+		be changed to and from the basic pointer type in the code.
+		&lt;p&gt;
+		In other words, say you have an &lt;code&gt;Object * ptr&lt;/code&gt; which
+		you change to a &lt;code&gt;SmartPointer&amp;lt;Object&amp;gt; ptr&lt;/code&gt;. You can now do
+		&lt;code&gt;ptr.data()&lt;/code&gt;. But obviously you can't do &lt;code&gt;ptr.data()&lt;/code&gt;
+		with a variable of type &lt;code&gt;Object *&lt;/code&gt;
+	</p><HR>
+	<table>
+	<tr><td><small>Generated by: panic@GROOVIOUS on Wed Mar 22 18:23:58 2000, using kdoc $.</small></td></tr>
+	</table>
+</BODY>
+</HTML>

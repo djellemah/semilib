@@ -1,0 +1,290 @@
+<HTML>
+<HEAD>
+<TITLE>Source: RefCount.h</TITLE>
+<META NAME="Generator" CONTENT="KDOC ">
+</HEAD>
+<BODY bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#000099" alink= "#ffffff">
+<TABLE WIDTH="100%" BORDER="0">
+<TR>
+<TD>
+	<TABLE BORDER="0">
+		<TR><TD valign="top" align="left" cellspacing="10">
+		<h1>Source: RefCount.h</h1>
+		</TD>
+		<TD valign="top" align="right" colspan="1"></TD></TR>
+	</TABLE>
+	<HR>
+	<TABLE BORDER="0">
+		
+	</TABLE>
+	</TD>
+<TD align="right"><TABLE BORDER="0"><TR><TD><small><A HREF="index-long.html">Annotated List</small></TD></TR>
+<TR><TD><small><A HREF="header-list.html">Files</small></TD></TR>
+<TR><TD><small><A HREF="all-globals.html">Globals</small></TD></TR>
+<TR><TD><small><A HREF="hier.html">Hierarchy</small></TD></TR>
+<TR><TD><small><A HREF="index.html">Index</small></TD></TR>
+</TABLE></TD></TR></TABLE>
+<pre>
+/*
+Copyright (C) 1998, John Anderson
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU Library General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU Library General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+
+#ifndef RefCount_h
+#define RefCount_h
+
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;map&gt;
+
+using namespace std;
+
+#include "Lock.h"
+
+/**
+	a reference count pointer object. More overhead than
+	a SmartPointer, but safer in certain situations. Like
+	multithreading, in fact it uses thread synchronisation
+	objects Lock and Sync.
+&lt;p&gt;
+	Acts like SmartPointer in many ways in that an instance of RefCount
+	is almost completely interchangeable for the pointer it's reference
+	counting. See SmartPointer documentation for more details.
+*/
+template &lt;class T&gt;
+class RefCount
+{
+public:
+	typedef map&lt;T*,unsigned int&gt; References;
+
+	// Default Constructor
+	RefCount ( T * _ptr = 0 )
+		: _ptr ( _ptr )
+	{
+		++refcount;
+		increment();
+	}
+
+	// Copy Constructor
+	RefCount ( const RefCount &amp; other )
+		: _ptr ( 0 )
+	{
+		++refcount;
+		operator = ( other );
+	}
+
+	// Destructor
+	virtual ~RefCount()
+	{
+		// lock from here because we want to changed _references
+		// as well. If Lock isn't re-entrant, we have a problem
+		// because decrement() also puts a lock on _sync.
+
+		Lock aLock ( _sync );
+		decrement();
+
+		if ( --refcount == 0 )
+		{
+			delete _references;
+
+			// in case someone else wants to use it
+			_references = 0;
+		}
+	}
+
+	/**
+		to avoid problems with the combination of a non-explicit
+		constructor and a conversion operator. See SmartPointer
+		for details.
+	*/
+	const RefCount &amp; operator = ( RefCount &amp; other )
+	{
+		return operator = ( const_cast&lt;const RefCount &amp;&gt;(other) );
+	}
+
+	// assignment operator
+	const RefCount &amp; operator = ( const RefCount &amp; other )
+	{
+		Lock aLock ( _sync );
+		if ( _ptr != other._ptr )
+		{
+			decrement();
+			_ptr = other._ptr;
+		}
+		increment();
+
+		return *this;
+	}
+
+	/// need this for storing instances in STL containers
+	bool operator &lt; ( const RefCount &amp; other ) const
+	{
+		return _ptr &lt; other._ptr;
+	}
+
+	/// need this for storing instances in STL containers
+	bool operator == ( const RefCount &amp; other ) const
+	{
+		return _ptr == other._ptr;
+	}
+
+	// for comparing to things being pointed to
+	bool operator == ( const T * other ) const
+	{
+		return _ptr == other;
+	}
+
+	/**
+		member access operator. Obviously
+		won't work with T as a non-class object
+	*/
+	T * operator -&gt; () const
+	{
+		return _ptr;
+	}
+
+	/// a dereference operator
+	T &amp; operator * ()
+	{
+		return *_ptr;
+	}
+
+	/// another dereference operator
+	const T &amp; operator * () const
+	{
+		return *_ptr;
+	}
+
+	/**
+		conversion operator. Use an instance
+		of this object wherever a T * is expected
+	*/
+	operator T * () const
+	{
+		return _ptr;
+	}
+
+	T * data () const
+	{
+		return _ptr;
+	}
+
+	References &amp; references()
+	{
+		if ( _references == 0 )
+			_references = new References;
+		return *_references;
+	}
+
+	References &amp; references() const
+	{
+		if ( _references == 0 )
+			_references = new References;
+		return *_references;
+	}
+
+	/**
+		mostly for debugging the class. Prints the addresse
+		being pointed to and the refcounts for the address.
+	*/
+	void write ( ostream &amp; os ) const
+	{
+		os &lt;&lt; hex &lt;&lt; _ptr &lt;&lt; ": " &lt;&lt; references()[_ptr];
+	}
+
+protected:
+	/**
+		decrement the reference count for the _ptr held by this
+		instance.
+	*/
+	void decrement()
+	{
+		Lock aLock ( _sync );
+		if ( _ptr == 0 ) return;
+
+		if ( --references()[_ptr] == 0 )
+		{
+			references().erase ( _ptr );
+			delete _ptr;
+			_ptr = 0;
+		}
+	}
+
+	/**
+		increment the reference count for the _ptr held by this
+		instance.
+	*/
+	void increment()
+	{
+		Lock aLock ( _sync );
+		if ( _ptr == 0 ) return;
+
+		if ( references().find ( _ptr ) != references().end() )
+			++references()[_ptr];
+		else
+			references()[_ptr] = 1;
+	}
+
+private:
+	T * _ptr;
+
+	/**
+		synchronize accesses to class members for multi-threaded situations,
+		since that's the most likely place a RefCount object will be used.
+	*/
+	Sync _sync;
+
+	/**
+		the list of references, which obviously must exist beyond the
+		lifetime of any particular RefCount instance. It would be neater
+		not to use a pointer here, but then we run into trouble with
+		the order in which static objects are constructed.
+	*/
+	static References * _references;
+
+	/**
+		the reference count for _references. Provided that there is
+		at least one instance of RefCount, _references will not be deleted
+	*/
+	static unsigned long refcount;
+};
+
+template &lt;class T&gt;
+RefCount&lt;T&gt;::References * RefCount&lt;T&gt;::_references;
+
+template &lt;class T&gt;
+unsigned long RefCount&lt;T&gt;::refcount;
+
+// insertion operator
+template &lt;class T&gt;
+ostream &amp; operator &lt;&lt; ( ostream &amp; os, const RefCount&lt;T&gt; &amp; aRefCount )
+{
+	aRefCount.write ( os );
+	return os;
+}
+
+// extraction operator
+template &lt;class T&gt;
+istream &amp; operator &gt;&gt; ( istream &amp; is, RefCount&lt;T&gt; &amp; aRefCount );
+
+#endif
+</pre>
+<HR>
+	<table>
+	<tr><td><small>Generated by: panic@GROOVIOUS on Wed Mar 22 18:23:58 2000, using kdoc $.</small></td></tr>
+	</table>
+</BODY>
+</HTML>
