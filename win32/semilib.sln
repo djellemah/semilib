@@ -1,11 +1,11 @@
 Microsoft Visual Studio Solution File, Format Version 7.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dllUtils", "dllUtils.vcproj", "{591B79AF-6E8D-46FF-8730-04F711832B87}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "logger", "logger.vcproj", "{591B79AF-6E8D-46FF-8730-04F711832B88}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testLogger", "testLogger.vcproj", "{45EE3F8C-DF58-4740-BAC8-09158F345C4B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testUtils", "testUtils.vcproj", "{45EE3F8C-DF58-4740-BCC8-09158F345C4B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "semilib-lib", "semilib-lib.vcproj", "{591B79AF-6E8D-46FF-8730-14F711832B87}"
 EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
@@ -13,14 +13,10 @@ Global
 		ConfigName.1 = Release
 	EndGlobalSection
 	GlobalSection(ProjectDependencies) = postSolution
-		{45EE3F8C-DF58-4740-BAC8-09158F345C4B}.0 = {591B79AF-6E8D-46FF-8730-04F711832B88}
-		{45EE3F8C-DF58-4740-BAC8-09158F345C4B}.1 = {591B79AF-6E8D-46FF-8730-04F711832B87}
+		{45EE3F8C-DF58-4740-BAC8-09158F345C4B}.0 = {591B79AF-6E8D-46FF-8730-04F711832B87}
+		{45EE3F8C-DF58-4740-BAC8-09158F345C4B}.1 = {591B79AF-6E8D-46FF-8730-04F711832B88}
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
-		{591B79AF-6E8D-46FF-8730-04F711832B87}.Debug.ActiveCfg = Debug|Win32
-		{591B79AF-6E8D-46FF-8730-04F711832B87}.Debug.Build.0 = Debug|Win32
-		{591B79AF-6E8D-46FF-8730-04F711832B87}.Release.ActiveCfg = Release|Win32
-		{591B79AF-6E8D-46FF-8730-04F711832B87}.Release.Build.0 = Release|Win32
 		{591B79AF-6E8D-46FF-8730-04F711832B88}.Debug.ActiveCfg = Debug|Win32
 		{591B79AF-6E8D-46FF-8730-04F711832B88}.Debug.Build.0 = Debug|Win32
 		{591B79AF-6E8D-46FF-8730-04F711832B88}.Release.ActiveCfg = Release|Win32
@@ -33,6 +29,10 @@ Global
 		{45EE3F8C-DF58-4740-BCC8-09158F345C4B}.Debug.Build.0 = Debug|Win32
 		{45EE3F8C-DF58-4740-BCC8-09158F345C4B}.Release.ActiveCfg = Release|Win32
 		{45EE3F8C-DF58-4740-BCC8-09158F345C4B}.Release.Build.0 = Release|Win32
+		{591B79AF-6E8D-46FF-8730-04F711832B87}.Debug.ActiveCfg = Debug|Win32
+		{591B79AF-6E8D-46FF-8730-04F711832B87}.Debug.Build.0 = Debug|Win32
+		{591B79AF-6E8D-46FF-8730-04F711832B87}.Release.ActiveCfg = Release|Win32
+		{591B79AF-6E8D-46FF-8730-04F711832B87}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
