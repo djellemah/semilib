@@ -40,12 +40,6 @@ ostream & Logger::los()
 	return _os;
 }
 
-EndLog & Logger::end( LogLevel level )
-{
-	Logger::instance()._end.level ( level );
-	return Logger::instance()._end;
-}
-
 void Logger::endMessage( LogLevel level )
 {
 	log ( _os.str(), level );
@@ -69,3 +63,10 @@ ostream & Logger::os()
 {
 	return instance().los();
 }
+
+EndLog & Logger::end( LogLevel level )
+{
+	Logger::instance()._end.level ( level );
+	return Logger::instance()._end;
+}
+
