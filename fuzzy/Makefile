@@ -5,11 +5,12 @@ MatchFunction.o \
 NGram.o \
 Soundex.o \
 matchfunctions.o \
+SoundexCharLookup.o \
 FuzzyTextSearch.o
 
 TOOLDIR = /usr/local/v3/bin
 CPP = $(TOOLDIR)/g++
-CPPFLAGS = -fPIC -g
+CPPFLAGS = -fPIC -g -O2
 INCLUDE = ../../Utils
 LINK = $(TOOLDIR)/g++
 LINKFLAGS = -lstdc++
@@ -38,5 +39,4 @@ fuzzy: $(FILES) $(LIBNAME).so.$(LIBVER) FuzzyTextSearch.o
 	 $(CPP) $(CPPFLAGS) -L $(LIBDIR) $(LINKLIBS) -o fuzzy FuzzyTextSearch.o
 
 clean:
-	-rm *.o
-	-rm *.so*
+	-rm *.o *.so* fuzzy core
