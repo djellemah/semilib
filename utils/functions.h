@@ -64,19 +64,10 @@ UTILS_DLL_API string uuidAsString();
 template <class charType>
 string fromUnicode ( charType * ustring )
 {
-	const int wstrlen = wcslen ( (const unsigned short*)ustring );
+	const int wstrlen = wcslen ( (wchar_t*)ustring );
 	SmartPointer<char> buffer = new char[wstrlen + 1];
-
-	int result = ::WideCharToMultiByte(
-		CP_ACP,					//  ANSI code page
-		0,						// performance and mapping flags
-		(const unsigned short*)ustring,	// address of wide-character string
-		wstrlen,       // number of characters in string
-		buffer,  // address of buffer for new string
-		wstrlen,      // size of buffer
-		0,  // address of default for unmappable characters
-		0   // address of flag set when default char. used
-	);
+	
+	int result = ::wcstombs( buffer, (wchar_t*)ustring, wstrlen );
 
 	// terminate string, cos WideCharToMultiByte doesn't
 	return string ( buffer, wstrlen );
