@@ -50,7 +50,7 @@ public:
 	
 	bool operator == ( const Ranking & other ) const
 	{
-		return first == other.first;
+		return first == other.first && second == other.second;
 	}
 	
 	bool operator < ( const Ranking & other ) const;
