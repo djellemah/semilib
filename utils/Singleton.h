@@ -142,6 +142,15 @@ public:
 #endif
 	}
 	
+	virtual ~Singleton()
+	{
+#ifdef _WIN32
+		InstanceType * instance = 0;
+		std::string name = typeid ( instance ).name();
+		delete reinterpret_cast<InstanceType*> ( getInstance ( name ) );
+#endif
+	}
+	
 protected:
 	/**
 		Descendants should declare the default constructor as
