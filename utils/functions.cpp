@@ -88,9 +88,14 @@ UTILS_DLL_API string toUpper ( const string & other )
 {
 	// doesn't work with Dinkumware
 #ifdef _WIN32
-	string retval ( other );
-	ctype<char>().toupper ( &(*(retval.begin())), &(*(retval.end())) );
-	return retval;
+	SmartPointer<char> buf = new char[other.length() + 1];
+	::strcpy ( buf, other.c_str() );
+	for ( unsigned int i = 0; i < other.length(); ++i )
+	{
+		buf[i] = toupper ( buf[i] );
+	}
+
+	return string ( buf );
 #else
 	assert ( 0 );
 #endif
