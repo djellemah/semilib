@@ -224,8 +224,8 @@ void Regex::checkSubs( int index ) const
 	if ( index < 0 || index >= subexps() )
 	{
 		ostringstream os;
-		os << "No subexpression at index " << index;
-		os << ". There are only " << subexps() << " subexpressions, ";
+		os << "No subexpression at index " << index << ". ";
+		os << "There are only " << subexps() << " subexpressions, ";
 		os << "and they're zero-based." << endl;
 		throw out_of_range ( os.str().c_str() );
 	}
