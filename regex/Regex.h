@@ -1,5 +1,5 @@
 /*
-Copyright (C) 1998, John Anderson
+Copyright (C) 1998, 2002 John Anderson
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU Library General Public License
@@ -18,6 +18,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifndef Regex_h
 #define Regex_h
+
+/**
+	A c++ wrapper for a POSIX-compliant regex implementation.
+
+	\defgroup regex Regular Expression
+*/
 
 #include <string>
 
@@ -63,29 +69,11 @@ protected:
 	string msg;
 };
 
-/*
-	For one of the rx implementations
-You can also set these parameters at run-time (before calling any
-regexp functions) by tweaking the corresponding variables:
-	rx_default_cache->bytes_allowed
-and
-	rx_basic_unfaniverse_delay
-There is also a lower level interface, explained in rxposix.h:
-	rx_make_solutions, rx_next_solution, rx_free_solutions
-*/
-
 /**
-	What normally happens is that you create pattern which defines
-	a set of strings to be matched. In order to make matching fast,
-	the pattern is 'compiled' into a different representation. The
-	'compilation' will also pick up any syntactical errors you
-	may have made in the pattern. See
-	<a href="rx.html#SEC4">An Introduction to Regexps</a>
-	for an explanation of how the syntax
-	of a regular expression works.
-	<p>
-	You use it like this:
-	<pre>
+	The regex wrapper class.
+
+	To match (eg) name=value type strings, do something like this:
+	\code
 	#include <iostream>
 	#include "Regex.h"
 
@@ -102,21 +90,11 @@ There is also a lower level interface, explained in rxposix.h:
 		else
 			cout << "No Match" << endl;
 	}
-	</pre>
-	You can also use a const char * as a parameter to match (...) because string has a constructor that takes a const char *. Like this:
-	<pre>
-		Regex someRegex ( "^(.*)=(.*)$" );
-		if ( someRegex.match ( "Greeting=Hello" );
-		{
-		...
-		}
-	</pre>
-	<p>
-	Note that this class default uses REG_EXTENDED. This means that the operators
-	? | { } ( ) { } + should not be prefixed by a \. The examples in the
-	<a href=rx_toc.html>rx-1.5 documentation</a> do not use REG_EXTENDED, and
-	so have \ in front of the operators.
-	<p>
+	\endcode
+
+	Note that REG_EXTENDED is used by default. This means that the operators
+	? | { } ( ) { } + should not be prefixed by a \.
+
 	Possible values for the flags method and the constructor are
 	<table border=1>
 	<tr>
@@ -135,8 +113,13 @@ There is also a lower level interface, explained in rxposix.h:
 			<p>
 		    Otherwise, newline acts like any other ordinary character.
 	</table>
-
-	@author John Anderson <a href="mailto:panic@global.co.za">panic@semiosix.com</a>
+	there are probably more in your regex implementation
+	
+	\todo provide a caching mechanism for regexes? That way they
+	don't have to be statically defined, and they can just be used
+	whenever necessary.
+	
+	\ingroup regex
 */
 class REGEX_DLL_API Regex : public AbstractRegex
 {
@@ -164,11 +147,7 @@ public:
 	const Regex & operator = ( const Regex & );
 
 	/**
-		@name Accessors
-	*/
-	//@{
-	/**
-		Deprecated. use a call to flags ( ) or flag ( ), followed by
+		@deprecated use a call to flags ( ) or flag ( ), followed by
 		a call to pattern ( string ).
 	*/
 	Regex & setPattern ( const string & pattern, int CFLAGS = REG_EXTENDED );
@@ -216,7 +195,6 @@ public:
 
 	/// get a particular flag
 	bool flag ( int theflag );
-	//@}
 
 	/**
 		returns true or false depending on the match from the beginning
@@ -296,9 +274,6 @@ public:
 	static Regex identifier;     // = "[A-Za-z_][A-Za-z0-9_]*"
 */
 
-	/**
-		FlagsMapper provides a string representation of a set of bitmapped flags.
-	*/
 	FlagsMapper & mapper() const;
 
 protected:
@@ -341,7 +316,7 @@ protected:
 	}
 
 private:
-	/// used by rx-1.5 to store the compiled regex.
+	/// used by posix regex store the compiled regex.
 	RXSPACE regex_t _patternBuffer;
 
 	/// do we need to delete _patternBuffer on destruction?
@@ -371,10 +346,15 @@ private:
 };
 
 
-/// for persistence to a stream. Stores the pattern and the flags, using FlagsMapper
+/**
+	For persistence to a stream. Stores the pattern and the flags, using FlagsMapper.
+	/ingroup regex
+*/
 REGEX_DLL_API ostream & operator << ( ostream & os, const Regex & regex );
 
-// for persistence from a stream. Retrieves the pattern and the flags, using FlagsMapper
+/**
+	For persistence from a stream. Retrieves the pattern and the flags, using FlagsMapper.
+*/
 REGEX_DLL_API istream & operator >> ( istream & is, Regex & regex );
 
 #endif

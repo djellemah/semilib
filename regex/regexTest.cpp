@@ -7,8 +7,6 @@ using namespace std;
 
 #include "Regex.h"
 
-//#include "Thread.h"
-
 int main ( int argc, char * argv[] )
 {
 	string subexpression = "([L1][1345])";
