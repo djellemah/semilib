@@ -127,4 +127,10 @@ void for_each_delete ( C & collection )
 }
 #endif
 
+/**
+	\todo might need a mutex here, because localtime
+	shares a return value with several other calls.
+*/
+UTILS_DLL_API std::string strftime ( const time_t & t, const std::string & format );
+
 #endif

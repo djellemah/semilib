@@ -111,3 +111,18 @@ UTILS_DLL_API string trim ( const string & s )
 	
 	return string ( begin, end + 1 );
 }
+
+UTILS_DLL_API string strftime ( const time_t & t, const string & format )
+{
+	const int maxbuf = 256;
+	struct tm tm_time;
+	Lock lock ( mutex );
+	tm_time = *::localtime ( & t );
+	char temp[maxbuf];
+#ifdef _MSC_VER
+	::_tcsftime ( temp, maxbuf-1, format.c_str(), &tm_time );
+#else
+	::strftime ( temp, maxbuf-1, format.c_str(), &tm_time );
+#endif
+	return string ( temp );
+}
