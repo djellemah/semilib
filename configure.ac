@@ -6,6 +6,7 @@ AM_CONFIG_HEADER([config.h])
 
 AC_PREFIX_DEFAULT(/usr/local/semiosix)
 
+# check to see if the user wants to use the boost regex library
 AC_ARG_WITH(boost,
 AC_HELP_STRING(
 	[--with-boost]
@@ -21,7 +22,7 @@ AC_HELP_STRING(
 )
 AC_SUBST(with_boost)
 
-# don't want static libs by default
+# we don't want static libs by default
 AC_DISABLE_STATIC 
 
 # Checks for programs.
