@@ -157,6 +157,7 @@ public:
 
 	References & references()
 	{
+		Lock aLock ( _sync );
 		if ( _references == 0 )
 			_references = new References;
 		return *_references;
@@ -164,6 +165,7 @@ public:
 
 	References & references() const
 	{
+		Lock aLock ( _sync );
 		if ( _references == 0 )
 			_references = new References;
 		return *_references;
