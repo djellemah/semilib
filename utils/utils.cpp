@@ -7,7 +7,7 @@
 using namespace std;
 
 #ifdef _WIN32
-	const char * pathsep = "\\";
+	UTILS_DLL_API const char * pathsep = "\\";
 #else
 	const char * pathsep = "/";
 #endif

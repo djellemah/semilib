@@ -9,7 +9,11 @@
 /**
 	Define the path separator character. \ for win32, / for unix
 */
-extern const char * pathsep;
+#ifdef _WIN32
+	UTILS_DLL_API extern const char * pathsep;
+#else
+	extern const char * pathsep;
+#endif
 
 UTILS_DLL_API void stripCr ( std::string & s );
 
