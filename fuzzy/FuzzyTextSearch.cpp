@@ -11,10 +11,10 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
-#include <map>
 #include <algorithm>
 #include <numeric>
 #include <vector>
+#include <list>
 
 using namespace std;
 
@@ -50,7 +50,7 @@ typedef multimap<float,string> Results;
 // for outputting an element of the results array
 bool match_compare ( Results::key_type a, Results::key_type b )
 {
-    //return a.first > b.first;
+    return a.first > b.first;
 }
 
 struct SortByMatch
@@ -76,7 +76,7 @@ void test()
 {
 	typedef map<int,float> TestMap;
 	TestMap testmap;
-	sort<TestMap::reverse_iterator> (
+	sort (
 		testmap.begin()
 		, testmap.end()
 	);
@@ -104,7 +104,7 @@ int main( int argc, char * argv[] )
 		ifstream is ( inputs );
 
 		// output collection
-		Results results;
+		typedef list<Ranking> results;
 
 		// create a collection of results from the input
 		// collection, which happens in this case to be an iostream
