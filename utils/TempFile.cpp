@@ -29,7 +29,7 @@ TempFile::TempFile ( const char * prefix )
 	filename = _tempnam( ".", prefix );
 	if ( filename.empty() )
 	{
-		throw runtime_error ( "Can't create a temporary file." );
+		throw std::runtime_error ( "Can't create a temporary file." );
 	}
 }
 
