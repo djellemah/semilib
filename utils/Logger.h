@@ -108,18 +108,12 @@ public:
 		Call this with the highest level of message to be
 		actually logged. Default is to log everything.
 	*/
-	void filter ( Level::LogLevel level )
-	{
-		_filter = level;
-	}
+	void filter ( Level::LogLevel level );
 
 	/**
 		Return the current filter level
 	*/
-	Level::LogLevel filter() const
-	{
-		return _filter;
-	}
+	Level::LogLevel filter() const;
 	
 	/**
 		Use this to get access to the stream interface, like this:

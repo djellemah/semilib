@@ -12,15 +12,31 @@ Logger::Logger()
 , _end ( *this )
 , _locks ( 0 )
 {
+//	cout << "Initialising Logger" << endl;
 }
 #pragma warning( default : 4355 ) 
 
+// Some very ugly stuff here, because for some reason
+// Singleton doesn't work here
+// Logger & logger = Logger::instance();
 Logger & fetchInstance()
 {
 	return Logger::instance();
 }
 
 Logger & logger = fetchInstance();
+
+void logger_init(void) __attribute__((constructor));
+
+void logger_init(void)
+{
+/*
+	cout << "before " << &logger << endl;
+	Logger * tmp = &logger;
+	(void*)tmp = (void*)&Logger::instance();
+	cout << "after " << &logger << endl;
+*/
+}
 
 void Logger::log ( const std::string & msg, Level::LogLevel level )
 {
@@ -93,6 +109,21 @@ EndLog & Logger::end( Level::LogLevel level )
 	// return the end object
 	return Logger::instance()._end;
 }
+
+void Logger::filter ( Level::LogLevel level )
+{
+	// can't just return _filter, gcc
+	// then insists on creating two separate
+	// instances
+	Logger::instance()._filter = level;
+}
+
+Level::LogLevel Logger::filter() const
+{
+	return Logger::instance()._filter;
+	//return _filter;
+}
+
 
 string Logger::levelToString ( Level::LogLevel level )
 {

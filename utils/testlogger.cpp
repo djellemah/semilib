@@ -7,7 +7,12 @@ using namespace std;
 
 int main()
 {
+	cout << "Starting " << &logger << endl;
+	cout << "instance " << &Logger::instance() << endl;
 	Logger::instance().log( "This is a message" );
+//	cout << hex << &Logger::instance() << endl;
+	cout << hex << &logger << endl;
+	logger.filter ( Level::warning );
 	logger << "This is another message" << elog(Level::info);
 	logger << "This is a message" << endl;
 	logger << "That comes on two lines" << endl;
