@@ -63,6 +63,7 @@ AC_PROG_MAKE_SET
 AC_CONFIG_FILES([
 	Makefile
 	semilib.pc
+	semilogger.pc
 	utils/Makefile
 	regex/Makefile
 	regex/regex-switch.h

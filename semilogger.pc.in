@@ -4,7 +4,7 @@ libdir=@libdir@
 includedir=@includedir@
 
 Name: semilib
-Description: Various useful things for stuff
+Description: Logging framework
 Version: @VERSION@
-Libs: -L${libdir} -lutils -lregex
+Libs: -L${libdir} -lutils -lregex -llogger
 Cflags: -I${includedir} @BOOST_INCLUDE@

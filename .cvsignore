@@ -27,3 +27,4 @@ doc
 *.ncb
 *.suo
 semilib.pc
+semilogger.pc

@@ -19,4 +19,4 @@ install-data-local: doc
 	$(INSTALL_DATA) $(srcdir)/doc/html/* $(prefix)/doc/html
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = semilib.pc
+pkgconfig_DATA = semilib.pc semilogger.pc
