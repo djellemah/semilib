@@ -204,7 +204,7 @@ UTILS_DLL_API std::string executableName()
 {
 	string retval;
 #ifdef _WIN32
-	return _argv[0];
+	return __argv[0];
 #else
 	char * temp = getenv ( "_" );
 	if ( temp != 0 )
