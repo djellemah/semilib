@@ -49,44 +49,6 @@ Ranking MatchFunction::operator () ( const string & element )
 	// strip out punctuation and accented characters
 	string line = PrepareTheString ( element );
 	
-	// return a zero percent match under certain conditions
-/*
-#ifdef WIN32
-	switch ( _MIN ( line.length(), _toMatch.length() ) )
-#else
-	switch ( min ( line.length(), _toMatch.length() ) )
-#endif
-	{
-	case 0:
-	case 1:
-	case 2:
-	case 3:
-		return Ranking ( 0.0f, element );
-
-	case 4:
-	case 5:
-	case 6:
-		if ( abs ( line.length() - _toMatch.length() ) > 2 )
-			return Ranking ( 0.0f, element );
-
-	default:
-		if ( abs ( line.length() - _toMatch.length() ) > 3 )
-			return Ranking ( 0.0f, element );
-	}
-*/
-	
-/*
-	// do all n-grams from 2 through 7 or the smallest length, whatever is first
-	for ( int i = 2; i <= 7 && i <= _cpp_min ( line.length(), _toMatch.length() ); ++i )
-	{
-		results.push_back ( grams[i].match( line, _toMatch ) );
-	}
-*/
-	// In the original algorithm
-/*
-	results.push_back ( grams[3].match( line, _toMatch ) );
-	results.push_back ( grams[_toMatch.length() < 7 ? 2 : 5].match( line, _toMatch ) );
-*/
 	// clear out previous results
 	results.clear();
 
