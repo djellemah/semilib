@@ -8,11 +8,15 @@ using namespace std;
 int main()
 {
 	Logger::instance().log( "This is a message" );
-	Logger::os() << "This is another message" << Logger::end();
-	Logger::instance().los() << "This is a message" << endl;
-	Logger::instance().los() << "That comes on two lines" << endl;
-	Logger::os() << Logger::end();
+	logger << "This is another message" << elog(Level::info);
+	logger << "This is a message" << endl;
+	logger << "That comes on two lines" << endl;
+	logger << "OK, I lied, 3 lines" << endl;
+	logger << "<gasp> 4 lines" << endl;
+	logger << elog(Level::info);
 	
 	logger << "This is straight to the logger" << elog( Level::error );
+#ifndef _MSC_VER
 	logger << "This is straight to the logger with manip" << elog;
+#endif
 }

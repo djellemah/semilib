@@ -202,9 +202,6 @@
 			RelativePath="..\utils\Singleton.cpp">
 		</File>
 		<File
-			RelativePath="..\utils\Singleton.h">
-		</File>
-		<File
 			RelativePath="..\utils\SmartPointer.cpp">
 		</File>
 		<File
