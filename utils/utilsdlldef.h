@@ -41,5 +41,23 @@
 	#define PERSISTENCE_DLL_API
 #endif
 
+#ifdef _WIN32
+	#ifdef LOGGER_NO_USE_DLL
+		#define LOGGER_DLL_API
+	#else	
+		#ifdef LOGGER_BUILD_DLL
+			#define LOGGER_DLL_API __declspec ( dllexport )
+		#else
+			#if _MSC_VER >= 1200
+				#define LOGGER_DLL_API
+			#else
+				#define LOGGER_DLL_API __declspec ( dllimport )
+			#endif
+		#endif
+	#endif
+#else
+	#define LOGGER_DLL_API
+#endif
+
 #endif
 

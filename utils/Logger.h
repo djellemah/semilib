@@ -185,7 +185,7 @@ protected:
 extern std::ostream& elog(std::ostream& outs);
 #endif
 
-extern EndLog & elog ( Level::LogLevel level = Level::message );
+LOGGER_DLL_API extern EndLog & elog ( Level::LogLevel level = Level::message );
 
 /**
 	A definition of this must be linked to provide
@@ -203,6 +203,6 @@ std::ostream & operator<< ( Logger &, T type )
 	return Logger::os();
 }
 
-extern Logger & logger;
+LOGGER_DLL_API extern Logger & logger;
 
 #endif
