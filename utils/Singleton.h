@@ -2,6 +2,31 @@
 #define Singleton_h
 
 #include "SmartPointer.h"
+#include "Mutex.h"
+
+#ifdef _WIN32
+#include <map>
+#include <algorithm>
+#include <string>
+#include "utilsdlldef.h"
+
+typedef std::map<std::string, void*> Instances;
+/**
+	This is a global set of all singleton instances. DO NOT
+	declare this as DLL exportable.
+*/
+extern Instances instances;
+
+UTILS_DLL_API bool haveInstance ( const std::string & name );
+UTILS_DLL_API void keepInstance ( const std::string & name, void * );
+UTILS_DLL_API void * getInstance ( const std::string & name );
+UTILS_DLL_API void * acqireMutex ( const std::string & name );
+UTILS_DLL_API void * getInstance ( const std::string & name );
+UTILS_DLL_API void acquireLock();
+UTILS_DLL_API void releaseLock();
+
+#endif
+
 
 /**
 	This class is a threadsafe, polymorphic Singleton implementation.
@@ -62,7 +87,7 @@
 	the same startup code path.
 */
 template<class InstanceType, class Mutex, class Lock>
-class Singleton
+class UTILS_DLL_API Singleton
 {
 public:
 	/**
@@ -71,6 +96,7 @@ public:
 	*/
 	static InstanceType & instance()
 	{
+#ifndef _WIN32
 		/*
 			This is the normal case, the instance will already exist.
 			So there's no need to create a lock for every time
@@ -91,10 +117,39 @@ public:
 			if ( _instance == 0 )
 			{
 				InstanceType * dummy = 0;
-				_instance = newInstance( dummy );
+				_instance = newInstance ( dummy );
 			}
 		}
 		return *_instance;
+#else
+		/*
+			Because the MSVC linker insists on creating one instance of static
+			variables per dll or executable, we have to make horrible hacks
+			to get around it.
+		*/
+		InstanceType * instance = 0;
+		std::string name = typeid ( instance ).name();
+		if ( !haveInstance ( name ) )
+		{
+			// the instance doesn't yet exist, so make all threads
+			// wait here.
+			acquireLock();
+			
+			/*
+				one thread gets through, creates the instance. As
+				soon as it's finished, the lock is released, the other
+				threads come through to find the instance does exist
+				after all.
+			*/
+			if ( !haveInstance ( name ) )
+			{
+				instance = newInstance ( instance );
+				keepInstance ( name, reinterpret_cast<void*>(instance) );
+			}
+			releaseLock();
+		}
+		return *reinterpret_cast<InstanceType*> ( getInstance ( name ) );
+#endif
 	}
 	
 protected:
@@ -112,18 +167,22 @@ protected:
 	*/
 	Singleton ( Singleton & other );
 	
+#ifndef _WIN32
 	/**
 		The mutex that guards the instantiation double-lock. Since
 		The instance is likely to be a shared resource, the mutex
 		is protected to allow subclass usage.
 	*/
 	static Mutex _mutex;
+#endif
 	
 private:
+#ifndef _WIN32
 	/**
 		The actual instance
 	*/
 	static SmartPointer<InstanceType> _instance;
+#endif
 };
 
 /**
@@ -131,10 +190,12 @@ private:
 	there might be a race condition when instantiating it. Although
 	I'm not sure when static local variables are instantiated.
 */
+#ifndef _WIN32
 template<class InstanceType, class Mutex, class Lock>
 Mutex Singleton<InstanceType, Mutex, Lock>::_mutex;
 
 template<class InstanceType, class Mutex, class Lock>
 SmartPointer<InstanceType> Singleton<InstanceType, Mutex, Lock>::_instance;
+#endif
 
 #endif

@@ -2,9 +2,10 @@
 #define Mutex_h
 
 #ifdef _WIN32
-#define WIN32_LEAN_AND_MEAN
-#define VC_EXTRA_LEAN
-#include <windows.h>
+	#define WIN32_LEAN_AND_MEAN
+	#define VC_EXTRA_LEAN
+	#include <windows.h>
+	#include "utilsdlldef.h"
 #else
 	#include <pthread.h>
 #endif
@@ -22,7 +23,7 @@
 	method that needs to control access, have the above line as the
 	first line in the method implementation.
 */
-class Mutex
+class UTILS_DLL_API Mutex
 {
 public:
 
@@ -37,12 +38,12 @@ public:
 	void lock();
 
 	/**
-		release the Mutexhronisation object
+		release the Mutex object
 	*/
 	void release();
 
 	/**
-		delete the Mutexhronisation object
+		delete the Mutex object
 	*/
 	~Mutex();
 

@@ -26,13 +26,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define WIN32_LEAN_AND_MEAN
 #define VC_EXTRA_LEAN
 #include <windows.h>
+#include "utilsdlldef.h"
 #endif
 
 /**
 	A way to lock and release a Mutex object easily. Very ungeneral and mostly
 	a quick hack.
 */
-class Lock
+class UTILS_DLL_API Lock
 {
 public:
 
