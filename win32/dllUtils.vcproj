@@ -265,6 +265,12 @@
 		<File
 			RelativePath="..\utils\utilsdlldef.h">
 		</File>
+		<File
+			RelativePath="..\utils\winutils.cpp">
+		</File>
+		<File
+			RelativePath="..\utils\winutils.h">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
