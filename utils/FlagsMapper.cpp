@@ -33,6 +33,7 @@ string FlagsMapper::stringForFlags ( unsigned int flag ) const
 
 	string temp;
 	// iterate through the map adding each string
+
 	map<unsigned int,string>::const_iterator current = flagsToStrings.begin();
 	map<unsigned int,string>::const_iterator end = flagsToStrings.end();
 	for (; current != end; ++current )
@@ -85,13 +86,14 @@ private:
 void FlagsMapper::read ( istream & is )
 {
 	string flagString;
-	int flag;
-	while ( !is.eof() )
+	unsigned long flag;
+	while ( ws (is), is.good() )
 	{
-		is >> flagString >> flag;
+		is >> flagString >> hex >> flag;
+/*
 		if ( is.fail() )
 			throw runtime_error ( "Couldn't read from stream" );
-
+*/
 		flagsToStrings[flag] = flagString;
 		stringsToFlags[flagString] = flag;
 	}
