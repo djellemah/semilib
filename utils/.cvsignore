@@ -25,3 +25,5 @@ autom4te.cache
 .libs
 testPredicateResult
 testPredicateResult
+testLogger
+tmp
