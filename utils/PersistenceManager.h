@@ -1,5 +1,5 @@
 /*
-Copyright (C) 1998, John Anderson
+Copyright (C) 1998, 1999, 2000 John Anderson
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU Library General Public License
@@ -49,7 +49,7 @@ using namespace std;
 	}
 	</pre>
 	where Object is the name of the class to be made persistent. The namespace
-	is just to ensure that 'instance' doesn't clash with any other names. You 
+	is just to ensure that 'instance' doesn't clash with any other names. You
 	can actually call it anything you like: x, i, n, a, b, c, someVeryLongIdentifier.
 <p>
 	Top persist the class you have to have something like
