@@ -13,15 +13,16 @@ Logger::Logger()
 
 void Logger::log ( const std::string & msg, Level::LogLevel level )
 {
-	Lock lock ( _mutex );
+	_lock.acquire ( _mutex );
 	// only log the message if the level is set above it
 	if( level <= _filter )
 	{
-		doLog ( msg, level );
+		doLog ( levelToString ( level ) + ": " + msg, level );
 	}
 	
 	// reset the buffer for the next message
 	_os.str ( string() );
+	_lock.release();
 }
 
 std::ostream & operator<< ( std::ostream & os, EndLog & el )
@@ -44,6 +45,7 @@ ostream & Logger::los()
 
 void Logger::endMessage( Level::LogLevel level )
 {
+	_lock.acquire ( _mutex );
 	log ( _os.str(), level );
 	
 	// end of message, so someone else can have a go now
@@ -51,7 +53,6 @@ void Logger::endMessage( Level::LogLevel level )
 	
 	// prevent other threads getting in here
 	// between the last --_locks and the _locks > 0 test
-	_lock.acquire ( _mutex );
 	while ( _locks > 0 )
 	{
 		// do this before the release, so we don't get a race
@@ -68,10 +69,11 @@ ostream & Logger::os()
 
 EndLog & Logger::end( Level::LogLevel level )
 {
+	Logger::instance()._lock.acquire ( Logger::instance()._mutex );
+	++Logger::instance()._locks;
 	Logger::instance()._end.level ( level );
 	return Logger::instance()._end;
 }
-
 
 string Logger::levelToString ( Level::LogLevel level )
 {
@@ -104,3 +106,4 @@ string Logger::levelToString ( Level::LogLevel level )
 	};
 	return retval;
 }
+
