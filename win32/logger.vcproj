@@ -71,7 +71,7 @@
 				RuntimeTypeInfo="TRUE"
 				PrecompiledHeaderFile=""
 				AssemblerListingLocation="$(IntDir)/"
-				ProgramDataBaseFileName="$(IntDir)/"
+				ProgramDataBaseFileName="$(OutDir)/$(ProjectName).pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
