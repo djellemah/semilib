@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef utilsdlldef_h
 #define utilsdlldef_h
 
-#if defined ( UTILS_NO_USE_DLL ) || !defined ( WIN32 )
+#if defined ( UTILS_NO_USE_DLL ) || !defined ( _WIN32 )
 	#define UTILS_DLL_API
 //	#pragma message ( "UTILS - Not building for DLL" )
 #else
@@ -36,13 +36,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	Make this always a DLL. Static linking runs into kak because
 	there must only be 1 registry of persistence objects
 */
-
-#ifdef PERSISTENCE_BUILD_DLL
-	#define PERSISTENCE_DLL_API __declspec ( dllexport )
-//	#pragma message ( "PERSISTENCE - Building DLL" )
+#ifndef _WIN32
+	#define PERSISTENCE_DLL_API
 #else
-	#define PERSISTENCE_DLL_API __declspec ( dllimport )
-//	#pragma message ( "PERSISTENCE - Including DLL" )
+	#if defined ( PERSISTENCE_BUILD_DLL )
+		#define PERSISTENCE_DLL_API __declspec ( dllexport )
+	//	#pragma message ( "PERSISTENCE - Building DLL" )
+	#else
+		#define PERSISTENCE_DLL_API __declspec ( dllimport )
+	//	#pragma message ( "PERSISTENCE - Including DLL" )
+	#endif
 #endif
 
 

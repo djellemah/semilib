@@ -91,6 +91,7 @@ public:
 	
 	SmartPointer<unsigned char*, RpcSmartFree > buf;
 */
+#ifdef _WIN32
 template<class T, class Result, Result (__stdcall *deletefunction) (T*)>
 class StdCallFunctionDelete
 {
@@ -117,6 +118,7 @@ public:
 		Result r = deletefunction ( ptr );
 	}
 };
+#endif
 
 /*
 	Specialise to handle deallocation functions returning void

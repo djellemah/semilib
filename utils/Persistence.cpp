@@ -58,6 +58,7 @@ AbstractConstructor::PersistentObjects & AbstractConstructor::getPersistentObjec
 	return registryInstance->persistentObjects();
 }
 
+#ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
 #include <windows.h>
@@ -87,3 +88,6 @@ BOOL APIENTRY DllMain( HANDLE handle,  DWORD reason_for_call, LPVOID lpReserved 
 	// initialise the registry for persistence objects
     return TRUE;
 }
+
+#endif
+
