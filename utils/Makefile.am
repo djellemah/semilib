@@ -19,6 +19,7 @@ pkginclude_HEADERS = \
 	PersistenceManager.h \
 	posException.h \
 	PredicateResult.h \
+	RefCount.h \
 	Result.h \
 	SingleResult.h \
 	Singleton.h \
@@ -28,8 +29,6 @@ pkginclude_HEADERS = \
 	Timer.h \
 	utilsdlldef.h \
 	utils.h
-
-#	RefCount.h
 
 # utils contains everything.
 # logger contains only logger because of a dependency
@@ -44,6 +43,7 @@ libutils_la_SOURCES = \
 	Persistence.cpp \
 	PersistenceManager.cpp \
 	Result.cpp \
+	RefCount.cpp \
 	Singleton.cpp \
 	SmartPointer.cpp \
 	StaticInit.cpp \
@@ -53,9 +53,8 @@ libutils_la_SOURCES = \
 	posException.cpp \
 	utils.cpp
 
-#	RefCount.cpp
 
-LDADD = libutils.la liblogger.la -lpthread ${LIBADD}
+LDADD = libutils.la liblogger.la libcoutlogger.la -lpthread ${LIBADD}
 
 liblogger_la_SOURCES = Logger.cpp
 libcoutlogger_la_SOURCES = CoutLogger.cpp

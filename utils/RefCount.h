@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 using namespace std;
 
 #include "Lock.h"
+#include "Mutex.h"
 
 // disable 'multiple assignment operator' warning
 #pragma warning(disable: 4522)
@@ -70,7 +71,7 @@ public:
 		// as well. If Lock isn't re-entrant, we have a problem
 		// because decrement() also puts a lock on _sync.
 
-		Lock aLock ( _sync );
+		Lock aLock ( _mutex );
 		decrement();
 
 		if ( --refcount == 0 )
@@ -95,7 +96,7 @@ public:
 	// assignment operator
 	const RefCount & operator = ( const RefCount & other )
 	{
-		Lock aLock ( _sync );
+		Lock aLock ( _mutex );
 		if ( _ptr != other._ptr )
 		{
 			decrement();
@@ -161,7 +162,7 @@ public:
 
 	References & references()
 	{
-		Lock aLock ( _sync );
+		Lock aLock ( _mutex );
 		if ( _references == 0 )
 			_references = new References;
 		return *_references;
@@ -169,7 +170,7 @@ public:
 
 	References & references() const
 	{
-		Lock aLock ( _sync );
+		Lock aLock ( _mutex );
 		if ( _references == 0 )
 			_references = new References;
 		return *_references;
@@ -191,7 +192,7 @@ protected:
 	*/
 	void decrement()
 	{
-		Lock aLock ( _sync );
+		Lock aLock ( _mutex );
 		if ( _ptr == 0 ) return;
 
 		if ( --references()[_ptr] == 0 )
@@ -208,7 +209,7 @@ protected:
 	*/
 	void increment()
 	{
-		Lock aLock ( _sync );
+		Lock aLock ( _mutex );
 		if ( _ptr == 0 ) return;
 
 		if ( references().find ( _ptr ) != references().end() )
@@ -224,7 +225,7 @@ private:
 		synchronize accesses to class members for multi-threaded situations,
 		since that's the most likely place a RefCount object will be used.
 	*/
-	Sync _sync;
+	Mutex _mutex;
 
 	/**
 		the list of references, which obviously must exist beyond the
@@ -245,7 +246,7 @@ private:
 \ingroup smartpointer
 */
 template <class T>
-RefCount<T>::References * RefCount<T>::_references;
+typename RefCount<T>::References * RefCount<T>::_references;
 
 /**
 \ingroup smartpointer

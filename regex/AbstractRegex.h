@@ -39,6 +39,7 @@ using namespace std;
 class /*UTILS_DLL_API*/ AbstractRegex
 {
 public:
+	virtual ~AbstractRegex() {};
 	virtual bool match ( const string & s, unsigned long pos = 0 ) const = 0;
 };
 
