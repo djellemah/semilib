@@ -140,11 +140,7 @@ FlagsMapper & Regex::mapper() const
 
 Regex & Regex::setPattern ( const string & pattern, int CFLAGS )
 {
-#ifdef __GNUG__
-	_matched.remove();
-#else
 	_matched.erase();
-#endif
 
 	// make sure the new pattern gets compiled
 	_changed = true;
@@ -188,11 +184,7 @@ bool Regex::match ( const string & toMatch, unsigned long pos ) const
 	{
 		// no match, so we don't want people asking for subexpressions
 		// that were matched ;-)
-#ifdef __GNUG__
-		_matched.remove();
-#else
 		_matched.erase();
-#endif
 		return false;
 	}
 	else if ( result == REG_ESPACE )
@@ -204,11 +196,7 @@ bool Regex::match ( const string & toMatch, unsigned long pos ) const
 	if ( hasSubexp() )
 		_matched = toMatch.substr ( pos );
 	else
-#ifdef __GNUG__
-		_matched.remove();
-#else
 		_matched.erase();
-#endif
 
 	// match, so return true
 	return true;
