@@ -213,5 +213,9 @@ SOURCE=.\Timer.h
 
 SOURCE=.\utilsdlldef.h
 # End Source File
+# Begin Source File
+
+SOURCE=.\WinResult.h
+# End Source File
 # End Target
 # End Project
