@@ -1,0 +1,8 @@
+*.o
+*.lo
+*.la
+test
+config.h
+config.log
+config.sub
+config.guess
