@@ -16,6 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+// "debug info trancated" warning
 #pragma warning(disable: 4786)
 
 #include <sstream>
@@ -37,6 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "FileUtils.h"
 
+// "exception specfication ignored" warning
 #pragma warning(disable: 4290)
 
 namespace Utils
@@ -119,14 +121,11 @@ const string FileUtils::reason() const
 		return retval + errorMessages()[_reason];
 }
 
-
-#pragma warning(disable:4290)
 bool fileExists ( const string & filename ) throw ( exception )
 {
 	FileUtils fu ( filename );
 	return fu.exists();
 }
-#pragma warning(default:4290)
 
 vector<string> splitPath( const string & dirname, char splitOn )
 {
