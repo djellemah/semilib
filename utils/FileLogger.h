@@ -7,6 +7,8 @@
 
 /**
 	Specialisation of the Logger class that writes to a log file.
+	
+	\ingroup logger
 */
 class FileLogger : public Logger
 {
@@ -53,7 +55,7 @@ protected:
 		Return the prefix of the log file name. Log file will
 		be
 
-		<home>-dd-mmm-yyyy.log
+		[home]-dd-mmm-yyyy.log
 	*/
 	virtual std::string prefix() const;
 

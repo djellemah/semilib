@@ -15,14 +15,14 @@ public:
 	/**
 		default initialiser, so this acts as the default constructor as well.
 		It will also be called for statements like:
-		<pre>
-		cs_sptr&lt;Object&gt; p = new Object ("Whatever");
-		</pre>
+		\code
+		cs_sptr<Object> p = new Object ("Whatever");
+		\endcode
 		although if you need to specify that the instance should not
 		be an owner, for some unlikely reason:
-		<pre>
-		cs_sptr&lt;Object&gt; p ( new Object ("Whatever"), false );
-		</pre>
+		\code
+		cs_sptr<Object> p ( new Object ("Whatever"), false );
+		\endcode
 	*/
 	cs_sptr ( T * ptr = 0, bool aBool = true )
 		: _ptr (ptr)
@@ -101,10 +101,10 @@ public:
 
 	/**
 		for statements like:
-		<pre>
-		cs_sptr&lt;Object&gt; p;
+		\code
+		cs_sptr<Object> p;
 		p = new Object ("Whatever");
-		</pre>
+		\endcode
 	*/
 	cs_sptr & operator = ( T * right )
 	{
@@ -200,9 +200,9 @@ public:
 		explicitly access the object being smartly pointed to. Breaks
 		pointer semantics, so use only if the instance is does not need to
 		be changed to and from the basic pointer type in the code.
-		<p>
-		In other words, say you have an <code>Object * ptr</code> which
-		you change to a <code>cs_sptr&lt;Object&gt; ptr</code>. You can now do
+
+		In other words, say you have an \code Object * ptr \endcode which
+		you change to a \code cs_sptr<Object> ptr \endcode . You can now do
 		<code>ptr.data()</code>. But obviously you can't do <code>ptr.data()</code>
 		with a variable of type <code>Object *</code>
 	*/

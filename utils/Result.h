@@ -27,14 +27,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 using namespace std;
 
+
+
 /**
-	\file
+	\defgroup result Result Handling
+
 	To simplify interacting with API function calls that return an error code
-	of some kind. Use it like this:
-	<pre>
+	of some kind. This is a full-on complicated example:
+	\code
 		try
 		{
-			typedef Result<HANDLE, -1, runtime_error> CResult;
+			typedef
+				Result<HANDLE, equal_to, ErrnoMessageMaker<HANDLE, runtime_error> >
+				CResult ( -1 )
+			;
 			CResult result = open ( "somefilename" );
 			int next = fgetc ( result );
 		}
@@ -42,20 +48,21 @@ using namespace std;
 		{
 			cerr << e.what() << endl;
 		}	
-	</pre>
-	if the called function returns a disallowed value, -1 in this
-	case, a runtime_error will be thrown. The message given to
-	runtime_error is defined by the virtual method message. You can
+	\endcode
+	
+	If the called function returns a disallowed value, -1 in this
+	case, and the comparator (equal_to in this case) returns true,
+	a runtime_error will be thrown. The message given to
+	runtime_error is defined by the MessageMaker. You can
 	still check the result using the normal if statement handling
 	because the Result class has a conversion operator to the type
-	you've designed.
-	<p>
-	If you want to have more than one value throw an error, use the
-	exclude method, or construct the class to use another value. The
-	reasoning behind this is that most of the time it's only necessary
-	to throw an exception for one value, but occasionally occasionally
-	it's necessary to throw an exception for other values as well.
-	\defgroup result Result Handling
+	you've designated.
+	
+	The reason there are so many template parameters is that overridding
+	classes with overloaded operator =() is a pain. So it seemed easier
+	to parameterise the kinds of things a result class could do. Needing
+	to repeat (in the example) the HANDLE parameter is also somewhat
+	painful. I spose you could typedef it once and reuse it.
 */
 
 /**

@@ -19,7 +19,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef FileUtils_h
 #define FileUtils_h
 
-#include "utilsdlldef.h"
+/**
+	\defgroup file File and Directory
+	
+	Various file and directory handling routines.
+*/
 
 #include <string>
 #include <map>
@@ -52,6 +56,8 @@ Currently it:
 	
 	\todo split off some of the methods into pure functions, where they
 	don't need an object.
+	
+	\ingroup file
 */
 class UTILS_DLL_API FileUtils
 {
@@ -146,19 +152,35 @@ private:
 	static bool _initialised;
 };
 
-/// insertion operator
+/**
+	insertion operator
+	\ingroup file
+*/
 ostream & operator << ( ostream & os, const FileUtils & aFileUtils );
 
-/// extraction operator
+/**
+	extraction operator
+	\ingroup file
+*/
 istream & operator >> ( istream & is, FileUtils & aFileUtils );
 
-/// a helper function
+/**
+	a helper function
+	\ingroup file
+*/
 UTILS_DLL_API bool fileExists ( const string & filename ) throw ( exception );
 
-/// return a vector containing the elements of a path
+/**
+	return a vector containing the elements of a path
+	\ingroup file
+*/
 UTILS_DLL_API vector<string> splitPath( const string & dirname, char splitOn = directorySeparator[0] );
 
-/// make a directory containing subdirectories. Make all of them. Make every last one...
+/**
+	make a directory containing subdirectories.
+	Make all of them. Make every last one...
+	\ingroup file
+*/
 UTILS_DLL_API void mkdir( const string & dirname ) throw ( runtime_error );
 
 /**
@@ -168,12 +190,15 @@ UTILS_DLL_API void mkdir( const string & dirname ) throw ( runtime_error );
 	\param envvar allows you to specify an environment variable
 	to search first
 
-	\todo always returns ./ for non win32 systems.
+	\todo always returns ./ for non win32 systems, unless envvar is defined
+	
+	\ingroup file
 */
 UTILS_DLL_API std::string executableDirectory( const std::string & envvar = "" );
 
 /**
 	Returns the name of the current executable, including the extension for win32.
+	\ingroup file
 */
 UTILS_DLL_API std::string executableName();
 

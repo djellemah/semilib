@@ -19,6 +19,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SmartPointer_h
 #define SmartPointer_h
 
+/**
+	\defgroup smartpointer Smart Pointer
+	
+	SmartPointer is your average smart pointer, but with templatized
+	deallocators, so you can use it for things other than new/delete
+	memory allocation. Ownership transfer on copy semantics.
+	\code
+		SmartPointer<char> ptr = new char[1024];
+	\endcode
+	
+	RefCount is the same except that it's a proper reference count. More
+	overhead than ownership transfer, but safer.
+	
+	cs_sptr is SmartPointer without an & operator, so you can use it
+	in the std collection classes.
+*/
+
 #include <stdexcept>
 
 #include "utilsdlldef.h"
@@ -56,10 +73,11 @@ public:
 
 /**
 	To handle __stdcall deallocation functions, for example.
-
+	\code
   	typedef StdCallFunctionDelete<unsigned char*, RPC_STATUS, &::RpcStringFree> RpcSmartFree;
 	
 	SmartPointer<unsigned char*, RpcSmartFree > buf;
+	\endcode
 	\ingroup smartpointer
 */
 #ifdef _WIN32
@@ -75,10 +93,11 @@ public:
 
 /**
 	To handle __cdecl deallocation functions, for example.
-
+	\code
 	typedef FunctionDelete<void, void, &free> freemem;
 	SmartPointer<char, freemem> c_buffer;
 	c_buffer = malloc ( 243 );
+	\endcode
 	\ingroup smartpointer
 */
 template<class T, class Result, Result ( *deletefunction) (T*)>
@@ -113,25 +132,25 @@ public:
 	Library auto_ptr class, except with one or two useability
 	enhancements. An instance of a smart pointer encapsulates a
 	pointer to some other type and manages deallocation, for example:
-	<pre>
+	\code
 	void ofn ( Object * );
 
 	void fn()
 	{
-		SmartPointer&lt;Object&gt; p = new Object ("Whatever");
+		SmartPointer<Object> p = new Object ("Whatever");
 		p->method();
 
 		ofn ( p );
 	}
-	</pre>
+	\endcode
 	The dynamically-allocated instance of Object will be deallocated
 	by the destructor for p.
-<p>
+
 	SmartPointer has ownership-transfer semantics for copies, which
 	doesn't work for every possible situation, but well enough most of
 	the time. For situations where it isn't good enough (like multi-threading)
 	see RefCount, which does full reference counting.
-<p>
+
 	If you see a 'multiple assignment operator' warning. Don't
 	worry about it, there are supposed to be multiple assignment
 	operators. Three, to be precise.
@@ -139,11 +158,7 @@ public:
 	This smart pointer has parameterised deallocation, so that
 	you can used it with allocation and deallocation paradigms
 	other than new/delete.
-	\defgroup smartpointer Smart Pointer
-*/
 
-/**
-	Generic smart pointer class.
 	\ingroup smartpointer
 */
 template <class T, class Deallocator = NormalDelete<T> >
@@ -153,14 +168,14 @@ public:
 	/**
 		default initialiser, so this acts as the default constructor as well.
 		It will also be called for statements like:
-		<pre>
-		SmartPointer&lt;Object&gt; p = new Object ("Whatever");
-		</pre>
+		\code
+		SmartPointer<Object> p = new Object ("Whatever");
+		\endcode
 		although if you need to specify that the instance should not
 		be an owner, for some unlikely reason:
-		<pre>
-		SmartPointer&lt;Object&gt; p ( new Object ("Whatever"), false );
-		</pre>
+		\code
+		SmartPointer<Object> p ( new Object ("Whatever"), false );
+		\endcode
 	*/
 	SmartPointer ( T * ptr = 0, bool aBool = true )
 		: _ptr (ptr)
@@ -239,10 +254,10 @@ public:
 
 	/**
 		for statements like:
-		<pre>
-		SmartPointer&lt;Object&gt; p;
+		\code
+		SmartPointer<Object> p;
 		p = new Object ("Whatever");
-		</pre>
+		\endcode
 	*/
 	SmartPointer & operator = ( T * right )
 	{
@@ -357,10 +372,10 @@ public:
 		pointer semantics, so use only if the instance is does not need to
 		be changed to and from the basic pointer type in the code.
 		<p>
-		In other words, say you have an <code>Object * ptr</code> which
-		you change to a <code>SmartPointer&lt;Object&gt; ptr</code>. You can now do
-		<code>ptr.data()</code>. But obviously you can't do <code>ptr.data()</code>
-		with a variable of type <code>Object *</code>
+		In other words, say you have an \code Object * ptr \endcode which
+		you change to a \code SmartPointer<Object> ptr \endcode . You can now do
+		\code ptr.data() \endcode. But obviously you can't do \code ptr.data() \endcode
+		with a variable of type \code Object * \endcode
 	*/
 	T * data() const
 	{
@@ -400,24 +415,24 @@ private:
 /**
 	SmartPointer specialised for char *, See the SmartPointer template
 	documentation for details. This documentation contains some
-	notes specific to SmartPointer&lt;char&gt;, whereas SmartPointer
+	notes specific to SmartPointer\<char\>, whereas SmartPointer
 	contains (surprise!) generic SmartPointer information.
-	<p>
+
 	It works quite nicely for the
 	ubiquitous buffers one has to assign in dealing with various
 	API's and libraries.  For example:
-	<pre>
+	\code
 	void fn()
 	{
-		SmartPointer&lt;char*&gt; ptr = new char[1024];
+		SmartPointer<char*> ptr = new char[1024];
 		strcpy ( ptr, "Hello, there" );
 	}
-	</pre>
+	\endcode
 
-	<strong>Don't</strong> do something like:
-	<pre>
-	SmartPointer&lt;char*&gt; ptr = "Some string constant";
-	</pre>
+	\b Don't do something like:
+	\code
+	SmartPointer<char*> ptr = "Some string constant";
+	\endcode
 	on compilers that treat string constants as char *, not as const
 	char * as they should (IMNSHO, anyway).  What happens then is that
 	when the ptr object goes out of scope, the destructor will attempt
@@ -472,9 +487,9 @@ public:
 
 	/**
 		<strong>Don't</strong> do something like:
-		<pre>
+		\code
 		SmartPointer<char*> ptr = "Some string constant";
-		</pre>
+		\endcode
 		because some compilers treat string constants as
 		char *, not as const char * as they should. See class
 		documentation for details.
@@ -609,12 +624,12 @@ public:
 	}
 
 	/**
-		<strong>Don't</strong> do something like:
-		<pre>
+		\b Don't do something like:
+		\code
 		SmartPointer<void*> ptr = "Some string constant";
-		</pre>
+		\endcode
 		because some compilers treat string constants as
-		void *, not as const void * as they should. See class
+		char *, not as const char * as they should. See class
 		documentation for details.
 	*/
 	SmartPointer & operator = ( void * right )

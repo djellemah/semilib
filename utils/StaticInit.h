@@ -33,6 +33,7 @@ using namespace std;
 	call when all the initialisation is done, and for subsequent
 	calls when all it has to do is return the object that has
 	already been constructed.
+	\ingroup utils
 */
 template <class Object, class Allocator = allocator<Object> >
 class UTILS_DLL_API StaticInit

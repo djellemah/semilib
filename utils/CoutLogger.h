@@ -5,6 +5,11 @@
 
 #include <string>
 
+/**
+	Logger instance that outputs to stdout
+	
+	\ingroup logger
+*/
 class CoutLogger : public Logger
 {
 public:

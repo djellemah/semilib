@@ -36,18 +36,19 @@ using namespace std;
 	Useful for debugging and persistence.
 
 	The format of the string that gets read in is as follows:
-	<pre>
-	&lt;flag name&gt;&lt;whitespace&gt;&lt;integer&gt;
-	</pre>
+	\verbatim
+	<flag name><whitespace><integer>
+	\endverbatim
 	for example:
-	<pre>
+	\code
 	REG_EXTENDED 1
 	REG_ICASE 2
 	REG_NEWLINE 4
 	REG_NOSUB 8
-	</pre>
+	\endcode
 	
 	\todo handle both bitmap and value flags
+	\ingroup utils
 */
 class UTILS_DLL_API FlagsMapper
 {

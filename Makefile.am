@@ -10,10 +10,10 @@ uninstall-local:
 clean-local:
 	rm -R $(srcdir)/doc
 
-doc:
+docs:
 	doxygen
 
-install-data-local: doc
+install-data-local: docs
 	$(INSTALL_DATA) -d -m 0755 $(prefix)/doc/html
 	$(INSTALL_DATA) $(srcdir)/doc/html/* $(prefix)/doc/html
 

@@ -1,6 +1,12 @@
 #ifndef utils_h
 #define utils_h
 
+/**
+	\defgroup utils Various
+	
+	Useful bits and pieces, mostly to do with strings, collections and dates and times.
+*/
+
 #include "utilsdlldef.h"
 
 #include <string>
@@ -12,6 +18,7 @@ UTILS_DLL_API void stripCr ( std::string & s );
 	Convert a number into a string. Instantiates an ostringstream
 	each time, for thread safety, so it's not extremely lightweight.
 	OTOH this is the Stroustrup recommended way.
+	\ingroup utils
 */
 template<class T>
 std::string numberToString ( T num )
@@ -23,21 +30,25 @@ std::string numberToString ( T num )
 
 /**
 	Fetch a struct tm value containing the current time.
+	\ingroup utils
 */
 UTILS_DLL_API struct tm brokentime();
 
 /**
 	Fetch the current time in the format 01-jun-02
+	\ingroup utils
 */
 UTILS_DLL_API std::string today();
 
 /**
 	Full timestamp, including seconds and milliseconds
+	\ingroup utils
 */
 UTILS_DLL_API std::string timestamp();
 
 /**
 	Fetch the current time in the format 6 JUN 2002 10:40
+	\ingroup utils
 */
 UTILS_DLL_API std::string now();
 
@@ -48,11 +59,13 @@ UTILS_DLL_API std::string now();
 	but the app is nearly live and I don't want to mess with things
 
 	\todo implement with algorithms
+	\ingroup utils
 */
 UTILS_DLL_API std::string trim ( const std::string & );
 
 /**
 	Do something like perl's join
+	\ingroup utils
 */
 template<class Collection, class Joiner>
 UTILS_DLL_API std::string join ( const Collection & collection, const Joiner & joiner )
@@ -75,6 +88,7 @@ UTILS_DLL_API std::string join ( const Collection & collection, const Joiner & j
 
 /**
 	Same as join, but with a , as the joining element
+	\ingroup utils
 */
 template<class Collection>
 UTILS_DLL_API std::string join ( const Collection & collection )
@@ -86,6 +100,7 @@ UTILS_DLL_API std::string join ( const Collection & collection )
 #ifndef _MSC_VER
 /**
 	Helper template for for_each_delete
+	\ingroup utils
 */
 template<class T>
 void deleteObject ( T obj )
@@ -95,6 +110,7 @@ void deleteObject ( T obj )
 
 /**
 	Call delete on all elements in the given range
+	\ingroup utils
 */
 template<class I>
 void for_each_delete ( I begin, I end )
@@ -104,6 +120,7 @@ void for_each_delete ( I begin, I end )
 
 /**
 	Call delete for the entire collection
+	\ingroup utils
 */
 template<class C>
 void for_each_delete ( C & collection )
@@ -126,8 +143,7 @@ void for_each_delete ( C & collection )
 	same as strftime, except it works with std::string instead of
 	char *.
 
-	\todo might need a mutex here, because localtime
-	shares a return value with several other calls.
+	\ingroup utils
 */
 UTILS_DLL_API std::string strftime ( const time_t & t, const std::string & format );
 

@@ -31,42 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 using namespace std;
 
 /**
-	To simplify interacting with API function calls that return an error code
-	of some kind. Use it like this:
-	<pre>
-		try
-		{
-			typedef
-				Result<HANDLE, equal_to, ErrnoMessageMaker<HANDLE, runtime_error> >
-				CResult ( -1 )
-			;
-			CResult result = open ( "somefilename" );
-			int next = fgetc ( result );
-		}
-		catch ( exception & e )
-		{
-			cerr << e.what() << endl;
-		}	
-	</pre>
-	
-	If the called function returns a disallowed value, -1 in this
-	case, and the comparator (equal_to in this case) returns true,
-	a runtime_error will be thrown. The message given to
-	runtime_error is defined by the MessageMaker. You can
-	still check the result using the normal if statement handling
-	because the Result class has a conversion operator to the type
-	you've designated.
-	
-	The reason there are so many template parameters is that overridding
-	classes with overloaded operator =() is a pain. So it seemed easier
-	to parameterise the kinds of things a result class could do. Needing
-	to repeat (in the example) the HANDLE parameter is also somewhat
-	painful. I spose you could typedef it once and reuse it.
-
-	\defgroup result Result Handling
-*/
-
-/**
 	This is a class that takes an exception type
 	and creates a message for it containing simply the
 	error code.
@@ -148,7 +112,7 @@ public:
 	which can have results assigned to them.
 	
 	- Type is the error code type. Usually some flavour of int
-	- Comparator is one of the comparison predicates from <functional>
+	- Comparator is one of the comparison predicates from \c <functional>
 	- MessageMaker is a functor defining operator() ( const Type & value )
 	that creates an exception to be thrown with a message based
 	on the value.

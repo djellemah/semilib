@@ -32,44 +32,46 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 using namespace std;
 
 /**
-	Minimally instrusive, very lightweight, generic polymorphous persistence manager.
+	\defgroup persistence Lightweight Persistence
+
+	Minimally instrusive, very lightweight, generic polymorphous
+	persistence manager.
 	Allows objects to be streamed out and read in. Uses the typeid operator
 	to write out a name that can be used to construct an instance
 	so it can be read in. Relies on the object having a default
 	constructor and overloaded operators >> and <<. It's mainly so
 	you can read in a bunch of descendant objects from a stream and
 	have them come back polymorphously.
-<p>
+
 	It also relies on each class that needs to be persistent having the
 	following definitions anywhere in the linkage of the program:
-	<pre>
+	\code
 	namespace
 	{
-		Constructor&lt;Object&gt; instance;
+		Constructor<Object> instance;
 	}
-	</pre>
+	\endcode
 	where Object is the name of the class to be made persistent. The namespace
 	is just to ensure that 'instance' doesn't clash with any other names. You
 	can actually call it anything you like: x, i, n, a, b, c, someVeryLongIdentifier.
-<p>
+
 	Top persist the class you have to have something like
-	<pre>
+	\code
 	pfn ( ostream & os )
 	{
-		PersistenceManager&lt;Object&gt; pm;
+		PersistenceManager<Object> pm;
 		Object o;
 		pm.persist ( os, o );
 	}
-	</pre>
+	\endcode
 	and to restore it, something like
-	<pre>
+	\code
 	rfn( istream & is )
 	{
-		PersistenceManager&lt;Object&gt; pm;
-		SmartPointer&lt;Object&gt; optr = pm.restore ( is );
+		PersistenceManager<Object> pm;
+		SmartPointer<Object> optr = pm.restore ( is );
 	}
-	</pre>
-	\defgroup persistence Lightweight Persistence
+	\endcode
 */
 
 /**
@@ -95,7 +97,7 @@ public:
 	*/
 	virtual SmartPointer<Persistent> restore ( istream & is ) const;
 
-	/// For debuggin. Write a list of all objects that this persistence manager deals with
+	/// For debugging. Write a list of all objects that this persistence manager deals with
 	void writePersistentObjectNames ( ostream & os ) const;
 
 protected:

@@ -50,7 +50,7 @@ UTILS_DLL_API Mutex & getMutex();
 	mebmer of the SmartPointer may be reset to 0 just after it's been
 	created, causing havoc.
 	
-	You use it something like this:
+	There are two usage patterns. One is like this:
 	
 	\code
 	class Something : public Singleton<Something, MutexClass, LockClass>
@@ -68,6 +68,9 @@ UTILS_DLL_API Mutex & getMutex();
 		Something::instance().method();
 	}
 	\endcode
+	
+	The other is like this:
+	\include testSingleton.cpp
 	
 	MutexClass and LockClass should behave like this:
 	
@@ -88,6 +91,8 @@ UTILS_DLL_API Mutex & getMutex();
 	instances of it are used in a deadlock-producing way. It shouldn't
 	be a problem because it's only used on startup, and threads all follow
 	the same startup code path.
+	
+	\ingroup utils
 */
 template<class InstanceType, class MutexClass=Mutex, class LockClass=Lock>
 class UTILS_DLL_API Singleton

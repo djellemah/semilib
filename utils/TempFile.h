@@ -16,6 +16,8 @@ namespace Utils
 
 	NOTE: the file itself is NOT created. This is to allow
 	TempFile to be used with ofstream ( char * )
+	
+	\ingroup file
 */
 class UTILS_DLL_API TempFile
 {

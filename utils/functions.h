@@ -27,9 +27,10 @@ using namespace std;
 #include "utilsdlldef.h"
 
 /**
+	\defgroup string String Handling
+
 	Various string handling convenience functions.
 	
-	\defgroup string String Handling
 	\@{
 */
 /// removes the eol characters from a line, whether they're there or not, just like Perl.

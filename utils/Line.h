@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	(\n terminated) at
 	a time from some stream. Not all operators
 	and constructors are provided.
+	
+	\ingroup string
 */
 template<class charT>
 class basic_Line : public basic_string<charT>
@@ -52,6 +54,7 @@ public:
 
 /**
 	an extraction operator for basic_stream
+	\ingroup string
 */
 template<class charT>
 basic_istream<charT> & operator >> ( basic_istream<charT> & is, basic_Line<charT> & line )
@@ -61,15 +64,6 @@ basic_istream<charT> & operator >> ( basic_istream<charT> & is, basic_Line<charT
 }
 
 typedef basic_Line<char> Line;
-
-/*
-	Dunno why this is here...
-ostream & operator << ( ostream & os, const pair<float,string> & value )
-{
-	os << fixed << value.first << " " << value.second;
-	return os;
-}
-*/
 
 #endif
 

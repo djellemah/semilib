@@ -1,6 +1,32 @@
 #ifndef Logger_h
 #define Logger_h
 
+/**
+	\defgroup logger Logging
+	
+	The main class here is Logger, accessed via loch.
+	\code
+	loch(Level::info) << "This is a message: " << someMessage;
+	\endcode
+	
+	Old style interface would be
+	\code
+	logger << "This is a message: " << someMessage << elog(Level::info);
+	\endcode
+	
+	CoutLogger and FileLogger output to stdout and a file, respectively.
+	
+	\note Don't use slow functions inside the operator << calls to the
+	logger. Use this pattern instead:
+	\code
+	ostringstream os;
+	os << "This" << endl;
+	os << " is " << endl;
+	os << " a message" << endl;
+	loch ( Level::info ) << os.str();
+	\endcode	
+*/
+
 #include "Lock.h"
 
 #include <iostream>
@@ -17,7 +43,8 @@ namespace Level
 }
 
 /**
-	Used as an iostream maninpulator to signal the end of a message
+	Used as an iostream manipulator to signal the end of a message
+	\ingroup logger
 */
 class LOGGER_DLL_API EndLog
 {
@@ -65,7 +92,7 @@ LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, const EndLog & el 
 	hook into the Singleton logger instance. Otherwise you can just
 	instantiate logger instances as you need them.
 
-	\warning The mutex used for this class *must* be recursive.
+	\note The mutex used for this class *must* be recursive.
 	
 	\todo use TLS to store elog marker, and only lock for the write. Would
 	prevent things like socket DNS reverse-resolution locking up
@@ -78,6 +105,8 @@ LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, const EndLog & el 
 	\todo remove logger and replace with logger()
 
 	\todo rename loch(...) to logger(...)
+
+	\ingroup logger
 */
 class LOGGER_DLL_API Logger
 {
@@ -104,12 +133,12 @@ public:
 		Call this with the highest level of message to be
 		actually logged. Default is to log everything.
 	*/
-	void filter ( Level::LogLevel level );
+	virtual void filter ( Level::LogLevel level );
 
 	/**
 		Return the current filter level
 	*/
-	Level::LogLevel filter() const;
+	virtual Level::LogLevel filter() const;
 	
 	/**
 		It's *necessary* to call this after using the
@@ -133,7 +162,8 @@ public:
 	Level::LogLevel Logger::stringToLevel ( std::string stringLevel );
 	
 	/**
-		Only for use internally. Use operator << ( Logger &, T & ) instead.
+		Access the stream for the logger.
+		\internal Use operator << ( Logger &, T & ) instead.
 	*/
 	std::ostream & os();
 
@@ -206,6 +236,7 @@ protected:
 	Convenience function that returns Logger::EndLog
 
 	\deprecated in favour of loch
+	\ingroup logger
 */
 LOGGER_DLL_API extern std::ostream& elog ( std::ostream& outs );
 
@@ -213,6 +244,7 @@ LOGGER_DLL_API extern std::ostream& elog ( std::ostream& outs );
 /**
 	to allow logger << elog;
 	\todo fix this
+	\ingroup logger
 */
 extern void elog ( Logger & logger );
 #endif
@@ -222,6 +254,7 @@ LOGGER_DLL_API extern EndLog & elog ( Level::LogLevel level = Level::message );
 /**
 	A definition of this must be linked to provide
 	the instance which actually does the logging.
+	\ingroup logger
 */
 LOGGER_DLL_API Logger * newInstance ( Logger * );
 
@@ -229,6 +262,7 @@ LOGGER_DLL_API Logger * newInstance ( Logger * );
 	allow << directly to a logger
 	
 	\deprecated in favour of loch
+	\ingroup logger
 */
 template<class T>
 std::ostream & operator<< ( Logger &, const T & type )
@@ -240,6 +274,11 @@ std::ostream & operator<< ( Logger &, const T & type )
 	return os;
 }
 
+/**
+	The logger instance
+	\deprecated in favour of loch
+	\ingroup logger
+*/
 LOGGER_DLL_API extern Logger & logger;
 
 /**
@@ -251,6 +290,7 @@ LOGGER_DLL_API extern Logger & logger;
 	a twist - the _copied flag is set by each recipient of a
 	copy, and the last uncopied instance in the chain will send elog
 	and unlock the logger instance.
+	\ingroup logger
 */
 class LogChainer
 {
@@ -259,6 +299,20 @@ public:
 	LogChainer ( const LogChainer & );
 	virtual ~LogChainer();
 	
+	/// calls Logger's flush
+	void flush();
+	
+	/// calls Logger's filter
+	void filter ( Level::LogLevel level );
+
+	/// calls Logger's filter
+	Level::LogLevel filter() const;
+
+	/**
+		\internal
+
+		Used by the << operator
+	*/
 	template<class T>
 	void log ( const T & rhs)
 	{
@@ -285,6 +339,8 @@ private:
 	\warning The logger lock will still be started by the first
 	call to the stream, so slow evaluations inside the chain
 	will then slow down the logging system because of the global lock.
+
+	\ingroup logger
 */
 template<class T>
 LogChainer operator<< ( LogChainer ld, const T & type )
@@ -305,20 +361,15 @@ LogChainer operator<< ( LogChainer ld, const T & type )
 	that the << operators use as little CPU as possible
 	if the current log level is less than the filter level.
 
-	This is also an useful pattern:
-	\code
-	ostringstream os;
-	os << "This" << endl;
-	os << " is " << endl;
-	os << " a message" << endl;
-	loch ( Level::info) << os.str();
-	\endcode
+	\ingroup logger
 */
 LogChainer loch ( Level::LogLevel level );
 
 /**
 	The verbose version in case you want to use a specific
 	logger instance rather than the global one.
+
+	\ingroup logger
 */
 LogChainer loch ( Logger &, Level::LogLevel );
 
