@@ -1,0 +1,29 @@
+This version 110:
+FIXED:    All bugs discovered prior to this version (below).
+FIXED:    Support for VC++, GCC, EGCS.
+CHANGED:  Regress.h to work around various compiler bugs.
+
+Version 100:
+BUG:      Literal "," not recognised as a literal.
+
+FIXED:    All bugs discovered prior to this version (below).
+ADDED:    Regress.exe, regression test application.
+
+Version 095
+BUG:      wide character sets that start with ^ not recognised,
+          for example [^[:space:]] will not find anything.
+BUG:      reg_grep fails if match occurs at first character.
+BUG:      If regcomp fails, internal data not freed.
+BUG:      reg_grep fails to reinitialise match after assignment
+          to output iterator.  Line start optimised search restarts
+          from the wrong location if the match is longer than one line.
+BUG:      POSIX API functions can propagate C++ exceptions if the
+          default allocator can throw exceptions.
+BUG:      character sets don't function correctly when regbase::char_classes
+          is not set.
+
+
+
+
+
+

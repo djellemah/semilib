@@ -1,0 +1,21 @@
+There are some problems compiling the demo applications with *some* versions of *some* compilers.
+
+Borland C++ Version 5.01 and less : Has problems with namespace lookups, particularly with iterators that are in a different namespaces from the STL.  Some fixes have been introduced to fix this in regress.h, they're ugly though.
+
+Borland C++ Version 5.02 : the original version is fine, but patch 1 crashes trying to compile tests.cpp when building regress.exe, frankly its hard to see how this can be fixed.
+
+Borland C++ Builder 3 : no problems, except TLink32 crashes trying to link some of the demo's, ILink32 always works fine though....
+
+GCC 2.8: Compiles cleanly but does not run - the compiler generates a corrupt jump table for the central switch statement of reg_expression::set_expression.  I don't know if this is a true compiler problem or a problem with the mingwin32 port, as the assembly output from the compiler does in fact look OK.
+
+GCC 2.91 (EGCS): Everything OK with this compiler as far as I can tell.
+
+Microsoft VC++ 5:  I'm told everything's OK for this compiler but can't check this for myself.
+
+Microsoft VC++ 6:  Everything seems OK with this compiler.
+
+
+
+
+
+
