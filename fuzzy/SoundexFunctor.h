@@ -16,24 +16,36 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#ifndef Soundex_h
-#define Soundex_h
+#ifndef SoundexFunctor_h
+#define SoundexFunctor_h
 
 #include <vector>
 
 using namespace std;
 
 #include "fuzzydlldef.h"
-#include "NGramFunctor.h"
+#include "Ranking.h"
 
 /**
-	Soundex match, to be used via the transform algorithm.
+	arbitrary Soundex. Makes a soundex of n characters
+	\ingroup match
+*/
+FUZZY_DLL_API string nsoundex ( const string & str, unsigned int n );
+
+/**
+	normal Soundex. Makes a soundex of 4 characters
+	\ingroup match
+*/
+FUZZY_DLL_API string soundex(const string & str);
+
+/**
+	Soundex match functor, to be used via the transform algorithm.
 	\ingroup match
 */
 class FUZZY_DLL_API SoundexFunctor
 {
 public:
-	Soundex ( const string & toMatch );
+	SoundexFunctor ( const string & toMatch );
 
 	Ranking operator () ( const string & element );
 
