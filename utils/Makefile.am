@@ -1,4 +1,5 @@
 LIBADD = -lpthread -luuid
+
 AM_LDFLAGS = -release ${VERSION} ${LIBADD}
 
 pkginclude_HEADERS = \
@@ -56,6 +57,9 @@ libutils_la_SOURCES = \
 	posException.cpp \
 	utils.cpp
 
+libutils_la_LDFLAGS = \
+	$(AM_LDFLAGS) \
+	 -lboost_date_time
 
 LDADD = libutils.la liblogger.la libcoutlogger.la -lpthread ${LIBADD}
 
