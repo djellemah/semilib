@@ -237,6 +237,9 @@ int test_Persistence ( int argc, char * argv[] )
 	return 0;
 }
 
+/*
+	Call one of the test functions
+*/
 int main ( int argc, char * argv[] )
 {
 	return test_Persistence ( argc, argv );
