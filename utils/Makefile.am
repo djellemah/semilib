@@ -60,7 +60,7 @@ libutils_la_SOURCES = \
 
 libutils_la_LDFLAGS = \
 	$(AM_LDFLAGS) \
-	 -lboost_date_time
+	$(BOOST_LIB)
 
 LDADD = libutils.la liblogger.la libcoutlogger.la -lpthread ${LIBADD}
 

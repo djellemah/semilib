@@ -1,4 +1,4 @@
-#if @BOOST_DEFINE@ || defined(WIN32)
+#if @WITH_BOOST_REGEX@ || defined(WIN32)
 #include <boost/cregex.hpp>
 	#define RXSPACE boost::
 	using namespace boost;

@@ -8,22 +8,35 @@ AC_PREFIX_DEFAULT(/usr/local/semiosix)
 
 # check to see if the user wants to use the boost regex library
 AC_ARG_WITH(boost,
+	AC_HELP_STRING(
+		[--with-boost]
+		, [location of boost. Defaults to /usr/local])
+	,
+		BOOST_LIB="-L$withval/lib -lboost_date_time -lboost_regex"
+		BOOST_INCLUDE="-I$withval"
+	,
+		BOOST_LIB="-L/usr/local/lib -lboost_date_time-gcc-mt-d"
+		BOOST_INCLUDE="-I/usr/local/include"
+)
+AC_SUBST(BOOST_INCLUDE)
+AC_SUBST(BOOST_LIB)
+
+AC_ARG_WITH(boost-regex,
 AC_HELP_STRING(
-	[--with-boost]
-	, [use boost libraries. default is to use system regex (regex.h) ])
+	[--with-boost-regex]
+	, [use boost regex library. default is to use system regex (regex.h) ])
 	,
 		test "$withval" = no || with_boost=$withval
-		BOOST_LIBS="-lboost_regex -L$withval/lib"
-		BOOST_INCLUDE=-I$withval/boost
-		BOOST_DEFINE=true
+		BOOST_LIBS="-lboost_regex-gcc-mt-d"
+		WITH_BOOST_REGEX=true
 	,
 		with_boost=no
-		BOOST_DEFINE=false
+		WITH_BOOST_REGEX=false
 )
 AC_SUBST(with_boost)
 AC_SUBST(BOOST_INCLUDE)
 AC_SUBST(BOOST_LIBS)
-AC_SUBST(BOOST_DEFINE)
+AC_SUBST(WITH_BOOST_REGEX)
 
 AC_ARG_ENABLE(debug,
 AC_HELP_STRING(
