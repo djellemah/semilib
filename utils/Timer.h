@@ -21,16 +21,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "minwin.h"
 
-// doesn't need export marker cos it's all inline
-class /*UTILS_DLL_API*/ Timer
+/**
+	win32 timer class to see how long a function takes to execute
+*/
+class Timer
 {
 public:
+	
+	/**
+		start the timer running if true, or just create the
+		object if false.
+	*/
 	Timer( bool shouldStart = true )
 	{
 		if ( shouldStart )
 			start();
 	}
 
+	/**
+		Start the timer running.
+	*/
 	unsigned start()
 	{
 		_start = ::GetTickCount();
@@ -38,8 +48,10 @@ public:
 		return _start;
 	}
 
-	// returns the number of seconds since start
-	// also stops the timer running
+	/**
+		returns the number of seconds since start
+		also stops the timer running
+	*/
 	unsigned int stop()
 	{
 		_stop = ::GetTickCount();
@@ -47,7 +59,9 @@ public:
 		return elapsed();
 	}
 
-	// returns the number of milliseconds since start
+	/**
+		returns the number of milliseconds since start
+	*/
 	unsigned int elapsed()
 	{
 		if ( running )

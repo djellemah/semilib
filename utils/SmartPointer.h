@@ -29,7 +29,8 @@ using std::runtime_error;
 #pragma warning(disable: 4522)
 
 /**
-	Normal delete operations. This is the default deallocator
+	Normal delete operations, this is the default deallocator.
+	\ingroup smartpointer
 */
 template<class T>
 class UTILS_DLL_API NormalDelete
@@ -42,7 +43,8 @@ public:
 };
 
 /**
-	Array delete operations
+	Array delete operations.
+	\ingroup smartpointer
 */
 template<class T>
 class UTILS_DLL_API ArrayDelete
@@ -55,11 +57,12 @@ public:
 };
 
 /**
-	To handle __stdcall deallocation functions, for example
+	To handle __stdcall deallocation functions, for example.
 
   	typedef StdCallFunctionDelete<unsigned char*, RPC_STATUS, &::RpcStringFree> RpcSmartFree;
 	
 	SmartPointer<unsigned char*, RpcSmartFree > buf;
+	\ingroup smartpointer
 */
 #ifdef _WIN32
 template<class T, class Result, Result (__stdcall *deletefunction) (T*)>
@@ -73,11 +76,12 @@ public:
 };
 
 /**
-	To handle __cdecl deallocation functions, for example
+	To handle __cdecl deallocation functions, for example.
 
 	typedef FunctionDelete<void, void, &free> freemem;
 	SmartPointer<char, freemem> c_buffer;
 	c_buffer = malloc ( 243 );
+	\ingroup smartpointer
 */
 template<class T, class Result, Result ( *deletefunction) (T*)>
 class UTILS_DLL_API FunctionDelete
@@ -91,7 +95,8 @@ public:
 #endif
 
 /**
-	Specialise to handle deallocation functions returning void
+	Specialise to handle deallocation functions returning void.
+	\ingroup smartpointer
 */
 template<class T, void ( *deletefunction) (T*)>
 class UTILS_DLL_API VoidFunctionDelete
@@ -104,9 +109,11 @@ public:
 };
 
 /**
-	A Smart Pointer template class. This is similar to the Standard
+	A Smart Pointer template class to handle automatic deletion
+	of dynamically allocated memory.
+	This is similar to the Standard
 	Library auto_ptr class, except with one or two useability
-	enhancements.  An instance of a smart pointer encapsulates a
+	enhancements. An instance of a smart pointer encapsulates a
 	pointer to some other type and manages deallocation, for example:
 	<pre>
 	void ofn ( Object * );
@@ -130,6 +137,16 @@ public:
 	If you see a 'multiple assignment operator' warning. Don't
 	worry about it, there are supposed to be multiple assignment
 	operators. Three, to be precise.
+	
+	This smart pointer has parameterised deallocation, so that
+	you can used it with allocation and deallocation paradigms
+	other than new/delete.
+	\defgroup smartpointer
+*/
+
+/**
+	Generic smart pointer class.
+	\ingroup smartpointer
 */
 template <class T, class Deallocator = NormalDelete<T> >
 class UTILS_DLL_API SmartPointer
@@ -396,8 +413,8 @@ private:
 	when the ptr object goes out of scope, the destructor will attempt
 	to delete[] an area of memory that's in the constant data segment.
 	With corresponding error messages and chokings from the OS.
+	\ingroup smartpointer
 */
-
 template<>
 class UTILS_DLL_API SmartPointer<char>
 {
@@ -534,6 +551,7 @@ private:
 /**
 	Specialised to handle void*. A bit dodgy because
 	deleting a void* is a fairly undefined operation
+	\ingroup smartpointer
 */
 template<>
 class UTILS_DLL_API SmartPointer<void>
@@ -662,7 +680,7 @@ private:
 	NormalDelete<void> deallocator;
 };
 
-#endif
+#endif // void * smart pointer
 
 #endif
 

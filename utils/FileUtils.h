@@ -49,11 +49,8 @@ namespace Utils
 /**
 This is the central place for file utilities.
 Currently it:
-<ul>
-<li>tests for the existence of a file
-<li>creates a directory, even when it means creating several subdirectories.
-</ul>
-And this doc++ stuff doesn't seem to cope very well with markup here.
+	- tests for the existence of a file
+	- creates a directory, even when it means creating several subdirectories.
 */
 class UTILS_DLL_API FileUtils
 {
@@ -61,41 +58,43 @@ class UTILS_DLL_API FileUtils
 	static ErrorMessages * _errorMessages;
 public:
 
-	// Default Constructor
+	/// Default Constructor
 	FileUtils()
 	{
 		init();
 	}
 
-	// Copy Constructor
+	/// Copy Constructor
 	FileUtils ( const FileUtils & other )
 	{
 		operator = ( other );
 	}
 
+	/// create a FileUtils instance for operations on a given filename
 	FileUtils ( const string & filename )
 		: _filename ( filename )
 	{
 		init();
 	}
 
-	// Destructor
+	/// Destructor
 	virtual ~FileUtils()
 	{
 	}
 
-	// assignment operator
+	/// assignment operator
 	const FileUtils & operator = ( const FileUtils & other )
 	{
 		return *this;
 	}
 
-	// need these for inclusion in STL containers
+	/// in case of usage in an STL container
 	bool operator < ( const FileUtils & other ) const
 	{
 		return _filename < other._filename;
 	}
 
+	/// in case of usage in an STL container
 	bool operator == ( const FileUtils & other ) const
 	{
 		return _filename == other._filename;
@@ -110,22 +109,26 @@ public:
 	/// get the size of a file
 	long size() const throw ( exception );
 
-	// get the reason for the failure of the last operation
+	/// get the reason for the failure of the last operation
 	const string reason() const;
 
+	/// return the current filename
 	const string & filename() const
 	{
 		return _filename;
 	}
 
+	/// set the current filename
 	FileUtils & filename ( const string & filename )
 	{
 		_filename = filename;
 		return *this;
 	}
 
-	/// convenience method for testing exitence of a file without having
-	/// to have instances floating around.
+	/**
+		convenience method for testing existence of a file without having
+		to have instances floating around.
+	*/
 	static bool exists ( const string & _filename )
 	{
 		return FileUtils ( _filename ).exists();
@@ -137,20 +140,20 @@ protected:
 	void init();
 
 private:
-	// data members
 	string _filename;
 	mutable int _reason;
 	static bool _initialised;
 };
 
-// insertion operator
+/// insertion operator
 ostream & operator << ( ostream & os, const FileUtils & aFileUtils );
 
-// extraction operator
+/// extraction operator
 istream & operator >> ( istream & is, FileUtils & aFileUtils );
 
-// a helper function
+/// a helper function
 UTILS_DLL_API bool fileExists ( const string & filename ) throw ( exception );
+
 /// return a vector containing the elements of a path
 UTILS_DLL_API vector<string> splitPath( const string & dirname, char splitOn = directorySeparator );
 

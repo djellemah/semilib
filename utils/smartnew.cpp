@@ -1,13 +1,24 @@
 /**
-	Alternate memory allocation that works well, except that it causes
-	major bigtime kak because you then can't link things as dlls
+	\file
+	c++ memory allocation algorithms. Not linked into the lib, but link this
+	file to your application to use it. There has been some trouble with
+	using this instead of the win32 api allocators in dlls. Never tried
+	it with .so dynamic libraries.
+	
+	It was originally from an article on memory allocation at Dr Dobbs Journal, I think.
 */
+
 #include <assert.h>
 #include <stddef.h>
 #include <stdlib.h>
 
 #include "StaticInit.h"
 
+/**
+	\defgroup memory Memory Allocation
+	
+	\@{
+*/
 //  Policy configuration
 const size_t granularity_bits = 2;
 const size_t granularity = 1 << granularity_bits;
@@ -21,13 +32,14 @@ size_t handled_obj_size(size_t page_free_size)
 	return page_free_size;
 }
 
-//  Utility methods
+/// utility methods
 template<class T>
 inline T align_up(T val, size_t alignment)
 {
 	return(val + alignment-1) & ~(alignment-1);
 }
 
+/// utility methods
 template<class T>
 inline T align_down(T ptr, size_t alignment)
 {
@@ -187,7 +199,7 @@ private:
 	}
 };
 
-/*
+/**
 	this is quite a broken allocator, but it'll work
 	for the purposes of allocating the first Header
 	object
@@ -367,3 +379,6 @@ void operator delete(void* ptr)
 		}
 	}
 }
+/**
+	\@}
+*/

@@ -26,22 +26,30 @@ using namespace std;
 
 #include "utilsdlldef.h"
 
-/// removes the eol characters from a line, whether they're there or not
+/**
+	Various string handling convenience functions.
+	
+	\defgroup string String Handling
+	\@{
+*/
+/// removes the eol characters from a line, whether they're there or not, just like Perl.
 UTILS_DLL_API void chomp ( string & line );
 
-/// returns a time stamp of the format "Tue Oct 13 12:44:26 1998"
+/// returns a time stamp of the format "Tue Oct 13 12:44:26 1998".
 UTILS_DLL_API string timestamp();
+/// returns a short date as a string (dd/mmm/yy).
 UTILS_DLL_API string shortDateAsString();
 
-// overloads because the goddam 'convenience' functions are not very convenient
+/// overloads because the standard 'convenience' functions are not very convenient.
 UTILS_DLL_API bool isDigit ( char d );
+/// overloads because the standard 'convenience' functions are not very convenient.
 UTILS_DLL_API char toUpper ( char a );
+/// overloads because the standard 'convenience' functions are not very convenient.
 UTILS_DLL_API string toUpper ( const string & );
+/// overloads because the standard 'convenience' functions are not very convenient.
 UTILS_DLL_API string toUpper ( const char * );
 
-// convenience
-
-// convert a long to a string
+/// convert a long to a string.
 template<class T>
 string numberToString ( T number )
 {
@@ -50,14 +58,14 @@ string numberToString ( T number )
 	return os.str();
 }
 
-// like sprintf, but returns a string
+/// like sprintf, but returns a string.
 UTILS_DLL_API string ssprintf ( const char * fmt, ... );
 
-// creates a uuid
+/// (win32) creates a uuid.
 UTILS_DLL_API string uuidAsString();
 
-/*
-	Convert from a Unicode string to a multibyte string
+/**
+	(win32) Convert from a Unicode string to a multibyte string.
 	This functions assumes that actually multibyte
 	strings can be treated as char strings.
 */
@@ -73,6 +81,9 @@ string fromUnicode ( charType * ustring )
 	// terminate string, cos WideCharToMultiByte doesn't
 	return string ( buffer, wstrlen );
 }
+/**
+\@}
+*/
 #endif
 
 #endif

@@ -32,8 +32,9 @@ using std::ostream;
 #include "Change.h"
 #include "utilsdlldef.h"
 
-/*
-	Defines the equality and comparison semantics of a case-insensitive string
+/**
+	Defines the equality and comparison traits of a case-insensitive string.
+	\ingroup string
 */
 template<class E=char>
 struct UTILS_DLL_API IgnoreCaseTraits : public char_traits<char>
@@ -72,18 +73,22 @@ private:
 	UTILS_DLL_API static locale l;
 };
 
-/*
-	this doesn't work because you don't get a nice way to convert
-	between std::string and istring
-
-	typedef basic_string<char, IgnoreCaseTraits<char> > istring;
-*/
-
 // warning about base class not a dll interface. Which it is.
 #pragma warning(disable:4275)
 // some other MSVC warning
 #pragma warning(disable:4251)
 
+/**
+	istring provides a string class with case-insensitive comparisons
+	and equality tests. It inherits from basic_string so that there's
+	a simple way to convert from one to the other.
+
+	Not all of the basic_string constructors have been implemented.
+
+	What it does is construct itself from a string which it stores in
+	a cache. Obviously this is not the most efficient way to do it.
+	\ingroup string
+*/
 class UTILS_DLL_API istring : public basic_string<char, IgnoreCaseTraits<char> >
 {
 public:
@@ -132,6 +137,7 @@ private:
 #pragma warning(default:4275)
 #pragma warning(default:4251)
 
+///	\ingroup string
 UTILS_DLL_API ostream & operator<< ( ostream & os, const istring & val );
 
 #endif

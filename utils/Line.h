@@ -19,26 +19,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef Line_h
 #define Line_h
 
-/*
-	This reads in a line at a time from some stream. Other
-	than that it's a string. Except maybe some of the operators
-	and constructors aren't re-implemented here
+/**
+	This is a specialisation of basic_string which reads in a line
+	(\n terminated) at
+	a time from some stream. Not all operators
+	and constructors are provided.
 */
 template<class charT>
 class basic_Line : public basic_string<charT>
 {
 public:
+	/// read one line from the stream
 	void read ( basic_istream<charT> & is )
 	{
 		getline ( is, *this );
 	}
 
+	/// copy other basic_Lines
 	basic_Line & operator = ( const basic_Line & other )
 	{
 		basic_string<charT>::operator = ( other );
 		return *this;
 	}
 
+	/// copy basic_strings
 	basic_Line & operator = ( const basic_string<charT> & other )
 	{
 		basic_string<charT>::operator = ( other );
@@ -46,6 +50,9 @@ public:
 	}
 };
 
+/**
+	an extraction operator for basic_stream
+*/
 template<class charT>
 basic_istream<charT> & operator >> ( basic_istream<charT> & is, basic_Line<charT> & line )
 {

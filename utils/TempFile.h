@@ -14,7 +14,8 @@ namespace Utils
 	and takes care of deleting the file when the object
 	goes out of scope.
 
-	NOTE: the file itself is NOT created.
+	NOTE: the file itself is NOT created. This is to allow
+	TempFile to be used with ofstream ( char * )
 */
 class UTILS_DLL_API TempFile
 {

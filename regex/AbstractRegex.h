@@ -32,6 +32,9 @@ using namespace std;
 	expression library. I originally used it for some performance tuning, but
 	it ended up not making much of a difference, especially if you use the ^ and $
 	regular expression operators to mark the beginning and the end of a string.
+	
+	In fact it may slow down Regex slightly due to the virtual match method
+	\ingroup Regex
 */
 class /*UTILS_DLL_API*/ AbstractRegex
 {

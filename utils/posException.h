@@ -31,6 +31,7 @@ using namespace std;
 	Used by PersistenceManager to report that it couldn't restore
 	an object from a stream. Part of the error message is the byte
 	position in the stream.
+	\ingroup persistence
 */
 // warning about base class not a dll interface. Which it is.
 #pragma warning(disable:4275)

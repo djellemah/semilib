@@ -32,8 +32,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 using namespace std;
 
 /**
-	generic polymorphous (perverse?) persistence manager. Allows
-	objects to be streamed out and read in. Uses the typeid operator
+	Minimally instrusive, very lightweight, generic polymorphous persistence manager.
+	Allows objects to be streamed out and read in. Uses the typeid operator
 	to write out a name that can be used to construct an instance
 	so it can be read in. Relies on the object having a default
 	constructor and overloaded operators >> and <<. It's mainly so
@@ -69,6 +69,13 @@ using namespace std;
 		SmartPointer&lt;Object&gt; optr = pm.restore ( is );
 	}
 	</pre>
+	\defgroup persistence Lightweight Persistence
+*/
+
+/**
+	This needs to be define whenever you need to read from or write to
+	a persistence stream.
+	\ingroup persistence
 */
 template <class Persistent>
 class PERSISTENCE_DLL_API PersistenceManager

@@ -23,9 +23,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 using std::runtime_error;
 
-/*
-	Pattern-type wrapper for values that need to be
-	recalculated after copying.
+/**
+	Change allows you to store change information as part
+	of the type, rather than having separate bool instance
+	variables. All it does is throw an exception if a change
+	has been made and the value has not been updated.
+	
+	@see istring for a usage example.
 */
 template <class T>
 class Change

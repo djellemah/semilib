@@ -46,6 +46,8 @@ using namespace std;
 	REG_NEWLINE 4
 	REG_NOSUB 8
 	</pre>
+	
+	\todo handle both bitmap and value flags
 */
 class UTILS_DLL_API FlagsMapper
 {

@@ -39,6 +39,7 @@ using namespace std;
 	Acts like SmartPointer in many ways in that an instance of RefCount
 	is almost completely interchangeable for the pointer it's reference
 	counting. See SmartPointer documentation for more details.
+	\ingroup smartpointer
 */
 template <class T>
 class RefCount
@@ -240,6 +241,10 @@ private:
 	static unsigned long refcount;
 };
 
+/**
+\ingroup smartpointer
+\@{
+*/
 template <class T>
 RefCount<T>::References * RefCount<T>::_references;
 
@@ -257,5 +262,8 @@ ostream & operator << ( ostream & os, const RefCount<T> & aRefCount )
 // extraction operator
 template <class T>
 istream & operator >> ( istream & is, RefCount<T> & aRefCount );
+/**
+\@}
+*/
 
 #endif

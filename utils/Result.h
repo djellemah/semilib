@@ -27,42 +27,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 using namespace std;
 
-template <class ErrorType>
-class ErrorOnZero
-{
-public:
-	bool isError( const ErrorType & value ) const
-	{
-		return value == 0;
-	}
-};
-
-template <class ErrorType>
-class ErrorOnNonZero
-{
-public:
-	bool isError( const ErrorType & value ) const
-	{
-		return value != 0;
-	}
-};
-
-template <class ErrorType>
-class ErrorOnSet
-{
-public:
-	bool isError( const ErrorType & value ) const
-	{
-	}
-};
-
 /**
-	to simplify interacting with API calls that return an error code
+	To simplify interacting with API function calls that return an error code
 	of some kind. Use it like this:
 	<pre>
-		typedef Result<HANDLE, -1, runtime_error> CResult;
-		CResult result = open ( "somefilename" );
-		HANDLE theHandle = result;
+		try
+		{
+			typedef Result<HANDLE, -1, runtime_error> CResult;
+			CResult result = open ( "somefilename" );
+			int next = fgetc ( result );
+		}
+		catch ( exception & e )
+		{
+			cerr << e.what() << endl;
+		}	
 	</pre>
 	if the called function returns a disallowed value, -1 in this
 	case, a runtime_error will be thrown. The message given to
@@ -76,6 +54,55 @@ public:
 	reasoning behind this is that most of the time it's only necessary
 	to throw an exception for one value, but occasionally occasionally
 	it's necessary to throw an exception for other values as well.
+	\defgroup result Result Handling
+*/
+
+/**
+	throws an exception when the return value is zero
+	\ingroup result
+*/
+template <class ErrorType>
+class ErrorOnZero
+{
+public:
+	bool isError( const ErrorType & value ) const
+	{
+		return value == 0;
+	}
+};
+
+/**
+	throws and exception when the return value is not zero
+	\ingroup result
+*/
+template <class ErrorType>
+class ErrorOnNonZero
+{
+public:
+	bool isError( const ErrorType & value ) const
+	{
+		return value != 0;
+	}
+};
+
+/**
+	Throws an exception when the return value is an
+	element of a specified set. Not implemented yet.
+	\ingroup result
+*/
+template <class ErrorType>
+class ErrorOnSet
+{
+public:
+	bool isError( const ErrorType & value ) const
+	{
+	}
+};
+
+/**
+	This template class is used to create instances of objects
+	which can have results assigned to them.
+	\ingroup result
 */
 template <class Type = unsigned long, class ErrorType = ErrorOnNonZero<Type>, class ExceptionType = runtime_error >
 class Result

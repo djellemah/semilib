@@ -127,6 +127,10 @@ bool fileExists ( const string & filename ) throw ( exception )
 	return fu.exists();
 }
 
+/**
+	Split a path into segments given a particular split char.
+	Has some special case handling for win32 paths
+*/
 vector<string> splitPath( const string & dirname, char splitOn )
 {
 	istringstream is ( dirname );

@@ -37,10 +37,14 @@ using namespace std;
 #endif
 
 class PersistenceRegistry;
+
 /**
 	This is used to create an instance of an object whose name is
 	the key in a map of name to an object which can create an instance
 	of the named class.
+
+	@see PersistenceManager
+	\ingroup persistence
 */
 class PERSISTENCE_DLL_API AbstractConstructor
 {
@@ -86,6 +90,7 @@ private:
 
 	There can only be one such list, obviously, so we can't rely on
 	static declarations to do this properly because of kak with DLLs.
+	\ingroup persistence
 */
 class PERSISTENCE_DLL_API PersistenceRegistry
 {
@@ -116,6 +121,7 @@ protected:
 
 	Which will call the constructor of Constructor, which will add Foo to
 	the list of registered objects.
+	\ingroup persistence
 */
 template <class Persistent>
 class PERSISTENCE_DLL_API Constructor : public AbstractConstructor

@@ -27,8 +27,8 @@ using namespace std;
 
 /**
 	This provices a once-off initialisation of something
-	when static members can't be relied upon. It also
-	optimises accesses to the data member by uses a function
+	when static members can't be relied upon and optimised access
+	to the data. This is done using a function
 	pointer which points to different functions for the first
 	call when all the initialisation is done, and for subsequent
 	calls when all it has to do is return the object that has
@@ -45,7 +45,7 @@ public:
 	~StaticInit()
 	{
 	}
-	/*
+	/**
 		This uses one function for the first call
 		and then the other function for all subsequent calls.
 		This avoids the overhead of having to check for
@@ -63,19 +63,19 @@ public:
 
 private:
 	
-	// The instance is stored here
+	/// The instance is stored here
 	static Object * _item;
 
-	// pointer to which function to use
+	/// pointer to which function to use
 	static Object & (*whichTime)();
 
-	// the function called on subseqent times
+	/// the function called on subseqent times
 	static Object & subsequentTime()
 	{
 		return *_item;
 	}
 
-	// the function called the first time
+	/// the function called the first time
 	static Object & firstTime()
 	{
 		Allocator a;

@@ -22,10 +22,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <iostream>
 
 using namespace std;
-/*
-	On construction this acquires a position in an istream.
-
-	On destruction it resets the stream to that position.
+/**
+	This is a stream marker which acquires a position in an istream
+	on construction, and restores that position on destruction. Obviously
+	this relies on seekg to be possible with that stream.
 */
 class MarkStream
 {
@@ -37,19 +37,19 @@ public:
 		pos = is.tellg();
 	}
 
-	// make sure we don't go back to the mark
+	/// restore the stream to the constructed position
 	void restore ()
 	{
 		is.seekg ( pos );
 	}
 
-	// set a new mark
+	/// set a new mark
 	void set ()
 	{
 		pos = is.tellg();
 	}
 	
-	// make sure we don't go back to the mark on destruction
+	/// make sure we don't go back to the mark on destruction
 	void release()
 	{
 		active = false;

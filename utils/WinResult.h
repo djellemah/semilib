@@ -6,6 +6,12 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
+/**
+	This class deals with win32 api error messages and uses
+	FormatMessage to fetch the error message for the trapped
+	error code.
+	\ingroup result
+*/
 template <class Type = unsigned long, class ErrorType = ErrorOnZero<Type> >
 class WinResult : public Result <Type, ErrorType, runtime_error>
 {
@@ -27,19 +33,23 @@ public:
 		return *this;
 	}
 
+	/// normal assigment operator for function return values
 	const WinResult & operator = ( Type result )
 	{
 		SuperClass::operator = ( result );
 		return *this;
 	}
 
-	
+	/**
+		use FormatMessage to fetch the win32 error message for the
+		given error code
+	*/
 	virtual string message ()
 	{
 		DWORD lastError = ::GetLastError();
 		
 		LPVOID lpMsgBuf;
-		FormatMessage(
+		::FormatMessage(
 			FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS
 			, NULL
 			, GetLastError()
@@ -57,13 +67,6 @@ public:
 		LocalFree( lpMsgBuf );
 		return os.str();
 	}
-
-/*
-	virtual void throwException()
-	{
-		throw ExceptionType ( message() + extra() );
-	}
-*/
 };
 
 #endif
