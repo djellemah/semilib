@@ -34,3 +34,4 @@ testRefcount
 testFileLogger
 test_strftime
 testCoutLogger
+testSingleton
