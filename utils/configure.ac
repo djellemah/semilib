@@ -1,21 +1,16 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT(utils, 1.0.2, utils@semiosix.com)
-AM_INIT_AUTOMAKE(utils, 1.0.2)
-AC_CONFIG_SRCDIR([src])
-AM_CONFIG_HEADER([config.h])
+AC_INIT(utils, 1.0.2, panic@semiosix.com)
+#AM_INIT_AUTOMAKE(utils, 1.0.2)
+AM_CONFIG_HEADER(config.h)
 
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_LIBTOOL
-AC_PROG_MAKE_SET
-
-# Checks for libraries.
-#AC_CHECK_LIB([e], [main])
 
 # Checks for header files.
-AC_HEADER_STDC
+AC_HEADER_STDCPP
 AC_CHECK_HEADERS([errno.h fcntl.h stddef.h stdlib.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -27,7 +22,7 @@ AC_CHECK_TYPES([ptrdiff_t])
 
 # Checks for library functions.
 AC_FUNC_MALLOC
-AC_CHECK_FUNCS([memset mkdir strncasecmp])
+AC_CHECK_FUNCS([mkdir strncasecmp])
 
-AC_CONFIG_FILES([Makefile src/Makefile])
+AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
