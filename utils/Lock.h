@@ -60,21 +60,22 @@ public:
 	void acquire ( Mutex & aMutex )
 	{
 		mutex ( aMutex );
-		_owned = acquire();
+		acquire();
+		_owned = true;
 	}
 
 	void release ()
 	{
-		if ( _owned )
-		{
-			mutex().release();
-			_owned = false;
-		}
+		mutex().release();
 	}
 
-	bool acquired() const
+	/**
+		A blocking lock has always acquired the lock
+		if this can be called.
+	*/
+	virtual bool acquired() const
 	{
-		return _owned;
+		return true;
 	}
 	
 	/**
@@ -84,7 +85,11 @@ public:
 	*/
 	virtual ~Lock()
 	{
-		release();
+		if ( _owned )
+		{
+			release();
+			_owned = false;
+		}
 	}
 
 	Mutex & mutex()
@@ -112,39 +117,11 @@ protected:
 		return true;
 	}
 	
+	// whether or not we should release the lock
 	bool _owned;
 
 private:
 	Mutex * _mutex;
-};
-
-/**
-	A try lock. This will never block on a locked mutex,
-	but will instead return true from acquired() if the
-	mutex was locked, false if another thread has already locked it.
-*/
-class UTILS_DLL_API TryLock : public Lock
-{
-public:
-
-	/**
-		Doesn't attempt to release the mutex in
-		the destructor call
-	*/
-	TryLock()
-	: Lock()
-	{
-	}
-
-	TryLock ( Mutex & aMutex )
-	: Lock ( aMutex )
-	{
-	}
-
-	virtual bool acquire()
-	{
-		return mutex().trylock();
-	}
 };
 
 #endif
