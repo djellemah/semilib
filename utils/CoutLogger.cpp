@@ -1,0 +1,21 @@
+#include"Logger.h"
+
+using namespace std;
+
+/**
+	The default logger just sends to stdout
+*/
+class CoutLogger : public Logger
+{
+public:
+	void doLog ( const string & msg, LogLevel level )
+	{
+		cout << level << ": " << msg << endl;
+	}
+};
+
+Logger * newInstance ( Logger * )
+{
+	return new CoutLogger;
+}
+

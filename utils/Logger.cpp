@@ -65,23 +65,6 @@ void Logger::endMessage( LogLevel level )
 	_lock.release();
 }
 
-/**
-	The default logger just sends to stdout
-*/
-class CoutLogger : public Logger
-{
-public:
-	void doLog ( const string & msg, LogLevel level )
-	{
-		cout << level << ": " << msg << endl;
-	}
-};
-
-Logger * newInstance ( Logger * )
-{
-	return new CoutLogger;
-}
-
 ostream & Logger::os()
 {
 	return instance().los();
