@@ -26,6 +26,7 @@ Logger & fetchInstance()
 
 Logger & logger = fetchInstance();
 
+#ifndef _WIN32
 void logger_init(void) __attribute__((constructor));
 
 void logger_init(void)
@@ -37,6 +38,7 @@ void logger_init(void)
 	cout << "after " << &logger << endl;
 */
 }
+#endif
 
 void Logger::log ( const std::string & msg, Level::LogLevel level )
 {
