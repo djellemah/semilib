@@ -16,7 +16,7 @@ Logger::Logger()
 }
 #pragma warning( default : 4355 ) 
 
-// Some very ugly stuff here, because for some reason
+// Some very ugly stuff, because for some reason
 // Singleton doesn't work here
 // Logger & logger = Logger::instance();
 Logger & fetchInstance()

@@ -13,8 +13,7 @@ AC_HELP_STRING(
 	, [use boost libraries. default is to use system regex (regex.h) ])
 	,
 		test "$withval" = no || with_boost=$withval
-		AC_DEFINE(WITH_BOOST, 1, [Are we using the boost regex library?]) 
-		BOOST_LIB=-L$withval/lib -lboost_regex
+		BOOST_LIBS="-lboost_regex -L$withval/lib"
 		BOOST_INCLUDE=-I$withval/boost
 		BOOST_DEFINE=true
 	,
@@ -23,7 +22,7 @@ AC_HELP_STRING(
 )
 AC_SUBST(with_boost)
 AC_SUBST(BOOST_INCLUDE)
-AC_SUBST(BOOST_LIB)
+AC_SUBST(BOOST_LIBS)
 AC_SUBST(BOOST_DEFINE)
 
 AC_ARG_ENABLE(debug,
