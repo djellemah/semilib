@@ -23,9 +23,10 @@
 #include <algorithm>
 #include <iostream>
 
-#include <semilib/utils.h>
+#include "utils.h"
 
 using namespace std;
+using namespace semilib;
 
 /**
 	This is a global set of all singleton instances. DO NOT
@@ -34,7 +35,7 @@ using namespace std;
 */
 Mutex * _instancesMutex = 0;
 
-Mutex & getMutex()
+Mutex & semilib::getMutex()
 {
 	if ( _instancesMutex == 0 )
 	{
@@ -47,7 +48,7 @@ Mutex & getMutex()
 	This is a managed container to ensure that the
 	singleton instances are deleted on shutdown.
 */
-class Instances : public map<string, SingletonBase*>
+class Instances : public map<string, void*>
 {
 	/**
 		This keeps the order in which singletons were constructed
@@ -73,14 +74,14 @@ public:
 			iterator it = find ( name );
 			if ( it != end() )
 			{
-				SingletonBase * base = it->second;
+				void * base = it->second;
 				erase ( it );
 			}
 		}
 	}
 
 	
-	void add ( const std::string & name, SingletonBase * instance )
+	void add ( const std::string & name, void * instance )
 	{
 		instanceOrder.push_back ( name );
 		operator[] ( name ) = instance;
@@ -99,7 +100,7 @@ public:
 			iterator it = find ( name );
 			if ( it != end() )
 			{
-				SingletonBase * base = it->second;
+				void * base = it->second;
 				erase ( it );
 				delete base;
 			}
@@ -128,39 +129,39 @@ Instances & getInstances()
 	return *_instances;
 }
 
-bool haveInstance ( const string & name )
+bool semilib::haveInstance ( const string & name )
 {
 	Lock lock ( getMutex() );
 	return getInstances().find ( name ) != getInstances().end();
 }
 
-void keepInstance ( const std::string & name, SingletonBase * instance )
+void semilib::keepInstance ( const std::string & name, void * instance )
 {
 	getInstances().add ( name, instance );
 }
 
-void removeInstance ( const string & name )
+void semilib::removeInstance ( const string & name )
 {
 	getInstances().remove ( name );
 }
 
-SingletonBase * getInstance ( const std::string & name )
+void * semilib::getInstance ( const std::string & name )
 {
 	Lock lock ( getMutex() );
 	return getInstances()[name];
 }
 
-void acquireLock()
+void semilib::acquireLock()
 {
 	getMutex().lock();
 }
 
-void releaseLock()
+void semilib::releaseLock()
 {
 	getMutex().release();
 }
 
-void deleteSingletons()
+void semilib::deleteSingletons()
 {
 	getInstances().cleanup();
 }

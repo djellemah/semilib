@@ -48,7 +48,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define NOMSG
 #define NOOPENFILE
 #define NOSCROLL
-#define NOSERVICE
+//#define NOSERVICE
 #define NOSOUND
 #define NOTEXTMETRIC
 #define NOWH

@@ -12,20 +12,13 @@
 namespace semilib
 {
 
-/**
-	Just provides a base class so that cleanup can
-	be done, and destructors can be called.
+/*
+	Functions so we can define them all in one dll
 */
-class SingletonBase
-{
-public:
-	virtual ~SingletonBase() {};
-};
-
 UTILS_DLL_API bool haveInstance ( const std::string & name );
-UTILS_DLL_API void keepInstance ( const std::string & name, SingletonBase * );
+UTILS_DLL_API void keepInstance ( const std::string & name, void * );
 UTILS_DLL_API void removeInstance ( const std::string & name );
-UTILS_DLL_API SingletonBase * getInstance ( const std::string & name );
+UTILS_DLL_API void * getInstance ( const std::string & name );
 UTILS_DLL_API void acquireLock();
 UTILS_DLL_API void releaseLock();
 UTILS_DLL_API void deleteSingletons();
@@ -104,9 +97,6 @@ namespace semilib
 */
 template<class InstanceType, class MutexClass=semilib::Mutex, class LockClass=semilib::Lock>
 class UTILS_DLL_API Singleton
-#ifdef _WIN32
-: public SingletonBase
-#endif
 {
 public:
 	/**
@@ -152,7 +142,7 @@ public:
 		{
 			// the instance doesn't yet exist, so make all threads
 			// wait here.
-			acquireLockClass();
+			acquireLock();
 			
 			/*
 				one thread gets through, creates the instance. As
@@ -165,21 +155,22 @@ public:
 				instance = ::newInstance ( instance );
 				keepInstance ( name, instance );
 			}
-			releaseLockClass();
+			releaseLock();
 		}
 		return *static_cast<InstanceType*> ( getInstance ( name ) );
 #endif
 	}
 
+#if 0
 	static MutexClass & mutex()
 	{
 #ifndef _WIN32
 		return _mutex;
 #else
 		return instance()._mutex;
-		//return getMutexClass();
 #endif
 	}
+#endif
 
 #ifdef _WIN32
 	/*

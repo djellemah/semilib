@@ -41,7 +41,16 @@ UTILS_DLL_API void stripCr ( string & s )
 
 using namespace std;
 
-Mutex mutex;
+Mutex * _mutex = 0;
+
+Mutex & mutex()
+{
+	if ( _mutex == 0 )
+	{
+		_mutex = new Mutex();
+	}
+	return *_mutex;
+}
 
 UTILS_DLL_API struct tm brokentime()
 {
@@ -54,7 +63,7 @@ UTILS_DLL_API struct tm brokentime()
 		
 	// make a copy now to avoid the system pointer
 	// getting overriden with a different value
-	Lock lock ( mutex );
+	Lock lock ( mutex() );
 	btime = *localtime (&thetime);
 	
 	return btime;
@@ -67,7 +76,7 @@ UTILS_DLL_API string today()
 	// convert to a string
 	const size_t maxbufsize = 40;
 	char buf[maxbufsize+1];
-	size_t result = strftime (buf, maxbufsize, "%d-%b-%y" , &btime );
+	size_t result = ::strftime (buf, maxbufsize, "%d-%b-%y" , &btime );
 	return string ( buf );
 }
 
@@ -78,7 +87,7 @@ UTILS_DLL_API string now()
 	// convert to a string
 	const size_t maxbufsize = 60;
 	char buf[maxbufsize+1];
-	size_t result = strftime (buf, maxbufsize, "%d %b %Y %H:%M" , &btime );
+	size_t result = ::strftime (buf, maxbufsize, "%d %b %Y %H:%M" , &btime );
 	return string ( buf );
 }
 
@@ -89,7 +98,7 @@ UTILS_DLL_API string timestamp()
 	// convert to a string
 	const size_t maxbufsize = 60;
 	char buf[maxbufsize+1];
-	size_t result = strftime (buf, maxbufsize, "%d %b %Y %H:%M:%S" , &btime );
+	size_t result = ::strftime (buf, maxbufsize, "%d %b %Y %H:%M:%S" , &btime );
 	return string ( buf );
 }
 
@@ -127,7 +136,7 @@ UTILS_DLL_API string strftime ( const time_t & t, const string & format )
 {
 	const int maxbuf = 256;
 	struct tm tm_time;
-	Lock lock ( mutex );
+	Lock lock ( mutex() );
 	tm_time = *::localtime ( & t );
 	char temp[maxbuf];
 #ifdef _MSC_VER

@@ -10,7 +10,7 @@
 using namespace std;
 using namespace semilib;
 
-Logger & semilib::logger = Singleton<Logger,Mutex,Lock>::instance();
+Logger & semilib::logger = semilib::Singleton<semilib::Logger,semilib::Mutex,semilib::Lock>::instance();
 
 Logger * newInstance ( Logger * );
 
@@ -45,7 +45,7 @@ Logger::Logger()
 
 Mutex & Logger::mutex()
 {
-	return Singleton<Logger,Mutex,Lock>::mutex();
+	return _mutex;
 }
 
 void Logger::log ( const std::string & msg, Level::LogLevel level )
@@ -215,11 +215,12 @@ ostream & semilib::elog ( std::ostream & os )
 	return os;
 }
 
-void semilib::elog ( Logger & logger )
+#ifndef _MSC_VER
+void semilib::elog ( semilib::Logger & logger )
 {
 	logger << Logger::end();
 }
-
+#endif
 
 EndLog & semilib::elog ( Level::LogLevel level )
 {

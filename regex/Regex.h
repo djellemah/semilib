@@ -32,6 +32,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma warning ( disable:4251 )
 
 #ifdef _WIN32
+	#define BOOST_REGEX_NO_LIB
+	#define BOOST_REGEX_STATIC_LINK
 	#include <boost/cregex.hpp>
 	#define RXSPACE boost::
 	using namespace boost;

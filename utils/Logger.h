@@ -229,6 +229,9 @@ protected:
 	*/
 	Lock _lock;
 
+	/// The mutex that gets locked on
+	Mutex _mutex;
+
 	/**
 		A count to make sure that the locks acquired by os()
 		are unlocked the correct number of times by endMessage().
@@ -242,7 +245,7 @@ protected:
 	\deprecated in favour of loch
 	\ingroup logger
 */
-LOGGER_DLL_API extern std::ostream& elog ( std::ostream& outs );
+LOGGER_DLL_API extern std::ostream& elog ( std::ostream & );
 
 #ifndef _MSC_VER
 /**

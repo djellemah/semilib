@@ -236,7 +236,7 @@ UTILS_DLL_API string semilib::executableDirectory( const std::string & envvar )
 		vector<string> bits;
 		if ( __argv != 0 )
 		{
-			bits = Utils::splitPath ( string ( __argv[0] ) );
+			bits = splitPath ( string ( __argv[0] ) );
 		}
 #else
 		vector<string> bits;
