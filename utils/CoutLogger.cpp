@@ -1,4 +1,5 @@
-#include"Logger.h"
+#include "Logger.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -10,7 +11,7 @@ class CoutLogger : public Logger
 public:
 	void doLog ( const string & msg, Level::LogLevel level )
 	{
-		cout << level << ": " << msg << endl;
+		cout << timestamp() << ": " << msg << endl;
 	}
 };
 
