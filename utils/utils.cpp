@@ -3,6 +3,7 @@
 #include <time.h>
 #include "Lock.h"
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
@@ -131,48 +132,4 @@ UTILS_DLL_API string strftime ( const time_t & t, const string & format )
 	::strftime ( temp, maxbuf-1, format.c_str(), &tm_time );
 #endif
 	return string ( temp );
-}
-
-UTILS_DLL_API string executableDirectory( const std::string & envvar = "" )
-{
-	string directory;
-	// directory can be cached because it will only be set
-	// on startup
-	char * env_home = 0;
-	if ( !envvar.empty() )
-	{
-		env_home = getenv ( envvar.c_str() );
-	}
-	
-	if ( env_home != 0 )
-	{
-		directory = env_home;
-	}
-	else
-	{
-#ifdef _WIN32
-		// try to figure out the path from the name
-		// of the executable
-		vector<string> bits;
-		if ( __argv != 0 )
-		{
-			bits = Utils::splitPath ( string ( __argv[0] ) );
-		}
-#else
-		vector<string> bits;
-#endif
-		if ( bits.size() > 2 )
-		{
-			// remove last element
-			bits.erase ( bits.end() - 1 );
-			directory = join ( bits, Utils::directorySeparator );
-		}
-		else
-		{
-			// AAaAaaaaargh. Just put it wherever.
-			directory = ".";
-		}
-	}
-	directory += Utils::directorySeparator;
-	return directory;
 }

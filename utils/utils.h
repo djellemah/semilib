@@ -6,15 +6,6 @@
 #include <string>
 #include <sstream>
 
-/**
-	Define the path separator character. \ for win32, / for unix
-*/
-#ifdef _WIN32
-	UTILS_DLL_API extern const char * pathsep;
-#else
-	extern const char * pathsep;
-#endif
-
 UTILS_DLL_API void stripCr ( std::string & s );
 
 /**
@@ -139,16 +130,5 @@ void for_each_delete ( C & collection )
 	shares a return value with several other calls.
 */
 UTILS_DLL_API std::string strftime ( const time_t & t, const std::string & format );
-
-/**
-	Return the directory, with trailing /,
-	where the current executable lives.
-
-	\param envvar allows you to specify an environment variable
-	to search first
-
-	\todo always returns ./ for non win32 systems.
-*/
-UTILS_DLL_API string executableDirectory( const std::string & envvar = "" );
 
 #endif

@@ -37,12 +37,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 #include "FileUtils.h"
+#include "utils.h"
 
 // "exception specfication ignored" warning
 #pragma warning(disable: 4290)
 
 namespace Utils
 {
+
+#ifdef _WIN32
+	UTILS_DLL_API const char * pathsep = "\\";
+#else
+	const char * pathsep = "/";
+#endif
 
 using namespace std;
 
@@ -191,6 +198,50 @@ void mkdir( const string & dirname ) throw ( runtime_error )
 		}
 		path += directorySeparator;
 	}
+}
+
+UTILS_DLL_API string executableDirectory( const std::string & envvar )
+{
+	string directory;
+	// directory can be cached because it will only be set
+	// on startup
+	char * env_home = 0;
+	if ( !envvar.empty() )
+	{
+		env_home = getenv ( envvar.c_str() );
+	}
+	
+	if ( env_home != 0 )
+	{
+		directory = env_home;
+	}
+	else
+	{
+#ifdef _WIN32
+		// try to figure out the path from the name
+		// of the executable
+		vector<string> bits;
+		if ( __argv != 0 )
+		{
+			bits = Utils::splitPath ( string ( __argv[0] ) );
+		}
+#else
+		vector<string> bits;
+#endif
+		if ( bits.size() > 2 )
+		{
+			// remove last element
+			bits.erase ( bits.end() - 1 );
+			directory = join ( bits, directorySeparator );
+		}
+		else
+		{
+			// AAaAaaaaargh. Just put it wherever.
+			directory = ".";
+		}
+	}
+	directory += Utils::directorySeparator;
+	return directory;
 }
 
 } // end of namespace Utils

@@ -39,11 +39,10 @@ namespace Utils
 {
 	using namespace std;
 #ifdef _WIN32
-	const char directorySeparator = '\\';
+	UTILS_DLL_API extern const char * directorySeparator;
 #else
-	const char directorySeparator = '/';
+	extern const char * directorySeparator;
 #endif
-
 
 /**
 This is the central place for file utilities.
@@ -157,10 +156,21 @@ istream & operator >> ( istream & is, FileUtils & aFileUtils );
 UTILS_DLL_API bool fileExists ( const string & filename ) throw ( exception );
 
 /// return a vector containing the elements of a path
-UTILS_DLL_API vector<string> splitPath( const string & dirname, char splitOn = directorySeparator );
+UTILS_DLL_API vector<string> splitPath( const string & dirname, char splitOn = directorySeparator[0] );
 
 /// make a directory containing subdirectories. Make all of them. Make every last one...
 UTILS_DLL_API void mkdir( const string & dirname ) throw ( runtime_error );
+
+/**
+	Return the directory, with trailing /,
+	where the current executable lives.
+
+	\param envvar allows you to specify an environment variable
+	to search first
+
+	\todo always returns ./ for non win32 systems.
+*/
+UTILS_DLL_API std::string executableDirectory( const std::string & envvar = "" );
 
 } // end of namespace Utils
 #pragma warning(default:4290)
