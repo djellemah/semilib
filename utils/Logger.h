@@ -38,13 +38,13 @@ private:
 	Logger & _logger;
 	Level::LogLevel _level;
 	
-	friend LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, EndLog & el );
+	friend LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, const EndLog & el );
 };
 
 /**
 	Defined to allow Logger::end() as a stream manipulator
 */
-LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, EndLog & el );
+LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, const EndLog & el );
 
 /**
 	This object does logging that can be used either from a
@@ -203,7 +203,7 @@ LOGGER_DLL_API Logger * newInstance ( Logger * );
 	convenience function to allow << directly to a logger
 */
 template<class T>
-std::ostream & operator<< ( Logger &, T type )
+std::ostream & operator<< ( Logger &, const T & type )
 {
 	std::ostream & os = Logger::os();
 	os << type;

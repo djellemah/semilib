@@ -29,7 +29,7 @@ void Logger::log ( const std::string & msg, Level::LogLevel level )
 	_lock.release();
 }
 
-std::ostream & operator<< ( std::ostream & os, EndLog & el )
+std::ostream & operator<< ( std::ostream & os, const EndLog & el )
 {
 	// signal to the Logger that this is the end of a message
 	el._logger.endMessage( el._level );
