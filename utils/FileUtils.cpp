@@ -46,9 +46,9 @@ namespace Utils
 {
 
 #ifdef _WIN32
-	UTILS_DLL_API const char * pathsep = "\\";
+	UTILS_DLL_API const char * directorySeparator = "\\";
 #else
-	const char * pathsep = "/";
+	const char * directorySeparator = "/";
 #endif
 
 using namespace std;
