@@ -98,9 +98,10 @@ bool FileUtils::exists () const throw ( exception )
 		// return true if we get a EACCESS, false otherwise
 		// because the file exists, but either it's a directory
 		// or we don't have access permissions
-		// return _reason == EACCES;
+		return _reason == EACCES;
+
 		// but it doesn't work
-		return false;
+		// return false;
 	}
 }
 
@@ -135,27 +136,44 @@ vector<string> splitPath( const string & dirname, char splitOn )
 	{
 		string temp;
 		getline ( is, temp, splitOn );
-		// cout << "Component is: " << temp << endl;
-		if ( !temp.empty() )
-			retval.push_back ( temp );
+		
+		// not interested in empty sections
+		if ( temp.empty() ) continue;
+
+#ifdef _WIN32
+		// special case for fully-qualified windows paths
+		if ( temp.length() == 2 && temp[1] == ':' )
+		{
+			string rest;
+			getline ( is, rest, splitOn );
+			temp += splitOn + rest;
+		}
+#endif
+		
+		retval.push_back ( temp );
 	}
-	// cout << "Finished" << endl;
 	return retval;
 }
 
-void mkdir( const string & dirname )
+void mkdir( const string & dirname ) throw ( runtime_error )
 {
 	vector<string> dirs = splitPath ( dirname );
 
 	vector<string>::iterator current = dirs.begin();
 	vector<string>::iterator end = dirs.end();
+#ifdef _WIN32
 	string path;
+#else
+	// make it an absolute path if the first char is a /
+	string path ( dirname[0] == '/' ? "/" : "" );
+#endif
+
 	for (; current != end; ++current )
 	{
 		path += *current;
 		if ( !FileUtils::exists (path) )
 		{
-#ifdef WIN32
+#ifdef _WIN32
 			int result = ::_mkdir ( path.c_str() );
 #else
 			// with rwxr-xr-x permissions
