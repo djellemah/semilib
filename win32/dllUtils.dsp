@@ -193,28 +193,12 @@ SOURCE=..\utils\posException.h
 # Begin Source File
 
 SOURCE=..\utils\RefCount.cpp
-
-!IF  "$(CFG)" == "dllUtils - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "dllUtils - Win32 Debug"
-
 # PROP Exclude_From_Build 1
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
 SOURCE=..\utils\RefCount.h
-
-!IF  "$(CFG)" == "dllUtils - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "dllUtils - Win32 Debug"
-
 # PROP Exclude_From_Build 1
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
