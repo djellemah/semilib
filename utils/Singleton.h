@@ -8,11 +8,22 @@
 #include <string>
 #include "utilsdlldef.h"
 
+/**
+	Just provides a base class so that cleanup can
+	be done, and destructors can be called.
+*/
+class SingletonBase
+{
+public:
+	virtual ~SingletonBase() {};
+};
+
 UTILS_DLL_API bool haveInstance ( const std::string & name );
-UTILS_DLL_API void keepInstance ( const std::string & name, void * );
-UTILS_DLL_API void * getInstance ( const std::string & name );
+UTILS_DLL_API void keepInstance ( const std::string & name, SingletonBase * );
+UTILS_DLL_API SingletonBase * getInstance ( const std::string & name );
 UTILS_DLL_API void acquireLock();
 UTILS_DLL_API void releaseLock();
+UTILS_DLL_API void deleteSingletons();
 
 #endif
 
@@ -78,6 +89,9 @@ UTILS_DLL_API void releaseLock();
 */
 template<class InstanceType, class Mutex, class Lock>
 class UTILS_DLL_API Singleton
+#ifdef _WIN32
+: public SingletonBase
+#endif
 {
 public:
 	/**
@@ -134,20 +148,11 @@ public:
 			if ( !haveInstance ( name ) )
 			{
 				instance = newInstance ( instance );
-				keepInstance ( name, reinterpret_cast<void*>(instance) );
+				keepInstance ( name, instance );
 			}
 			releaseLock();
 		}
-		return *reinterpret_cast<InstanceType*> ( getInstance ( name ) );
-#endif
-	}
-	
-	virtual ~Singleton()
-	{
-#ifdef _WIN32
-		InstanceType * instance = 0;
-		std::string name = typeid ( instance ).name();
-		delete reinterpret_cast<InstanceType*> ( getInstance ( name ) );
+		return *static_cast<InstanceType*> ( getInstance ( name ) );
 #endif
 	}
 	

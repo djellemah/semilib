@@ -13,19 +13,20 @@
 */
 
 #include "Singleton.h"
+#include "Lock.h"
 #include <map>
+#include <vector>
 #include <algorithm>
 
 using namespace std;
 
-typedef map<string, void*> Instances;
-
 /**
-	This is a global set of all singleton instances. DO NOT
-	declare this as DLL exportable, or allow it to escape
-	from its DLL.
+	This keeps the order in which singletons were constructed
+	so that we can destroy them in reverse order
 */
-Instances instances;
+typedef vector<string> InstanceOrder;
+InstanceOrder instanceOrder;
+
 
 /**
 	This is a global set of all singleton instances. DO NOT
@@ -34,17 +35,62 @@ Instances instances;
 */
 Mutex instancesMutex;
 
+/**
+	This is a managed container to ensure that the
+	singleton instances are deleted on shutdown.
+*/
+class Instances : public map<string, SingletonBase*>
+{
+public:
+	Instances()
+	{
+	}
+
+	void cleanup()
+	{
+		Lock lock ( instancesMutex );
+		while ( instanceOrder.size() > 0 )
+		{
+			string name = instanceOrder.back();
+			instanceOrder.pop_back();
+			iterator it = find ( name );
+			if ( it != end() )
+			{
+				SingletonBase * base = it->second;
+				delete base;
+				erase ( it );
+			}
+		}
+	}
+
+	/**
+		Clean up singletons in reverse order of construction
+	*/
+	~Instances()
+	{
+		cleanup();
+	}
+};
+
+/**
+	This is a global set of all singleton instances. DO NOT
+	declare this as DLL exportable, or allow it to escape
+	from its DLL.
+*/
+Instances instances;
+
 bool haveInstance ( const string & name )
 {
 	return instances.find ( name ) != instances.end();
 }
 
-void keepInstance ( const std::string & name, void * instance )
+void keepInstance ( const std::string & name, SingletonBase * instance )
 {
+	instanceOrder.push_back ( name );
 	instances[name] = instance;
 }
 
-void * getInstance ( const std::string & name )
+SingletonBase * getInstance ( const std::string & name )
 {
 	return instances[name];
 }
@@ -57,4 +103,9 @@ void acquireLock()
 void releaseLock()
 {
 	instancesMutex.release();
+}
+
+void deleteSingletons()
+{
+	instances.cleanup();
 }
