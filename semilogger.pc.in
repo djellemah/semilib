@@ -6,5 +6,5 @@ includedir=@includedir@
 Name: semilib
 Description: Logging framework
 Version: @VERSION@
-Libs: -L${libdir} -lutils -llogger
+Libs: -L${libdir} -lsemiutils -lsemilogger
 Cflags: -I${includedir}

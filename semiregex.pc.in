@@ -6,5 +6,5 @@ includedir=@includedir@
 Name: semiregex
 Description: Wrapper for POSIX regex api
 Version: @VERSION@
-Libs: -L${libdir} -lutils -lregex
+Libs: -L${libdir} -lsemiutils -lsemiregex
 Cflags: -I${includedir}

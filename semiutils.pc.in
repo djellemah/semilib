@@ -6,5 +6,5 @@ includedir=@includedir@
 Name: semilib
 Description: useful stuff only. No logger, no regex.
 Version: @VERSION@
-Libs: -L${libdir} -lutils
+Libs: -L${libdir} -lsemiutils
 Cflags: -I${includedir}
