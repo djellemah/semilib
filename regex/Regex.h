@@ -117,7 +117,7 @@ There is also a lower level interface, explained in rxposix.h:
 		    Otherwise, newline acts like any other ordinary character.
 	</table>
 
-	@author John Anderson <a href="mailto:panic@global.co.za">panic@global.co.za</a>
+	@author John Anderson <a href="mailto:panic@global.co.za">panic@semiosix.com</a>
 */
 class REGEX_DLL_API Regex : public AbstractRegex
 {
