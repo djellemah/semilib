@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([semilib],1.7.4,[utils@semiosix.com])
+AC_INIT([semilib],1.7.5,[utils@semiosix.com])
 AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
 AC_CONFIG_SRCDIR([utils/istring.h])
 AM_CONFIG_HEADER([config.h])
@@ -15,12 +15,16 @@ AC_HELP_STRING(
 		test "$withval" = no || with_boost=$withval
 		AC_DEFINE(WITH_BOOST, 1, [Are we using the boost regex library?]) 
 		BOOST_LIB=-L$withval/lib -lboost_regex
-		AC_SUBST(BOOST_LIB)
-		BOOST_INCLUDE=-I$withval/include
-		AC_SUBST(BOOST_INCLUDE)
-	, with_boost=no
+		BOOST_INCLUDE=-I$withval/boost
+		BOOST_DEFINE=true
+	,
+		with_boost=no
+		BOOST_DEFINE=false
 )
 AC_SUBST(with_boost)
+AC_SUBST(BOOST_INCLUDE)
+AC_SUBST(BOOST_LIB)
+AC_SUBST(BOOST_DEFINE)
 
 AC_ARG_ENABLE(debug,
 AC_HELP_STRING(
@@ -63,6 +67,7 @@ AC_CONFIG_FILES([
 	utils/Makefile
 	fuzzy/Makefile
 	regex/Makefile
+	regex/regex-switch.h
 	win32/Makefile
 ])
 AC_OUTPUT

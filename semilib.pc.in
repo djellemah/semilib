@@ -7,4 +7,4 @@ Name: semilib
 Description: Various useful things for stuff
 Version: @VERSION@
 Libs: -L${libdir} -lutils -lregex -lfuzzy -llogger
-Cflags: -I${includedir}
+Cflags: -I${includedir} @BOOST_INCLUDE@

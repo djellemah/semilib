@@ -31,22 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma warning ( disable:4251 )
 
-#if defined(WITH_BOOST) || defined(WIN32)
-	#include <boost/cregex.hpp>
-	#define RXSPACE boost::
-	using namespace boost;
-	using RXSPACE REG_EXTENDED;
-	using RXSPACE REG_NOSUB;
-	using RXSPACE REG_ICASE;
-	using RXSPACE REG_NEWLINE;
-	using RXSPACE REG_ESPACE;
-	using RXSPACE REG_NOMATCH;
-#else
-	extern "C" {
-		#include "regex.h"
-	}
-	#define RXSPACE
-#endif
+#include "regex-switch.h"
 
 #include "AbstractRegex.h"
 #include "FlagsMapper.h"

@@ -1,4 +1,8 @@
-pkginclude_HEADERS = Regex.h regexdlldef.h AbstractRegex.h
+pkginclude_HEADERS = \
+	Regex.h \
+	regex-switch.h \
+	regexdlldef.h \
+	AbstractRegex.h
 
 lib_LTLIBRARIES = libregex.la
 libregex_la_SOURCES = Regex.cpp
