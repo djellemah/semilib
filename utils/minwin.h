@@ -64,7 +64,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define VC_EXTRA_LEAN
 
 // prevent inclusion of winsock.h in favour of winsock2.h
+#ifndef _WINSOCKAPI_
 #define _WINSOCKAPI_
+#endif
 
 // include what's left of the windows.h file
 #include <windows.h>
