@@ -162,6 +162,7 @@ protected:
 	*/
 	int _locks;
 
+	// because the win32 singleton doesn't have a builtin mutex
 #ifdef _WIN32
 	Mutex _mutex;
 #endif
