@@ -40,6 +40,7 @@ using namespace std;
 
 #include "MatchFunction.h"
 #include "Soundex.h"
+#include "Ranking.h"
 
 
 // for outputting an element of the results array
@@ -126,13 +127,18 @@ int main( int argc, char * argv[] )
 //			, Soundex ( word )
 		);
 
-		// sort results into match order, from best to worst
+		// sort results into match order, from worst to best
 		sort ( results.begin() , results.end() );
 		
 		// output best 10 (or number of elements in list) results to stdout
 		copy (
 			results.rbegin()
+#ifdef WIN32
+// min was a define in windows.h or something. Fucken.
+			, results.rbegin() + _MIN ( results.size(), (size_t)10 )
+#else
 			, results.rbegin() + min ( results.size(), (size_t)10 )
+#endif
 			, ostream_iterator<Results::value_type> ( cout, "\n" )
 		);
 	}
