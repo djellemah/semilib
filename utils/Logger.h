@@ -16,7 +16,7 @@ class Logger;
 
 namespace Level
 {
-	enum LogLevel { critical, error, warning, message, info, debug, all };
+	enum LogLevel { none, critical, error, warning, message, info, debug, all };
 }
 
 /**
