@@ -148,3 +148,93 @@ int test_ssprintf ( int argc, char * argv[] )
 	cout << ssprintf ( "%s %69s", "hello", "you" );
 	return 0;
 }
+
+/**************************
+Test persistence manager
+**************************/
+
+class TestPersist
+{
+public:
+	TestPersist( int value = 0 )
+	{
+		_value = value;
+	}
+	const int value() const
+	{
+		return _value;
+	}
+
+	TestPersist & value ( const int other )
+	{
+		_value = other;
+		return *this;
+	}
+
+	bool operator == ( const TestPersist & other )
+	{
+		return value() == other.value();
+	}
+
+	bool operator != ( const TestPersist & other )
+	{
+		return value() != other.value();
+	}
+
+private:
+	int _value;
+	friend ostream & operator << ( ostream &, const TestPersist & );
+	friend istream & operator >> ( istream &, TestPersist & );
+};
+
+ostream & operator << ( ostream & os, const TestPersist & obj )
+{
+	os << obj._value;
+	
+	return os;
+}
+
+istream & operator >> ( istream & is, TestPersist & obj )
+{
+	is >> obj._value;
+	
+	return is;
+}
+
+#include "PersistenceManager.h"
+
+namespace {
+	Constructor<TestPersist> c;
+}
+
+int test_Persistence ( int argc, char * argv[] )
+{
+	Constructor<TestPersist> c;
+	try
+	{
+		ostringstream os;
+		TestPersist p ( 5 );
+		PersistenceManager<TestPersist> pm;
+		pm.persist ( os, p );
+
+		istringstream is ( os.str() );
+		SmartPointer<TestPersist> ptr = pm.restore ( is );
+
+		cout << "Original: " << p.value() << endl;
+		cout << "Restored: " << ptr->value() << endl;
+
+		if ( p == *ptr ) return -1;
+	}
+	catch ( exception & e )
+	{
+		cout << e.what() << endl;
+		return -1;
+	}
+
+	return 0;
+}
+
+int main ( int argc, char * argv[] )
+{
+	return test_Persistence ( argc, argv );
+}
