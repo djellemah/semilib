@@ -52,12 +52,17 @@ void Logger::endMessage( LogLevel level )
 	
 	// end of message, so someone else can have a go now
 	// the mutex is recursively acquired in os()
+	
+	// prevent other threads getting in here
+	// between the last --_locks and the _locks > 0 test
+	_lock.acquire ( _mutex );
 	while ( _locks > 0 )
 	{
 		// do this before the release, so we don't get a race
 		 --_locks;
 		_lock.release ();
 	}
+	_lock.release();
 }
 
 /**
