@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\..\bin"
-			IntermediateDirectory=".\../../Release/logger"
+			OutputDirectory="../../Release/$(ProjectName)"
+			IntermediateDirectory="../../Release/$(ProjectName)"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -23,28 +23,24 @@
 				InlineFunctionExpansion="2"
 				OptimizeForProcessor="1"
 				AdditionalIncludeDirectories="../utils/;../../include"
-				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;UTILS_BUILD_DLL,_WIN32_WINNT=0x0400;WITH_BOOST"
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS,_WIN32_WINNT=0x0400;WITH_BOOST"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\../../Release/logger/logger.pch"
-				AssemblerListingLocation=".\../../Release/logger/"
-				ProgramDataBaseFileName=".\../../Release/logger/"
+				PrecompiledHeaderFile=""
+				AssemblerListingLocation="$(Outdir)/"
+				ProgramDataBaseFileName="$(Outdir)/logger.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLibrarianTool"/>
+				Name="VCLibrarianTool"
+				OutputFile="../../Release/$(ProjectName).lib"/>
 			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
-				TargetEnvironment="1"
-				TypeLibraryName="..\..\bin/logger.tlb"/>
+				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Installing Headers"
@@ -54,16 +50,14 @@
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"/>
+				Name="VCResourceCompilerTool"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\..\bin"
-			IntermediateDirectory=".\..\..\Debug\logger"
+			OutputDirectory="../../Debug/$(Projectname)"
+			IntermediateDirectory="../../Debug/$(Projectname)"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -71,12 +65,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../utils/;../../include"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;UTILS_BUILD_DLL,_WIN32_WINNT=0x0400;WITH_BOOST"
+				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS,_WIN32_WINNT=0x0400;WITH_BOOST"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				PrecompiledHeaderFile=".\..\..\Debug\logger/logger.pch"
-				AssemblerListingLocation=".\..\..\Debug\logger/"
-				ProgramDataBaseFileName=".\..\..\Debug\logger/"
+				PrecompiledHeaderFile=""
+				AssemblerListingLocation="$(Outdir)/"
+				ProgramDataBaseFileName="$(Outdir)/"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -84,14 +78,10 @@
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLibrarianTool"/>
+				Name="VCLibrarianTool"
+				OutputFile="../../Release/$(ProjectName).lib"/>
 			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="TRUE"
-				SuppressStartupBanner="TRUE"
-				TargetEnvironment="1"
-				TypeLibraryName="../../bin/logger.tlb"/>
+				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Installing Headers"
@@ -101,9 +91,7 @@
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"/>
+				Name="VCResourceCompilerTool"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 		</Configuration>
