@@ -51,6 +51,9 @@ This is the central place for file utilities.
 Currently it:
 	- tests for the existence of a file
 	- creates a directory, even when it means creating several subdirectories.
+	
+	\todo split off some of the methods into pure functions, where they
+	don't need an object.
 */
 class UTILS_DLL_API FileUtils
 {

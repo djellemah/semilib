@@ -15,8 +15,15 @@
 #include "StaticInit.h"
 
 /**
-	\defgroup memory Memory Allocation
+	c++ memory allocation algorithms. Not linked into the lib, but link this
+	file to your application to use it. There has been some trouble with
+	using this instead of the win32 api allocators in dlls. Never tried
+	it with .so dynamic libraries.
 	
+	It was originally from an article on memory allocation at Dr Dobbs Journal, I think.
+	
+	\defgroup memory Memory Allocation
+
 	\@{
 */
 //  Policy configuration
