@@ -25,12 +25,14 @@ public:
 	*/
 	explicit SingleResult ( Type error = -1 )
 	: _error ( error )
+	, _active ( true )
 	{
 	}
 
 	const SingleResult & operator = ( const SingleResult & other )
 	{
 		_error = other._error;
+		_active = other._active;
 		Base::operator = ( other );
 		return *this;
 	}
