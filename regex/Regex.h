@@ -27,11 +27,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <string>
 
-#include "regexdlldef.h"
+#include "utilsdlldef.h"
 
 #pragma warning ( disable:4251 )
 
-#ifdef WITH_BOOST
+#if defined(WITH_BOOST) || defined(WIN32)
 	#include <boost/cregex.hpp>
 	#define RXSPACE boost::
 	using namespace boost;
@@ -59,7 +59,7 @@ using namespace std;
 /**
 	exception for problems compiling a particular regular expression
 */
-class REGEX_DLL_API rx_exception : public exception
+class UTILS_DLL_API rx_exception : public exception
 {
 public:
 	rx_exception ( int rxError, const RXSPACE regex_t & compiled, const string & pattern );
@@ -121,7 +121,7 @@ protected:
 	
 	\ingroup regex
 */
-class REGEX_DLL_API Regex : public AbstractRegex
+class UTILS_DLL_API Regex : public AbstractRegex
 {
 public:
 	/**
@@ -350,11 +350,11 @@ private:
 	For persistence to a stream. Stores the pattern and the flags, using FlagsMapper.
 	/ingroup regex
 */
-REGEX_DLL_API ostream & operator << ( ostream & os, const Regex & regex );
+UTILS_DLL_API ostream & operator << ( ostream & os, const Regex & regex );
 
 /**
 	For persistence from a stream. Retrieves the pattern and the flags, using FlagsMapper.
 */
-REGEX_DLL_API istream & operator >> ( istream & is, Regex & regex );
+UTILS_DLL_API istream & operator >> ( istream & is, Regex & regex );
 
 #endif

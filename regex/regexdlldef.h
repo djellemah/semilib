@@ -7,7 +7,11 @@
 	#ifdef BUILD_REGEX_DLL
 		#define REGEX_DLL_API __declspec ( dllexport )
 	#else
-		#define REGEX_DLL_API __declspec ( dllimport )
+		#if _MSC_VER >= 1200
+			#define REGEX_DLL_API
+		#else
+			#define REGEX_DLL_API __declspec ( dllimport )
+		#endif
 	#endif
 #endif
 

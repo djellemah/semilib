@@ -7,7 +7,6 @@
 
 #ifdef _WIN32
 	#ifdef UTILS_NO_USE_DLL
-		#error none
 		#define UTILS_DLL_API
 	#else	
 		#ifdef UTILS_BUILD_DLL

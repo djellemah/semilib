@@ -22,8 +22,8 @@
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="2"
 				OptimizeForProcessor="1"
-				AdditionalIncludeDirectories="..\Regex\src"
-				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;UTILS_BUILD_DLL,_WIN32_WINNT=0x0400"
+				AdditionalIncludeDirectories="../Regex/src;../utils/;../../include"
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;UTILS_BUILD_DLL,_WIN32_WINNT=0x0400;WITH_BOOST"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -41,12 +41,12 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile="../../dlls/utils.dll"
+				OutputFile="../../bin/utils.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				ProgramDatabaseFile=".\..\bin/utils.pdb"
+				ProgramDatabaseFile="..\..\lib/utils.pdb"
 				SubSystem="2"
-				ImportLibrary=".\..\bin/utils.lib"/>
+				ImportLibrary="..\..\lib/utils.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -79,8 +79,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\Regex\src,..\sxl\include"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;UTILS_BUILD_DLL,_WIN32_WINNT=0x0400"
+				AdditionalIncludeDirectories="../Regex/src;../utils/;../../include"
+				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;UTILS_BUILD_DLL,_WIN32_WINNT=0x0400;WITH_BOOST"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				PrecompiledHeaderFile=".\..\..\Debug\dllUtils/dllUtils.pch"
@@ -97,13 +97,13 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib"
-				OutputFile="../../dlls/utils.debug.dll"
+				OutputFile="../../bin/utils.debug.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\bin/utils.debug.pdb"
+				ProgramDatabaseFile="..\..\lib/utils.debug.pdb"
 				SubSystem="2"
-				ImportLibrary=".\..\bin/utils.debug.lib"/>
+				ImportLibrary="..\..\lib/utils.debug.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -186,6 +186,12 @@
 			RelativePath="..\utils\RefCount.h">
 		</File>
 		<File
+			RelativePath="..\regex\Regex.cpp">
+		</File>
+		<File
+			RelativePath="..\regex\Regex.h">
+		</File>
+		<File
 			RelativePath="..\utils\Result.cpp">
 		</File>
 		<File
@@ -238,6 +244,9 @@
 		</File>
 		<File
 			RelativePath="..\utils\posException.h">
+		</File>
+		<File
+			RelativePath="..\regex\regexdlldef.h">
 		</File>
 		<File
 			RelativePath="..\utils\smartnew.cpp">
