@@ -1,4 +1,5 @@
-AM_LDFLAGS = -release ${VERSION}
+LIBADD = -lpthread
+AM_LDFLAGS = -release ${VERSION} ${LIBADD}
 
 pkginclude_HEADERS = \
 	cs_sptr.h \
@@ -30,11 +31,16 @@ pkginclude_HEADERS = \
 
 #	RefCount.h
 
-lib_LTLIBRARIES = libutils.la liblogger.la
+# utils contains everything.
+# logger contains only logger because of a dependency
+# on something to provide a newInstance
+# libcoutlogger contains a logger that goes to cout
+lib_LTLIBRARIES = libutils.la liblogger.la libcoutlogger.la
 
 libutils_la_SOURCES = \
 	FileUtils.cpp \
 	FlagsMapper.cpp \
+	Mutex.cpp \
 	Persistence.cpp \
 	PersistenceManager.cpp \
 	Result.cpp \
@@ -45,18 +51,17 @@ libutils_la_SOURCES = \
 	functions.cpp \
 	istring.cpp \
 	posException.cpp \
-	utils.cpp \
-	Mutex.cpp
-	
+	utils.cpp
+
 #	RefCount.cpp
 
-libutils_la_LIBADD = -lpthread
+LDADD = libutils.la liblogger.la -lpthread ${LIBADD}
 
-liblogger_la_SOURCES = CoutLogger.cpp Logger.cpp
+liblogger_la_SOURCES = Logger.cpp
+libcoutlogger_la_SOURCES = CoutLogger.cpp
 
-check_PROGRAMS = testPredicateResult
-
+check_PROGRAMS = testPredicateResult testLogger
 testPredicateResult_SOURCES = testPredicateResult.cpp
-testPredicateResult_LDADD = libutils.la liblogger.la -lpthread
+testLogger_SOURCES = testlogger.cpp
 
 #TESTS=test

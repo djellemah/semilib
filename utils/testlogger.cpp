@@ -12,4 +12,7 @@ int main()
 	Logger::instance().los() << "This is a message" << endl;
 	Logger::instance().los() << "That comes on two lines" << endl;
 	Logger::os() << Logger::end();
+	
+	logger << "This is straight to the logger" << elog( Level::error );
+	logger << "This is straight to the logger with manip" << elog;
 }

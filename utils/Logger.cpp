@@ -11,6 +11,8 @@ Logger::Logger()
 }
 #pragma warning( default : 4355 ) 
 
+Logger & logger = Logger::instance();
+
 void Logger::log ( const std::string & msg, Level::LogLevel level )
 {
 	_lock.acquire ( mutex() );
@@ -115,3 +117,15 @@ string Logger::levelToString ( Level::LogLevel level )
 	};
 	return retval;
 }
+
+ostream & elog ( std::ostream & os )
+{
+	os << Logger::end();
+	return os;
+}
+
+EndLog & elog ( Level::LogLevel level )
+{
+	return Logger::end ( level );
+}
+

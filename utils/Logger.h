@@ -176,6 +176,28 @@ protected:
 	int _locks;
 };
 
+/**
+	Convenience function that returns Logger::EndLog
+*/
+extern std::ostream& elog(std::ostream& outs);
+extern EndLog & elog ( Level::LogLevel level = Level::message );
+
+/**
+	A definition of this must be linked to provide
+	the instance which actually does the logging.
+*/
 LOGGER_DLL_API Logger * newInstance ( Logger * );
+
+/**
+	convenience function to allow << directly to a logger
+*/
+template<class T>
+std::ostream & operator<< ( Logger & logger, T type )
+{
+	Logger::os() << type;
+	return Logger::os();
+}
+
+extern Logger & logger;
 
 #endif

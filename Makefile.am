@@ -15,6 +15,6 @@ doc:
 	doxygen
 
 install-data-local: doc
-	$(INSTALL_DATA) -d $(prefix)/doc/html
+	$(INSTALL_DATA) -d -m 0755 $(prefix)/doc/html
 	$(INSTALL_DATA) $(srcdir)/doc/html/* $(prefix)/doc/html
 
