@@ -19,16 +19,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef utilsdlldef_h
 #define utilsdlldef_h
 
-#if defined ( UTILS_NO_USE_DLL ) || !defined ( _WIN32 )
+#ifdef UTILS_NO_USE_DLL
 	#define UTILS_DLL_API
-//	#pragma message ( "UTILS - Not building for DLL" )
+	// #pragma message ( "UTILS - Not building for DLL" )
 #else
-	#ifdef BUILD_UTILS_DLL
-		#define UTILS_DLL_API __declspec ( dllexport )
-//		#pragma message ( "UTILS - Building DLL" )
-	#else
-		#define UTILS_DLL_API __declspec ( dllimport )
-//		#pragma message ( "UTILS - Including DLL" )
+	#ifdef _WIN32
+		#ifdef BUILD_UTILS_DLL
+			#define UTILS_DLL_API __declspec ( dllexport )
+		//	#pragma message ( "UTILS - Building DLL" )
+		#else
+			#define UTILS_DLL_API __declspec ( dllimport )
+		//	#pragma message ( "UTILS - Including DLL" )
+		#endif
 	#endif
 #endif
 
