@@ -1,4 +1,7 @@
-include_HEADERS = MatchFunction.h Soundex.h Ranking.h NGram.h fuzzydlldef.h
+include_HEADERS = MatchFunction.h Soundex.h \
+	Ranking.h NGram.h fuzzydlldef.h \
+	BasicSoundex.h SoundexCharLookup.h \
+	matchfunctions.h
 
 lib_LTLIBRARIES = libfuzzy.la
 libfuzzy_la_SOURCES = \

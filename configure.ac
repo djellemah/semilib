@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 AC_INIT([sxx],[1.0.2],[utils@semiosix.com])
-AM_INIT_AUTOMAKE(sxx, 1.0.2)
+AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
 AC_CONFIG_SRCDIR([utils/istring.h])
 AM_CONFIG_HEADER([config.h])
 
