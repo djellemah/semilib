@@ -23,7 +23,7 @@
 				InlineFunctionExpansion="2"
 				OptimizeForProcessor="1"
 				AdditionalIncludeDirectories="../Regex/src;../utils/;../../include"
-				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS,_WIN32_WINNT=0x0400;WITH_BOOST"
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS,_WIN32_WINNT=0x0400;WITH_BOOST;DISABLE_WIDE_CHAR_SUPPORT"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -73,7 +73,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../Regex/src;../utils/;../../include"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS,_WIN32_WINNT=0x0400;WITH_BOOST"
+				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS,_WIN32_WINNT=0x0400;WITH_BOOST;DISABLE_WIDE_CHAR_SUPPORT"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
 				PrecompiledHeaderFile="$(IntDir)/$(ProjectName).pch"
@@ -148,6 +148,12 @@
 		</File>
 		<File
 			RelativePath="..\utils\Mutex.h">
+		</File>
+		<File
+			RelativePath="..\utils\NiceDate.cpp">
+		</File>
+		<File
+			RelativePath="..\utils\NiceDate.h">
 		</File>
 		<File
 			RelativePath="..\utils\RefCount.cpp">
