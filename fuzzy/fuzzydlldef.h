@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef fuzzydlldef_h
 #define fuzzydlldef_h
 
-#ifdef WIN32
+#ifdef _WIN32
 	#ifdef FUZZY_NO_USE_DLL
 		#define FUZZY_DLL_API
 	#endif
