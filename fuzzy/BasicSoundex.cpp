@@ -20,6 +20,8 @@
 **	  This code is shareware -- I wrote it; you can have it for free
 **	  if you supply it to anyone else who wants it for free.**
 **	  BUGS: Assumes ASCII
+
+Slightly modified by John Anderson (panic@semiosix.com) circa 2000
 */
 
 #include <string>
