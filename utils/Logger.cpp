@@ -2,6 +2,8 @@
 
 #include "Logger.h"
 
+#include <iomanip>
+
 using namespace std;
 
 #pragma warning( disable : 4355 ) 
@@ -21,7 +23,9 @@ void Logger::log ( const std::string & msg, Level::LogLevel level )
 	// only log the message if the level is set above it
 	if( level <= _filter )
 	{
-		doLog ( levelToString ( level ) + ": " + msg, level );
+		ostringstream os;
+		os << setw(8) << left << levelToString ( level ) << ": " << msg;
+		doLog (  os.str(), level );
 	}
 	
 	// reset the buffer for the next message
@@ -114,7 +118,7 @@ string Logger::levelToString ( Level::LogLevel level )
 			retval = "debug";
 			break;
 		default:
-			retval = "unknown level";
+			retval = "unknown";
 			break;
 	};
 	return retval;
