@@ -112,7 +112,7 @@ public:
 
 	/*
 		MSVC complains that it can't resolve this symbol unless you
-		explicitly define it
+		explicitly define it. Duh.
 	*/
 	Constructor ( const Constructor & )
 	{
