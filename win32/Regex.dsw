@@ -3,18 +3,6 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "Regex Library"=D:\Users\panic\Desktop\Files\Projects\Regex\RegexLibrary.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "dllUtils"=..\Utils\dllUtils.dsp - Package Owner=<4>
 
 Package=<5>
