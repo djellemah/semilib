@@ -35,8 +35,12 @@ using namespace std;
 #pragma warning ( disable:4251 )
 
 #define RXSPACE boost::
-
-using namespace boost;
+using RXSPACE REG_EXTENDED;
+using RXSPACE REG_NOSUB;
+using RXSPACE REG_ICASE;
+using RXSPACE REG_NEWLINE;
+using RXSPACE REG_ESPACE;
+using RXSPACE REG_NOMATCH;
 
 /**
 	exception for problems compiling a particular regular expression

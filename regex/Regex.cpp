@@ -26,6 +26,9 @@ using namespace std;
 
 #include "Regex.h"
 #include "SmartPointer.h"
+#include "boost/cregex.hpp"
+
+using namespace boost;
 
 const char * flagsString = ""
 	"REG_EXTENDED 1"
@@ -36,9 +39,11 @@ const char * flagsString = ""
 
 SmartPointer<FlagsMapper> Regex::_mapper;
 
+/*
 #if !defined __BCPLUSPLUS__ && defined RSXPACE
 	using namespace rxSpace;
 #endif
+*/
 
 /*
 	rx_exception implementations
@@ -81,7 +86,7 @@ Regex::Regex ( const string & pattern, int flags )
 Regex::~Regex()
 {
 	if ( _patternBufferAllocated )
-		regfree ( & _patternBuffer );
+		RXSPACE regfree ( & _patternBuffer );
 }
 
 Regex::Regex ( const Regex & other )
@@ -170,7 +175,7 @@ bool Regex::match ( const string & toMatch, unsigned long pos ) const
 		throw out_of_range ( os.str().c_str() );
 	}
 
-	int result = regexec (
+	int result = RXSPACE regexec (
 		&_patternBuffer // the pattern to match
 		, toMatch.c_str() + pos // the string to match
 // commented out cos jregex doesn't need it
@@ -262,10 +267,10 @@ int Regex::subExpEnd ( int index ) const
 void Regex::compile()
 {
 	// initialise the pattern buffer
-	::memset ( &_patternBuffer, 0, sizeof(regex_t ) );
+	::memset ( &_patternBuffer, 0, sizeof(RXSPACE regex_t) );
 
 	// compile the regex
-	int result = regcomp ( &_patternBuffer, pattern().c_str(), flags() );
+	int result = RXSPACE regcomp ( &_patternBuffer, pattern().c_str(), flags() );
 
 	// check for problems with the compile
 	if ( result != 0 )
