@@ -10,12 +10,35 @@ using namespace std;
 
 #include "NGram.h"
 
-typedef FUZZY_DLL_API pair<float,string> Ranking;
+class FUZZY_DLL_API Ranking : public pair<float,string>
+{
+public:
+	Ranking ( const float & f, const string & s )
+		: pair<float,string> ( f, s )
+	{
+	}
+	
+	Ranking & operator = ( const Ranking & other )
+	{
+		first = other.first;
+		second = other.second;
+		return *this;
+	}
+	
+	bool operator == ( const Ranking & other ) const
+	{
+		return first == other.first;
+	}
+	
+	bool operator < ( const Ranking & other ) const;
+};
+
+ostream & operator << ( ostream &, const Ranking & );
 
 /*
 	This is a predicate to be used with the STL sum function
 */
-struct OneResult : public pair<int,int> 
+struct OneResult : public pair<int,int>
 {
 	OneResult ( int a = 0, int b = 0 )
 		: pair<int,int> ( a, b )
