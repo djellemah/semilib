@@ -19,7 +19,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef Timer_h
 #define Timer_h
 
-class UTILS_DLL_API Timer
+#include "minwin.h"
+
+// doesn't need export marker cos it's all inline
+class /*UTILS_DLL_API*/ Timer
 {
 public:
 	Timer( bool shouldStart = true )
@@ -63,6 +66,5 @@ private:
 	unsigned int _stop;
 	bool running;
 };
-
 
 #endif
