@@ -40,7 +40,7 @@ Ranking Soundex::operator () ( const string & element )
 	string soundex = PrepareTheString ( element );
 
 	// return percentage match and original string
-	float percent = (( soundex == _toMatch ) ? 1.0 : 0.0 );
+	double percent = (( soundex == _toMatch ) ? 1.0 : 0.0 );
 	return Ranking ( percent, element );
 }
 
