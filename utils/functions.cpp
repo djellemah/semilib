@@ -129,16 +129,16 @@ UTILS_DLL_API string uuidAsString()
 	unsigned char * pszBuffer;
 
 	// make the new id
-	if ( UuidCreate ( &uuid ) != RPC_S_OK )
+	if ( ::UuidCreate ( &uuid ) != RPC_S_OK )
 		throw runtime_error ( "Couldn't create uuid" );
 
 	// get a string representation of the uuid
-	if ( UuidToString ( &uuid, &pszBuffer ) != RPC_S_OK )
+	if ( ::UuidToString ( &uuid, &pszBuffer ) != RPC_S_OK )
 		throw runtime_error ( "Couldn't convert uuid to string representation" );
 
 	// make the string representation palatable
 	string sReturnValue ( (char*)pszBuffer );
-	RpcStringFree ( &pszBuffer );
+	::RpcStringFree ( &pszBuffer );
 
 	return sReturnValue;
 */

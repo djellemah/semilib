@@ -22,7 +22,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <iostream>
 using namespace std;
 
-#include <direct.h>
+#ifdef WIN32
+	#include <direct.h>
+#else
+	#include <sys/stat.h>
+	#include <asm/errno.h>
+#endif
 
 #include "FileUtils.h"
 
@@ -137,7 +142,12 @@ void mkdir( const string & dirname )
 		path += *current;
 		if ( !FileUtils::exists (path) )
 		{
+#ifdef WIN32
 			int result = _mkdir ( path.c_str() );
+#else
+			// with rwxr-xr-x permissions
+			int result = mkdir ( path.c_str(), S_IRWXU | S_IRGRP | S_IXGRP |S_IROTH | S_IXOTH );
+#endif
 			// only throw an error if it's something other than
 			// the directory already exists
 			if ( result == -1 && errno != EEXIST )

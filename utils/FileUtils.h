@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdexcept>
 #include <vector>
 
-#include <io.h>
+//#include <io.h>
 #include <fcntl.h>
 
 using namespace std;

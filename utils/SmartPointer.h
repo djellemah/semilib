@@ -571,7 +571,7 @@ public:
 private:
 	void * _ptr;
 	mutable bool owner;
-	Deallocator deallocator;
+	NormalDelete<void> deallocator;
 };
 
 #endif

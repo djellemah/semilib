@@ -46,6 +46,7 @@ void main()
 {
 	fn();
 }
+*/
 
 int main ( int argc, char * argv[] )
 {
@@ -57,7 +58,6 @@ int main ( int argc, char * argv[] )
 
 	cout << boolalpha << FileUtils::exists("") << endl;
 }
-*/
 
 /*
 #include "FlagsMapper.h"
@@ -85,10 +85,6 @@ void main()
 	{
 		cerr << e.what() << endl;
 	}
+
 }
 */
-
-void main()
-{
-
-}

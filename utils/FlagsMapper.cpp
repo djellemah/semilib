@@ -19,6 +19,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma warning(disable: 4786)
 
 #include <numeric>
+#include <stdexcept>
+
 using namespace std;
 
 #include "FlagsMapper.h"
@@ -135,7 +137,7 @@ void FlagsMapper::stripSpaces ( string & aString ) const
 	unsigned long next = char_traits<char>::eof();
 	while ( next = is.get(), !is.eof())
 	{
-		if ( !isspace ( next ) )
+		if ( !std::isspace ( (int)next ) )
 			os << char_traits<char>::to_char_type ( next );
 	}
 	aString = os.str();

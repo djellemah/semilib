@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef utilsdlldef_h
 #define utilsdlldef_h
 
-#ifdef UTILS_NO_USE_DLL
+#if defined ( UTILS_NO_USE_DLL ) || !defined ( WIN32 )
 	#define UTILS_DLL_API
 #else
 	#ifdef BUILD_UTILS_DLL
