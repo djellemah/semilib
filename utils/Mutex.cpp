@@ -1,6 +1,8 @@
 #include "Mutex.h"
 
 #ifndef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <winbase.h>
 #include <errno.h>
 #endif
 
@@ -38,7 +40,7 @@ bool Mutex::trylock()
 {
 	bool retval = false;
 #ifdef _WIN32
-	BOOL result = ::TryEnterCriticalSection ( &criticalSection );
+	BOOL result = TryEnterCriticalSection ( &criticalSection );
 	return result != 0;
 #else
 	int result = pthread_mutex_trylock ( &_mutex );
