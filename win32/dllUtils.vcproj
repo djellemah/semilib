@@ -14,7 +14,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\..\bin"
-			IntermediateDirectory=".\../../Release/dllUtils"
+			IntermediateDirectory="../../Release/$(ProjectName)"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -153,11 +153,6 @@
 		</File>
 		<File
 			RelativePath="..\utils\Lock.cpp">
-			<FileConfiguration
-				Name="Debug|Win32">
-				<Tool
-					Name="VCCLCompilerTool"/>
-			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\utils\Lock.h">
