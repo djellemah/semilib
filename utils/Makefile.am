@@ -15,6 +15,7 @@ pkginclude_HEADERS = \
 	MarkStream.h \
 	MultiResult.h \
 	Mutex.h \
+	NiceDate.h \
 	Persistence.h \
 	PersistenceManager.h \
 	posException.h \
@@ -41,6 +42,7 @@ libutils_la_SOURCES = \
 	FlagsMapper.cpp \
 	Lock.cpp \
 	Mutex.cpp \
+	NiceDate.cpp \
 	Persistence.cpp \
 	PersistenceManager.cpp \
 	Result.cpp \
