@@ -5,10 +5,11 @@
 	#define WIN32_LEAN_AND_MEAN
 	#define VC_EXTRA_LEAN
 	#include <windows.h>
-	#include "utilsdlldef.h"
 #else
 	#include <pthread.h>
 #endif
+
+#include "utilsdlldef.h"
 
 /**
 	Mutex class. Create on of these whenever a critical section is
