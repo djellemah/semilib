@@ -21,7 +21,7 @@
 **	  if you supply it to anyone else who wants it for free.**
 **	  BUGS: Assumes ASCII
 
-Slightly modified by John Anderson (panic@semiosix.com) circa 2000
+Slightly modified by John Anderson (panic@semiosix.com) circa 2000 to be c++ and use STL stuff
 */
 
 #include <string>
@@ -43,7 +43,7 @@ using namespace std;
 /**
 	Soundex for arbitrary number of characters of information
 */
-string nsoundex ( const string & str, int n )
+string nsoundex ( const string & str, unsigned int n )
 {
 	string retval;
 	string::const_iterator s = str.begin();
@@ -63,7 +63,11 @@ string nsoundex ( const string & str, int n )
 			char c = *s;
 			if ( s == str.begin() )
 			{
+#ifdef WIN32
+				*t++ = toupper ( (int)c );
+#else
 				*t++ = std::toupper ( (int)c );
+#endif
 			}
 			else
 			{
@@ -88,29 +92,6 @@ string soundex ( const string & str)
 {
 	return ( nsoundex ( str, 4 ) );
 }
-
-/*
-**	  Alternative interface:
-**	  void	soundex(given, gets)
-**	  char	*given;
-**	  char	*gets;
-**	  {
-**			  strcpy(gets, nsoundex(given, 4));
-**	  }
-*/
-
-
-/*
-#ifdef TEST
-#include <stdio.h> main()
-{
-		char	buff[30];
-
-		while (fgets(buff, sizeof(buff), stdin) != (char *)0)
-				printf("Given: %s Soundex produces %s\n", buff, soundex(buff));
-}
-}
-*/
 
 } // end of JLeffler namespace
 
