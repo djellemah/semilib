@@ -126,6 +126,12 @@
 			RelativePath="..\utils\Cloneable.h">
 		</File>
 		<File
+			RelativePath="..\utils\FileLogger.cpp">
+		</File>
+		<File
+			RelativePath="..\utils\FileLogger.h">
+		</File>
+		<File
 			RelativePath="..\utils\FileUtils.cpp">
 		</File>
 		<File
