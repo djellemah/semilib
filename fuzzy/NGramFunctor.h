@@ -15,9 +15,9 @@ You should have received a copy of the GNU Library General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-
 #ifndef MatchFunction_h
 #define MatchFunction_h
+
 
 #include <vector>
 #include <map>
@@ -27,31 +27,10 @@ using namespace std;
 #include "fuzzydlldef.h"
 
 #include "NGram.h"
+#include "Ranking.h"
 
-class FUZZY_DLL_API Ranking : public pair<float,string>
-{
-public:
-	Ranking ( const float & f, const string & s )
-		: pair<float,string> ( f, s )
-	{
-	}
-	
-	Ranking & operator = ( const Ranking & other )
-	{
-		first = other.first;
-		second = other.second;
-		return *this;
-	}
-	
-	bool operator == ( const Ranking & other ) const
-	{
-		return first == other.first;
-	}
-	
-	bool operator < ( const Ranking & other ) const;
-};
-
-ostream & operator << ( ostream &, const Ranking & );
+// disable non dll-interface warnings
+#pragma warning(disable: 4275)
 
 /*
 	This is a predicate to be used with the STL sum function
@@ -156,9 +135,10 @@ private:
 		, MatchFunction ( argv[2] )
 	);
 
-	output should be a map with the key as the string
-	being matched against toMatch, and the value
-	as the percentage match
+	output should be a collection of Ranking objects
+
+	It would be a good idea to templatise this class so that
+	Ranking and string are parameters
 */
 class FUZZY_DLL_API MatchFunction
 {
