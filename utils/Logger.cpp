@@ -13,7 +13,7 @@ Logger::Logger()
 
 void Logger::log ( const std::string & msg, Level::LogLevel level )
 {
-	_lock.acquire ( _mutex );
+	_lock.acquire ( mutex() );
 	// only log the message if the level is set above it
 	if( level <= _filter )
 	{
@@ -38,14 +38,14 @@ ostream & Logger::los()
 	// this is quite tricky, because this might be
 	// called several times before endMessage is called
 	// so we need a count
-	_lock.acquire ( _mutex );
+	_lock.acquire ( mutex() );
 	++_locks;
 	return _os;
 }
 
 void Logger::endMessage( Level::LogLevel level )
 {
-	_lock.acquire ( _mutex );
+	_lock.acquire ( mutex() );
 	log ( _os.str(), level );
 	
 	// end of message, so someone else can have a go now
@@ -69,7 +69,7 @@ ostream & Logger::os()
 
 EndLog & Logger::end( Level::LogLevel level )
 {
-	Logger::instance()._lock.acquire ( Logger::instance()._mutex );
+	Logger::instance()._lock.acquire ( Logger::instance().mutex() );
 	++Logger::instance()._locks;
 	Logger::instance()._end.level ( level );
 	return Logger::instance()._end;
@@ -82,6 +82,9 @@ string Logger::levelToString ( Level::LogLevel level )
 	string retval;
 	switch ( level )
 	{
+		case none:
+			retval = "none";
+			break;
 		case critical:
 			retval = "critical";
 			break;
