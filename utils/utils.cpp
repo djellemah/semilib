@@ -1,5 +1,8 @@
 #include "utils.h"
 
+#include <time.h>
+#include "Lock.h"
+
 #include <sstream>
 
 using namespace std;
@@ -24,5 +27,48 @@ void stripCr ( string & s )
 	}
 	
 	s = os.str();
+}
+
+using namespace std;
+
+Mutex mutex;
+
+struct tm brokentime()
+{
+	// fetch the current time
+	time_t thetime;
+	time ( &thetime );
+	
+	// convert to a broken time value
+	struct tm btime;
+		
+	// make a copy now to avoid the system pointer
+	// getting overriden with a different value
+	Lock lock ( mutex );
+	btime = *localtime (&thetime);
+	
+	return btime;
+}
+
+string today()
+{
+	struct tm btime = brokentime();
+		
+	// convert to a string
+	const size_t maxbufsize = 40;
+	char buf[maxbufsize];
+	size_t result = strftime (buf, maxbufsize, "%0d-%b-%y" , &btime );
+	return string ( buf );
+}
+
+string now()
+{
+	struct tm btime = brokentime();
+
+	// convert to a string
+	const size_t maxbufsize = 40;
+	char buf[maxbufsize];
+	size_t result = strftime (buf, maxbufsize, "%d %b %Y %H:%M" , &btime );
+	return string ( buf );
 }
 

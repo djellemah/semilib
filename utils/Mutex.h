@@ -2,7 +2,9 @@
 #define Mutex_h
 
 #ifdef _WIN32
-	#include <windows.h>
+#define WIN32_LEAN_AND_MEAN
+#define VC_EXTRA_LEAN
+#include <windows.h>
 #else
 	#include <pthread.h>
 #endif

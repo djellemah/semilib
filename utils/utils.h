@@ -28,5 +28,20 @@ std::string numberToString ( T num )
 	return os.str();
 }
 
+/**
+	Fetch a struct tm value containing the current time.
+*/
+struct tm brokentime();
+
+/**
+	Fetch the current time in the format 01-jun-02
+*/
+std::string today();
+
+/**
+	Fetch the current time in the format 6 JUN 2002 10:40
+*/
+std::string now();
+
 #endif
 
