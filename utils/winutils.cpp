@@ -2,7 +2,7 @@
 
 using namespace std;
 
-ostream & operator << ( ostream & os , const _com_error & e )
+UTILS_DLL_API ostream & operator << ( ostream & os , const _com_error & e )
 {
 	if ( (char*)e.Description() != 0 )
 	{

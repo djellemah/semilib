@@ -4,7 +4,9 @@
 #include <comdef.h>
 #include <iostream>
 
-std::ostream & operator << ( std::ostream &, const _com_error & e );
+#include "utilsdlldef.h"
+
+UTILS_DLL_API std::ostream & operator << ( std::ostream &, const _com_error & e );
 
 #endif
 
