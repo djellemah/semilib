@@ -1,6 +1,8 @@
 #ifndef utils_h
 #define utils_h
 
+#include "utilsdlldef.h"
+
 #include <string>
 #include <sstream>
 
@@ -9,7 +11,7 @@
 */
 extern const char * pathsep;
 
-void stripCr ( std::string & s );
+UTILS_DLL_API void stripCr ( std::string & s );
 
 /**
 	Convert a number into a string. Instantiates an ostringstream
@@ -27,30 +29,32 @@ std::string numberToString ( T num )
 /**
 	Fetch a struct tm value containing the current time.
 */
-struct tm brokentime();
+UTILS_DLL_API struct tm brokentime();
 
 /**
 	Fetch the current time in the format 01-jun-02
 */
-std::string today();
+UTILS_DLL_API std::string today();
 
 /**
 	Full timestamp, including seconds and milliseconds
 */
-std::string timestamp();
+UTILS_DLL_API std::string timestamp();
 
 /**
 	Fetch the current time in the format 6 JUN 2002 10:40
 */
-std::string now();
+UTILS_DLL_API std::string now();
 
 /**
 	trim whitespace from the beginning and end of the string
 
 	This could probably be done better with find_first_not_of
 	but the app is nearly live and I don't want to mess with things
+
+	\todo implement with algorithms
 */
-std::string trim ( const std::string & );
+UTILS_DLL_API std::string trim ( const std::string & );
 
 #endif
 

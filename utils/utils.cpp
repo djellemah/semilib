@@ -15,7 +15,7 @@ using namespace std;
 /**
 	Strip all carriage returns.
 */
-void stripCr ( string & s )
+UTILS_DLL_API void stripCr ( string & s )
 {
 	ostringstream os;
 	istringstream is ( s );
@@ -32,7 +32,7 @@ using namespace std;
 
 Mutex mutex;
 
-struct tm brokentime()
+UTILS_DLL_API struct tm brokentime()
 {
 	// fetch the current time
 	time_t thetime;
@@ -49,7 +49,7 @@ struct tm brokentime()
 	return btime;
 }
 
-string today()
+UTILS_DLL_API string today()
 {
 	struct tm btime = brokentime();
 		
@@ -60,7 +60,7 @@ string today()
 	return string ( buf );
 }
 
-string now()
+UTILS_DLL_API string now()
 {
 	struct tm btime = brokentime();
 
@@ -71,7 +71,7 @@ string now()
 	return string ( buf );
 }
 
-string timestamp()
+UTILS_DLL_API string timestamp()
 {
 	struct tm btime = brokentime();
 
@@ -82,7 +82,7 @@ string timestamp()
 	return string ( buf );
 }
 
-string trim ( const string & s )
+UTILS_DLL_API string trim ( const string & s )
 {
 	if ( s.empty() )
 	{
