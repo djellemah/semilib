@@ -25,45 +25,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 using namespace std;
 
-/*
 class Object
 {
 };
 
-void fn()
-{
-	const Object o;
-	SmartPointer<Object> n = &o;
-
-	SmartPointer<char> p = new char[1024];
-	p = "Hello there";
-	SmartPointer<char> q = "Another const char *";
-	strlen ( p );
-
-}
-
-void main()
-{
-	fn();
-}
-*/
-
-int main ( int argc, char * argv[] )
-{
-	FileUtils fu ( argv[1] );
-	cout << boolalpha << fu.exists() << endl;
-	cout << fu.reason() << endl;
-
-	cout << boolalpha << FileUtils::exists ( argv[1] );
-
-	cout << boolalpha << FileUtils::exists("") << endl;
-}
-
-/*
 #include "FlagsMapper.h"
 
-void main()
+void main( int argc, char * argv[] )
 {
+	// test flags mapper
 	const char * flagsString = ""
 		"REG_EXTENDED 1"
 		"REG_ICASE 2"
@@ -86,5 +56,21 @@ void main()
 		cerr << e.what() << endl;
 	}
 
+	// test file utils
+	FileUtils fu ( argv[1] );
+	cout << boolalpha << fu.exists() << endl;
+	cout << fu.reason() << endl;
+
+	cout << boolalpha << FileUtils::exists ( argv[1] );
+
+	cout << boolalpha << FileUtils::exists("") << endl;
+
+	// test smart pointer
+	Object o;
+	SmartPointer<Object> n = &o;
+
+	SmartPointer<char> p = new char[1024];
+	p = "Hello there";
+	SmartPointer<char> q = "Another const char *";
+	strlen ( p );
 }
-*/
