@@ -35,6 +35,11 @@ struct tm brokentime();
 std::string today();
 
 /**
+	Full timestamp, including seconds and milliseconds
+*/
+std::string timestamp();
+
+/**
 	Fetch the current time in the format 6 JUN 2002 10:40
 */
 std::string now();

@@ -65,9 +65,20 @@ string now()
 	struct tm btime = brokentime();
 
 	// convert to a string
-	const size_t maxbufsize = 40;
+	const size_t maxbufsize = 60;
 	char buf[maxbufsize];
 	size_t result = strftime (buf, maxbufsize, "%d %b %Y %H:%M" , &btime );
+	return string ( buf );
+}
+
+string timestamp()
+{
+	struct tm btime = brokentime();
+
+	// convert to a string
+	const size_t maxbufsize = 60;
+	char buf[maxbufsize];
+	size_t result = strftime (buf, maxbufsize, "%d %b %Y %H:%M:%S" , &btime );
 	return string ( buf );
 }
 
