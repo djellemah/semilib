@@ -41,6 +41,9 @@ std::string now();
 
 /**
 	trim whitespace from the beginning and end of the string
+
+	This could probably be done better with find_first_not_of
+	but the app is nearly live and I don't want to mess with things
 */
 std::string trim ( const std::string & );
 
