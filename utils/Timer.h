@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef Timer_h
 #define Timer_h
 
-#ifdef _MSVC
+#ifdef _WIN32
 #include "minwin.h"
 #else
 #include <sys/time.h>
@@ -48,25 +48,29 @@ public:
 	/**
 		Start the timer running.
 	*/
-	unsigned start()
+	unsigned long start()
 	{
-#ifdef _MSVC
-		_start = ::GetTickCount();
+#ifdef _WIN32
+		_start = (unsigned long)::GetTickCount();
 #else
 		gettimeofday ( &_start, 0 );
 #endif
 		running = true;
+#ifdef _WIN32
+		return _start;
+#else
 		return _start.tv_sec * 1000000 + _start.tv_usec;
+#endif
 	}
 
 	/**
 		returns the number of milliseconds since start
 		also stops the timer running
 	*/
-	unsigned int stop()
+	unsigned long stop()
 	{
-#ifdef _MSVC
-		_stop = ::GetTickCount();
+#ifdef _WIN32
+		_stop = (unsigned long)::GetTickCount();
 #else
 		gettimeofday ( &_stop, 0 );
 #endif
@@ -77,11 +81,11 @@ public:
 	/**
 		returns the number of milliseconds since start
 	*/
-	unsigned int elapsed()
+	unsigned long elapsed()
 	{
 		if ( running )
 		{
-#ifdef _MSVC
+#ifdef _WIN32
 			DWORD current = ::GetTickCount();
 			return current - _start;
 #else
@@ -92,7 +96,7 @@ public:
 		}
 		else
 		{
-#ifdef _MSVC
+#ifdef _WIN32
 			return _stop - _start;
 #else
 			return ( _stop.tv_sec * 1000000 + _stop.tv_usec ) - ( _start.tv_sec * 1000000 + _start.tv_usec );
@@ -101,8 +105,13 @@ public:
 	}
 
 private:
+#ifdef _WIN32
+	unsigned long _start;
+	unsigned long _stop;
+#else
 	struct timeval _start;
 	struct timeval _stop;
+#endif
 	bool running;
 };
 
