@@ -23,3 +23,4 @@ COPYING
 autom4te.cache
 .deps
 .libs
+regex-switch.h
