@@ -78,6 +78,15 @@ UTILS_DLL_API std::string join ( const Collection & collection, const Joiner & j
 	return os.str();
 }
 
+/**
+	Same as join, but with a , as the joining element
+*/
+template<class Collection>
+UTILS_DLL_API std::string join ( const Collection & collection )
+{
+	return join ( collection, "," );
+}
+
 // Of course, MSVC 6 can't compile these.
 #ifndef _MSC_VER
 /**
