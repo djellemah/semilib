@@ -19,10 +19,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef Timer_h
 #define Timer_h
 
+#ifdef _MSVC
 #include "minwin.h"
+#else
+#include <sys/time.h>
+#endif
 
 /**
-	win32 timer class to see how long a function takes to execute
+	millisecond timer class. Works OK in windows, not so good with
+	glibc-2.2.5 and linux-2.4.18.
+	
+	\todo fix GNU timings
 */
 class Timer
 {
@@ -43,18 +50,26 @@ public:
 	*/
 	unsigned start()
 	{
+#ifdef _MSVC
 		_start = ::GetTickCount();
+#else
+		gettimeofday ( &_start, 0 );
+#endif
 		running = true;
-		return _start;
+		return _start.tv_sec * 1000000 + _start.tv_usec;
 	}
 
 	/**
-		returns the number of seconds since start
+		returns the number of milliseconds since start
 		also stops the timer running
 	*/
 	unsigned int stop()
 	{
+#ifdef _MSVC
 		_stop = ::GetTickCount();
+#else
+		gettimeofday ( &_stop, 0 );
+#endif
 		running = false;
 		return elapsed();
 	}
@@ -66,18 +81,28 @@ public:
 	{
 		if ( running )
 		{
+#ifdef _MSVC
 			DWORD current = ::GetTickCount();
 			return current - _start;
+#else
+			struct timeval current;
+			gettimeofday ( &current, 0 );
+			return ( current.tv_sec * 1000000 + current.tv_usec ) - ( _start.tv_sec * 1000000 + _start.tv_usec );
+#endif
 		}
 		else
 		{
+#ifdef _MSVC
 			return _stop - _start;
+#else
+			return ( _stop.tv_sec * 1000000 + _stop.tv_usec ) - ( _start.tv_sec * 1000000 + _start.tv_usec );
+#endif
 		}
 	}
 
 private:
-	unsigned int _start;
-	unsigned int _stop;
+	struct timeval _start;
+	struct timeval _stop;
 	bool running;
 };
 

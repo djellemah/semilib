@@ -77,6 +77,7 @@ string SoundexFunctor::PrepareTheString(const string & original)
 **			  4			   L
 **			  5			   MN
 **			  6			   R
+**				9 			 AEIOUY
 **	  3.	  Do not repeat digits
 **	  4.	  Truncate or ser-pad to 4-character result.
 **
@@ -395,8 +396,8 @@ string nsoundex ( const string & str, unsigned int n )
 				// still work..
 				c = lookup[(unsigned char)c];
 
-				// ignore irrelevant characters and duplicates
-				if (c != '0' && c != last )
+				// ignore irrelevant characters, vowels, and duplicates
+				if (c != '0' && c != '9' && c != last )
 					*t++ = c;
 			}
 			last = c;

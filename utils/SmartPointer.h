@@ -141,7 +141,7 @@ public:
 	This smart pointer has parameterised deallocation, so that
 	you can used it with allocation and deallocation paradigms
 	other than new/delete.
-	\defgroup smartpointer
+	\defgroup smartpointer Smart Pointer
 */
 
 /**

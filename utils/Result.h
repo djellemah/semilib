@@ -28,6 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 using namespace std;
 
 /**
+	\file
 	To simplify interacting with API function calls that return an error code
 	of some kind. Use it like this:
 	<pre>
@@ -59,7 +60,9 @@ using namespace std;
 
 /**
 	throws an exception when the return value is zero
+	
 	\ingroup result
+	\deprecated use SingleResult instead
 */
 template <class ErrorType>
 class ErrorOnZero
@@ -74,6 +77,7 @@ public:
 /**
 	throws and exception when the return value is not zero
 	\ingroup result
+	\deprecated use SingleResult instead
 */
 template <class ErrorType>
 class ErrorOnNonZero
@@ -89,6 +93,7 @@ public:
 	Throws an exception when the return value is an
 	element of a specified set. Not implemented yet.
 	\ingroup result
+	\deprecated use SingleResult instead
 */
 template <class ErrorType>
 class ErrorOnSet
@@ -103,6 +108,7 @@ public:
 	This template class is used to create instances of objects
 	which can have results assigned to them.
 	\ingroup result
+	\deprecated use SingleResult instead
 */
 template <class Type = unsigned long, class ErrorType = ErrorOnNonZero<Type>, class ExceptionType = runtime_error >
 class Result
@@ -240,12 +246,21 @@ private:
 	ErrorType errorType;
 };
 
-/// insertion operator
+/**
+	insertion operator
+	\deprecated use SingleResult instead
+*/
 template <class Type, class ErrorType, class ExceptionType>
 ostream & operator << ( ostream & os, const Result<Type,ErrorType,ExceptionType> & aResult );
 
-/// extraction operator
+/**
+	extraction operator
+	\deprecated use SingleResult instead
+*/
 template <class Type, class ErrorType, class ExceptionType>
 istream & operator >> ( istream & is, const Result<Type,ErrorType,ExceptionType> & aResult );
 
+/**
+	Operator for creating a set of error codes.
+*/
 #endif

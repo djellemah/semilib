@@ -74,7 +74,7 @@ using namespace Utils;
 	NGram does a better job of matching strings where there are spelling mistakes
 	and typos.
 
-	\defgroup match
+	\defgroup match String Matching
 */
 
 // for outputting an element of the results array

@@ -86,12 +86,63 @@ int test_FlagsMapper ( int argc, char * argv[] )
 	return 0;
 }
 
-/******************************************
-	A memory allocation algorithm that's faster
-	and uses less memory. From Dr Dobbs originally.
-	
-	Look in smartnew.cpp for the implementation
-******************************************/
+int test_Result()
+{
+	try
+	{
+		// test template param errors
+		Result<int, ErrorChecker<-1> > result;
+		result = 0;
+		result = -1;
+		result = 1;
+	}
+	catch ( exception & e )
+	{
+		cout << "Caught minus one exception: " << e.what() << endl;
+	}
+
+	try
+	{
+		// test zero errors
+		Result<int, ErrorOnZero> result;
+		result = -1;
+		result = 0;
+		result = 1;
+	}
+	catch ( exception & e )
+	{
+		cout << "Caught zero exception: " << e.what() << endl;
+	}
+
+	try
+	{
+		// test zero errors
+		Result<int, ErrorOnNonZero> result;
+		result = 0;
+		result = 1;
+		result = -1;
+	}
+	catch ( exception & e )
+	{
+		cout << "Caught nonzero exception: " << e.what() << endl;
+	}
+
+	try
+	{
+		// test insertion and extraction of values
+		Result<int> result;
+		result << -1 << -2;
+		result = -3;
+		result = -2;
+		result = -1;
+	}
+	catch ( exception & e )
+	{
+		cout << "Caught result exception: " << e.what() << endl;
+	}
+	cout << "Result tests successful" << endl;
+	return 0;
+}
 
 inline int calc_alloc_size(int max_alloc_size)
 {
@@ -548,6 +599,8 @@ int main ( int argc, char * argv[] )
 		result = test_mkdir ( argc, argv );
 		cout << "Test at " << __LINE__ << endl;
 		result = test_istring ( argc, argv );
+		cout << "Test at " << __LINE__ << endl;
+		result = test_Result();
 
 		cout << "All testes [sic] successful" << endl;
 	}

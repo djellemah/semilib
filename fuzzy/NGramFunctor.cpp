@@ -72,6 +72,10 @@ Ranking NGramFunctor::operator () ( const string & element )
 			results.push_back ( grams[2].match( line, _toMatch ) );
 			results.push_back ( grams[3].match( line, _toMatch ) );
 			break;
+		default:
+			results.push_back ( grams[2].match( line, _toMatch ) );
+			results.push_back ( grams[4].match( line, _toMatch ) );
+/*
 		case 8:
 		case 9:
 			results.push_back ( grams[2].match( line, _toMatch ) );
@@ -87,6 +91,7 @@ Ranking NGramFunctor::operator () ( const string & element )
 			results.push_back ( grams[2].match( line, _toMatch ) );
 			results.push_back ( grams[_toMatch.length()/2].match( line, _toMatch ) );
 			break;
+*/
 	}
 
 	// calculate match totals

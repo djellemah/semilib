@@ -26,6 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <set>
 #include <functional>
 
+#include "SmartPointer.h"
+
 using namespace std;
 
 /**
@@ -34,7 +36,10 @@ using namespace std;
 	<pre>
 		try
 		{
-			typedef Result<HANDLE, -1, runtime_error> CResult;
+			typedef
+				Result<HANDLE, equal_to, ErrnoMessageMaker<HANDLE, runtime_error> >
+				CResult ( -1 )
+			;
 			CResult result = open ( "somefilename" );
 			int next = fgetc ( result );
 		}
@@ -43,140 +48,129 @@ using namespace std;
 			cerr << e.what() << endl;
 		}	
 	</pre>
-	if the called function returns a disallowed value, -1 in this
-	case, a runtime_error will be thrown. The message given to
-	runtime_error is defined by the virtual method message. You can
+	
+	If the called function returns a disallowed value, -1 in this
+	case, and the comparator (equal_to in this case) returns true,
+	a runtime_error will be thrown. The message given to
+	runtime_error is defined by the MessageMaker. You can
 	still check the result using the normal if statement handling
 	because the Result class has a conversion operator to the type
-	you've designed.
-	<p>
-	If you want to have more than one value throw an error, use the
-	exclude method, or construct the class to use another value. The
-	reasoning behind this is that most of the time it's only necessary
-	to throw an exception for one value, but occasionally occasionally
-	it's necessary to throw an exception for other values as well.
+	you've designated.
+	
+	The reason there are so many template parameters is that overridding
+	classes with overloaded operator =() is a pain. So it seemed easier
+	to parameterise the kinds of things a result class could do. Needing
+	to repeat (in the example) the HANDLE parameter is also somewhat
+	painful. I spose you could typedef it once and reuse it.
+
 	\defgroup result Result Handling
 */
 
 /**
-	The basic error check type.
-	\ingroup result
+	This is a class that takes an exception type
+	and creates a message for it containing simply the
+	error code.
+	
+	\ingroup Result
 */
-class ErrorChecker
-{
-};
-
-/**
-	throws an exception when the return value is zero
-	\ingroup result
-*/
-class ErrorIf
+template<class Type, class Exception>
+class SimpleMessageMaker
 {
 public:
-	template<class ErrorType>
-	bool isError( const ErrorType & value ) const
+	Exception operator () ( const Type & result )
 	{
-		return value == error;
+		ostringstream os;
+		os << "Caught error " << result;
+		return Exception ( os.str() );
 	}
 };
 
 /**
-	throws and exception when the return value is not zero
-	\ingroup result
+	This creates a
+	message string using the C API calls. In this case,
+	result will almost always be -1, so we just use errno.
+
+	\ingroup Result
 */
-class ErrorIfNot : public ErrorChecker
+template<class Type, class Exception>
+class ErrnoMessageMaker
 {
 public:
-	template <class ErrorType>
-	bool operator() ( const ErrorType & value ) const
+	Exception operator () ( const Type & result )
 	{
-		return value != error;
+		ostringstream os;
+		SmartPointer<char> buf = new char[1024];
+		os << "Caught error: ";
+		os << strerror_r (errno, buf, 1024);
+		return Exception ( os.str() );
 	}
 };
 
+#ifdef _MSC_VER
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 /**
-	Throws an exception when the return value is an
-	element of a specified set. Not implemented yet.
-	\ingroup result
-*/
-template <class ErrorType>
-class ErrorOnSet
-{
-public:
-	bool operator() ( const ErrorType & value ) const
-	{
-		// it's an error if it's in the set
-		return excluded.find ( value ) != excluded.end();
-	}
-	set<ErrorType> excluded;
-};
+	A MessageMaker to fetch win32 errors.
 
-/**
-	Throws an exception when the return value is an
-	element of a specified set. Not implemented yet.
+	\todo This is not tested.
+
 	\ingroup result
 */
-template <class ErrorType, ErrorType errorValue = -1>
-class ErrorOnValue
+template<class Type, class Exception>
+class Win32MessageMaker
 {
 public:
-	bool operator() ( const ErrorType & value ) const
+	Exception operator() ( const Type & result )
 	{
-		return value == errorValue;
+		DWORD lastError = ::GetLastError();
+		
+		LPVOID lpMsgBuf;
+		::FormatMessage(
+			FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS
+			, NULL
+			, GetLastError()
+			, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT) // Default language
+			, (LPTSTR) &lpMsgBuf
+			, 0
+			, NULL
+		);
+		
+		ostringstream os;
+		os << "Windows Error: " << (char*)lpMsgBuf;
+		// Free the buffer.
+		::LocalFree( lpMsgBuf );
+		return os.str();
 	}
 };
+#endif
 
 /**
 	This template class is used to create instances of objects
 	which can have results assigned to them.
+	
+	- Type is the error code type. Usually some flavour of int
+	- Comparator is one of the comparison predicates from <functional>
+	- MessageMaker is a functor defining operator() ( const Type & value )
+	that creates an exception to be thrown with a message based
+	on the value.
+	
 	\ingroup result
 */
 template <
-	class Type = unsigned long
+	class Type
 	, class Comparator = equal_to<Type>
-	, Type error = 0
-	, class ExceptionType = runtime_error
+	, class MessageMaker = SimpleMessageMaker<Type, runtime_error>
 >
 class PredicateResult
 {
 public:
-
-	/**
-		make an instance of PredicateResult that excludes the specified
-		parameter.  Which is by default whatever was specified
-		as the template parameter
-	*/
-/*
-	PredicateResult( Type error )
-	: _error ( error )
-	{
-	}
-*/
-
-	/**
-		Just construct the result instance for later use.
-	*/
-	PredicateResult()
-	{
-	}
-	
-	/**
-		Construct a PredicateResult, and straightaway check
-		to see if the value is an error
-	*/
-	PredicateResult( Type value )
-	{
-		operator = ( value );
-	}
-
-	/// Copy Constructor
+	PredicateResult() {};
 	PredicateResult ( const PredicateResult & other )
 		: _result ( 0 )
 	{
 		operator = ( other );
 	}
 
-	/// standard assignment operator
 	const PredicateResult & operator = ( const PredicateResult & other )
 	{
 		_result = other._result;
@@ -190,10 +184,13 @@ public:
 		the specified exception with a string generated by the
 		message virtual method.
 	*/
-	const PredicateResult & operator = ( Type result )
+	const PredicateResult & operator = ( const Type & result )
 	{
 		_result = result;
-		checkPredicateResult();
+		if ( checkResult() )
+		{
+			throw _messageMaker ( result );
+		}
 		return *this;
 	}
 
@@ -228,44 +225,14 @@ public:
 	}
 
 	/**
-		the message given to the exception thrown in the
-		assignment operator. Override this to generate more
-		specific error messages.
-	*/
-	virtual string message ()
-	{
-		ostringstream os;
-		os << "Caught error " << _result;
-		return os.str();
-	}
-
-	/**
-		this is where the actual exception is thrown from.
-		Useful if you want special handling of error codes,
-		for example fetching a string representation of the
-		error code from the system.
-	*/
-	virtual void throwException()
-	{
-		throw ExceptionType ( message() );
-	}
-
-	/**
 		Exclude the given value from being an error.
-		This depends on 
 	*/
-	virtual void exclude ( Type value )
-	{
-		//errorType.excluded.insert ( value );
-	}
+	virtual void exclude ( Type value ) = 0;
 
 	/**
-		Prevent the given value from being excluded. This
+		Prevent the given value from being excluded.
 	*/
-	virtual void unexclude ( Type value )
-	{
-		//errorType.excluded.erase ( value );
-	}
+	virtual void unexclude ( Type value ) = 0;
 
 	const Type & result() const
 	{
@@ -277,62 +244,96 @@ public:
 		_result = other;
 		return *this;
 	}
+	
+	/**
+		to write out the trigger errors to a stream
+	*/
+	virtual void write ( ostream & os ) const = 0;
+
+	/**
+		to read in trigger codes from a stream
+	*/
+	virtual void read ( istream & is ) = 0;
 
 protected:
-	void checkPredicateResult ()
-	{
-		if ( _comparator( _error, _result ) )
-		{
-			throwException();
-		}
-	}
+	/**
+		Override this to check whether the stored _result
+		matches something in the trigger errors. Returns
+		true if an exception should be thrown, false otherwise.
+	*/
+	virtual bool checkResult() = 0;
 
-private:
-	// data members
-	Type _error;
-	Type _result;
 	Comparator _comparator;
 
+	Type _result;
+	MessageMaker _messageMaker;
 };
 
 /**
-	\todo get the insertion and extraction operators working again.
+	Insertion operator that displays the list of trigger errors.
 */
-#if 0
-/// insertion operator
-template <class Type, class ErrorType, class ExceptionType>
-ostream & operator << ( ostream & os, const PredicateResult<Type,ErrorType,ExceptionType> & aPredicateResult );
-
-/// extraction operator
-template <class Type, class ErrorType, class ExceptionType>
-istream & operator >> ( istream & is, const PredicateResult<Type,ErrorType,ExceptionType> & aPredicateResult );
+template <
+	class Type
+	, class Comparator
+	, class ExceptionType
+>
+ostream &
+operator << ( ostream & os, const PredicateResult<Type,Comparator,ExceptionType> & result )
+{
+	result.write ( os );
+	return os;
+}
 
 /**
-	a stream-type operator to provide several error codes to be rejected
+	Extraction operator to fetch a set of exception errors from a stream
 */
-template <class Type, class ErrorType, class ExceptionType>
-PredicateResult<Type,ErrorType,ExceptionType> &
+template <
+	class Type
+	, class Comparator
+	, class ExceptionType
+>
+istream &
+operator >> ( istream & is, const PredicateResult<Type,Comparator,ExceptionType> & result )
+{
+	result.read ( is );
+	return is;
+}
+
+/**
+	A stream-type operator to provide several trigger errors.
+*/
+template <
+	class Type
+	, class Comparator
+	, class ExceptionType
+>
+PredicateResult<Type,Comparator,ExceptionType> &
 operator << (
-	PredicateResult<Type,ErrorType,ExceptionType> & aPredicateResult
-, const ErrorType & error
+	PredicateResult<Type,Comparator,ExceptionType> & result
+, const Type & error
 )
 {
-	aPredicateResult.exclude ( error );
+	result.exclude ( error );
+	return result;
 }
 
 /**
-	a stream-type operator to provide several error codes to be
-	removed from the list of rejected codes
+	A stream-type operator to provide several error codes to be
+	removed from the list of trigger errors.
 */
-template <class Type, class ErrorType, class ExceptionType>
-PredicateResult<Type,ErrorType,ExceptionType> &
+template <
+	class Type
+	, class Comparator
+	, class ExceptionType
+>
+PredicateResult<Type,Comparator,ExceptionType> &
 operator >> (
-	PredicateResult<Type,ErrorType,ExceptionType> & aPredicateResult
-, const ErrorType & error
+	PredicateResult<Type,Comparator,ExceptionType> & result
+, const Type & error
 )
 {
-	aPredicateResult.unexclude ( error );
+	result.unexclude ( error );
+	return result;
 }
-#endif
 
 #endif

@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([semilib],1.0.0,[utils@semiosix.com])
+AC_INIT([semilib],1.2.0,[utils@semiosix.com])
 AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
 AC_CONFIG_SRCDIR([utils/istring.h])
 AM_CONFIG_HEADER([config.h])
@@ -21,6 +21,15 @@ AC_HELP_STRING(
 	, with_boost=no
 )
 AC_SUBST(with_boost)
+
+AC_ARG_ENABLE(debug,
+AC_HELP_STRING(
+	[--enable-debug]
+	, [use debugging. default is no])
+	, CXXFLAGS=-g
+	,
+)
+AC_SUBST(CXXFLAGS)
 
 # we don't want static libs by default
 AC_DISABLE_STATIC 

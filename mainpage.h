@@ -13,4 +13,8 @@ various utility classes:
 	- istring for case-insensitive string comparisons, and other string utility functions
 	- Line for extraction operators into a string that read one line at a time
 	- StaticInit for optimised static initialisation
+
+\todo use export keyword for templates where possible
+
+\author John Anderson <a href="mailto:panic at semiosix.com">panic at semiosix.com</a>
 */

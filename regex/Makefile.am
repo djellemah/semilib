@@ -1,4 +1,4 @@
-include_HEADERS = Regex.h regexdlldef.h
+include_HEADERS = Regex.h regexdlldef.h AbstractRegex.h
 
 lib_LTLIBRARIES = libregex.la
 libregex_la_SOURCES = Regex.cpp

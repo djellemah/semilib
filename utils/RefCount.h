@@ -243,15 +243,20 @@ private:
 
 /**
 \ingroup smartpointer
-\@{
 */
 template <class T>
 RefCount<T>::References * RefCount<T>::_references;
 
+/**
+\ingroup smartpointer
+*/
 template <class T>
 unsigned long RefCount<T>::refcount;
 
-// insertion operator
+/**
+	insertion operator
+	\ingroup smartpointer
+*/
 template <class T>
 ostream & operator << ( ostream & os, const RefCount<T> & aRefCount )
 {
@@ -259,11 +264,11 @@ ostream & operator << ( ostream & os, const RefCount<T> & aRefCount )
 	return os;
 }
 
-// extraction operator
+/**
+	extraction operator
+	\ingroup smartpointer
+*/
 template <class T>
 istream & operator >> ( istream & is, RefCount<T> & aRefCount );
-/**
-\@}
-*/
 
 #endif
