@@ -126,6 +126,12 @@ ostream & elog ( std::ostream & os )
 	return os;
 }
 
+void elog ( Logger & logger )
+{
+	logger << Logger::end();
+}
+
+
 EndLog & elog ( Level::LogLevel level )
 {
 	return Logger::end ( level );
