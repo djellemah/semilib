@@ -124,6 +124,11 @@ public:
 		stream interface, otherwise the lock never gets released.
 	*/
 	static EndLog & end ( Level::LogLevel level = Level::message );
+	
+	/**
+		Translate the log level to a string
+	*/
+	static std::string levelToString ( Level::LogLevel level );
 
 protected:
 	Logger();

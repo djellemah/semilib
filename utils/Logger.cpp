@@ -72,3 +72,35 @@ EndLog & Logger::end( Level::LogLevel level )
 	return Logger::instance()._end;
 }
 
+
+string Logger::levelToString ( Level::LogLevel level )
+{
+	using namespace Level;
+	
+	string retval;
+	switch ( level )
+	{
+		case critical:
+			retval = "critical";
+			break;
+		case error:
+			retval = "error";
+			break;
+		case warning:
+			retval = "warning";
+			break;
+		case message:
+			retval = "message";
+			break;
+		case info:
+			retval = "info";
+			break;
+		case debug:
+			retval = "debug";
+			break;
+		default:
+			retval = "unknown level";
+			break;
+	};
+	return retval;
+}
