@@ -43,7 +43,7 @@ using namespace std;
 	counting. See SmartPointer documentation for more details.
 	\ingroup smartpointer
 */
-template <class T>
+template <class T, class Deallocator = NormalDelete<T> >
 class RefCount
 {
 public:
@@ -189,7 +189,7 @@ protected:
 		if ( --references()[_ptr] == 0 )
 		{
 			references().erase ( _ptr );
-			delete _ptr;
+			deallocator() ( _ptr );
 			_ptr = 0;
 		}
 	}
@@ -209,6 +209,11 @@ protected:
 			references()[_ptr] = 1;
 	}
 
+	Deallocator & deallocator()
+	{
+		return _deallocator;
+	}
+	
 private:
 	T * _ptr;
 
@@ -234,28 +239,33 @@ private:
 		the order in which static objects are constructed.
 	*/
 	static References * _references;
+	
+	/**
+		So that we can assign custom deallocators
+	*/
+	Deallocator _deallocator;
 };
 
 /**
 \ingroup smartpointer
 */
-template <class T>
-typename RefCount<T>::References *
-RefCount<T>::_references;
+template <class T, class D>
+typename RefCount<T,D>::References *
+RefCount<T,D>::_references;
 
 /**
 \ingroup smartpointer
 */
-template <class T>
+template <class T, class D>
 Mutex *
-RefCount<T>::_mutex;
+RefCount<T,D>::_mutex;
 
 /**
 	insertion operator
 	\ingroup smartpointer
 */
-template <class T>
-ostream & operator << ( ostream & os, const RefCount<T> & aRefCount )
+template <class T, class D>
+ostream & operator << ( ostream & os, const RefCount<T,D> & aRefCount )
 {
 	aRefCount.write ( os );
 	return os;
@@ -265,7 +275,7 @@ ostream & operator << ( ostream & os, const RefCount<T> & aRefCount )
 	extraction operator
 	\ingroup smartpointer
 */
-template <class T>
-istream & operator >> ( istream & is, RefCount<T> & aRefCount );
+template <class T, class D>
+istream & operator >> ( istream & is, RefCount<T,D> & aRefCount );
 
 #endif
