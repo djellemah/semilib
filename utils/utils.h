@@ -39,5 +39,10 @@ std::string today();
 */
 std::string now();
 
+/**
+	trim whitespace from the beginning and end of the string
+*/
+std::string trim ( const std::string & );
+
 #endif
 

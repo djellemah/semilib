@@ -72,9 +72,21 @@ string now()
 	return string ( buf );
 }
 
-void destructor_hook()
+string trim ( const string & s )
 {
-	ostringstream os;
-	os << "HEllog there";
-	os.str();
+	// strip spaces from beginning of string
+	string::const_iterator begin = s.begin();
+	while ( *begin == ' ' )
+	{
+		++begin;
+	}
+
+	// strip spaces from end of string
+	string::const_iterator end = s.end() - 1;
+	while ( *end == ' ' )
+	{
+		--end;
+	}
+	
+	return string ( begin, end + 1 );
 }

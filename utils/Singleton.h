@@ -112,11 +112,17 @@ protected:
 	*/
 	Singleton ( Singleton & other );
 	
-private:
 	/**
-		The mutex that guards the instantiation double-lock.
+		The mutex that guards the instantiation double-lock. Since
+		The instance is likely to be a shared resource, the mutex
+		is protected to allow subclass usage.
 	*/
 	static Mutex _mutex;
+	
+private:
+	/**
+		The actual instance
+	*/
 	static SmartPointer<InstanceType> _instance;
 };
 
