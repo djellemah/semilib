@@ -7,6 +7,7 @@
 #include <numeric>
 #include <string>
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -141,3 +142,21 @@ string MatchFunction::PrepareTheString(const string & OriginStr)
 	// append and prepend an _
 	return "_" + retval + "_";
 }
+
+ostream & operator << ( ostream & os, const Ranking & r )
+{
+	os << setw ( 8 ) << setprecision ( 4 ) << fixed << showpoint;
+	os << r.first * 100.0;
+	os << "%";
+	os << " " << r.second;
+	return os;
+}
+
+bool Ranking::operator < ( const Ranking & other ) const
+{
+	if ( first == other.first )
+		return second < other.second;
+	else
+		return first < other.first;
+}
+
