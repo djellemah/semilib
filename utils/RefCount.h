@@ -216,7 +216,7 @@ private:
 		synchronize accesses to class members for multi-threaded situations,
 		since that's the most likely place a RefCount object will be used.
 	*/
-	mutable Mutex _mutex;
+	static Mutex _mutex;
 
 	/**
 		the list of references, which obviously must exist beyond the
@@ -233,6 +233,12 @@ private:
 template <class T>
 SmartPointer<typename RefCount<T>::References>
 RefCount<T>::_references;
+
+/**
+\ingroup smartpointer
+*/
+template <class T>
+Mutex RefCount<T>::_mutex;
 
 /**
 	insertion operator
