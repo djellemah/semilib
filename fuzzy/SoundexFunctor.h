@@ -6,7 +6,7 @@
 using namespace std;
 
 #include "fuzzydlldef.h"
-#include "fuzzy.h"
+#include "MatchFunction.h"
 
 /**
 	This is to be used via the transform algorithm
