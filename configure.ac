@@ -12,10 +12,10 @@ AC_ARG_WITH(boost,
 		[--with-boost]
 		, [location of boost. Defaults to /usr/local])
 	,
-		BOOST_LIB="-L$withval/lib -lboost_date_time -lboost_regex"
+		BOOST_LIB="-L$withval/lib -lboost_date_time-gcc-mt"
 		BOOST_INCLUDE="-I$withval"
 	,
-		BOOST_LIB="-L/usr/local/lib -lboost_date_time-gcc-mt-d"
+		BOOST_LIB="-L/usr/local/lib -lboost_date_time-gcc-mt"
 		BOOST_INCLUDE="-I/usr/local/include"
 )
 AC_SUBST(BOOST_INCLUDE)
@@ -27,7 +27,7 @@ AC_HELP_STRING(
 	, [use boost regex library. default is to use system regex (regex.h) ])
 	,
 		test "$withval" = no || with_boost=$withval
-		BOOST_LIBS="-lboost_regex-gcc-mt-d"
+		BOOST_LIB="$(BOOST_LIB) -lboost_regex-gcc-mt"
 		WITH_BOOST_REGEX=true
 	,
 		with_boost=no
@@ -35,7 +35,7 @@ AC_HELP_STRING(
 )
 AC_SUBST(with_boost)
 AC_SUBST(BOOST_INCLUDE)
-AC_SUBST(BOOST_LIBS)
+AC_SUBST(BOOST_LIB)
 AC_SUBST(WITH_BOOST_REGEX)
 
 AC_ARG_ENABLE(debug,
@@ -55,23 +55,6 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 AC_PROG_LIBTOOL
 AC_PROG_MAKE_SET
-
-# Checks for libraries.
-
-# Checks for header files.
-#AC_HEADER_STDC
-#AC_CHECK_HEADERS([errno.h fcntl.h stddef.h stdlib.h unistd.h])
-
-# Checks for typedefs, structures, and compiler characteristics.
-#AC_C_CONST
-#AC_C_INLINE
-#AC_TYPE_SIZE_T
-#AC_STRUCT_TM
-#AC_CHECK_TYPES([ptrdiff_t])
-
-# Checks for library functions.
-#AC_FUNC_MALLOC
-#AC_CHECK_FUNCS([memset mkdir strncasecmp regcomp])
 
 AC_CONFIG_FILES([
 	Makefile
