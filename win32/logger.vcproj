@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="logger"
-	ProjectGUID="{591B79AF-6E8D-46FF-8730-04F711832B87}"
+	ProjectGUID="{591B79AF-6E8D-46FF-8730-04F711832B88}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
