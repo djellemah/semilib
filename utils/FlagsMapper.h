@@ -29,6 +29,8 @@ using namespace std;
 
 #include "utilsdlldef.h"
 
+#pragma warning ( disable:4251 )
+
 /**
 	This class turns bitmap-type options fields into strings.
 	Useful for debugging and persistence.
@@ -107,5 +109,7 @@ private:
 	*/
 	class SumPredicate;
 };
+
+#pragma warning ( default:4251 )
 
 #endif
