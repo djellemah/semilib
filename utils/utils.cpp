@@ -72,3 +72,9 @@ string now()
 	return string ( buf );
 }
 
+void destructor_hook()
+{
+	ostringstream os;
+	os << "HEllog there";
+	os.str();
+}

@@ -154,14 +154,14 @@ public:
 	/**
 		default initialiser, so this acts as the default constructor as well.
 		It will also be called for statements like:
-		<pre>
-		SmartPointer&lt;Object&gt; p = new Object ("Whatever");
-		</pre>
+		\code
+		SmartPointer<Object> p = new Object ("Whatever");
+		\endcode
 		although if you need to specify that the instance should not
 		be an owner, for some unlikely reason:
-		<pre>
-		SmartPointer&lt;Object&gt; p ( new Object ("Whatever"), false );
-		</pre>
+		\code
+		SmartPointer<Object> p ( new Object ("Whatever"), false );
+		\endcode
 	*/
 	SmartPointer ( T * ptr = 0, bool aBool = true )
 		: _ptr (ptr)
@@ -240,10 +240,10 @@ public:
 
 	/**
 		for statements like:
-		<pre>
-		SmartPointer&lt;Object&gt; p;
+		\code
+		SmartPointer<Object> p;
 		p = new Object ("Whatever");
-		</pre>
+		\endcode
 	*/
 	SmartPointer & operator = ( T * right )
 	{
