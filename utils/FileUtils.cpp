@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <sstream>
 #include <iostream>
-using namespace std;
 
 #ifdef WIN32
 	#include <direct.h>
@@ -39,6 +38,11 @@ using namespace std;
 #include "FileUtils.h"
 
 #pragma warning(disable: 4290)
+
+namespace Utils
+{
+
+using namespace std;
 
 FileUtils::ErrorMessages * FileUtils::_errorMessages = 0;
 bool FileUtils::_initialised;
@@ -152,10 +156,10 @@ void mkdir( const string & dirname )
 		if ( !FileUtils::exists (path) )
 		{
 #ifdef WIN32
-			int result = _mkdir ( path.c_str() );
+			int result = ::_mkdir ( path.c_str() );
 #else
 			// with rwxr-xr-x permissions
-			int result = mkdir ( path.c_str(), S_IRWXU | S_IRGRP | S_IXGRP |S_IROTH | S_IXOTH );
+			int result = ::mkdir ( path.c_str(), S_IRWXU | S_IRGRP | S_IXGRP |S_IROTH | S_IXOTH );
 #endif
 			// only throw an error if it's something other than
 			// the directory already exists
@@ -164,8 +168,10 @@ void mkdir( const string & dirname )
 				throw runtime_error ( "Error for path " + dirname + ". " + path + " could not be created. " + FileUtils::errorMessages()[errno] );
 			}
 		}
-		path += '\\';
+		path += directorySeparator;
 	}
 }
+
+} // end of namespace Utils
 
 #pragma warning(default: 4290)

@@ -29,11 +29,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 #include <fcntl.h>
 
-using namespace std;
-
 #include "utilsdlldef.h"
 
 #pragma warning(disable:4290)
+
+namespace Utils
+{
+	using namespace std;
+#ifdef _WIN32
+	const char directorySeparator = '\\';
+#else
+	const char directorySeparator = '/';
+	#include <unistd.h>
+#endif
+
 
 /**
 This is the central place for file utilities.
@@ -146,6 +155,7 @@ UTILS_DLL_API vector<string> splitPath( const string & dirname, char splitOn = '
 /// make a directory containing subdirectories. Make all of them. Make every last one...
 UTILS_DLL_API void mkdir ( const string & name );
 
+} // end of namespace Utils
 #pragma warning(default:4290)
 
 #endif

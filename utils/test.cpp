@@ -33,6 +33,8 @@ using namespace std;
 #include "functions.h"
 #include "SmartPointer.h"
 
+using namespace Utils;
+
 inline int calc_alloc_size(int max_alloc_size)
 {
 	int size = rand() % max_alloc_size;
