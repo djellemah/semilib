@@ -36,9 +36,9 @@ pkginclude_HEADERS = \
 # logger contains only logger because of a dependency
 # on something to provide a newInstance
 # libcoutlogger contains a logger that goes to cout
-lib_LTLIBRARIES = libutils.la liblogger.la libcoutlogger.la
+lib_LTLIBRARIES = libsemiutils.la libsemilogger.la libsemicoutlogger.la
 
-libutils_la_SOURCES = \
+libsemiutils_la_SOURCES = \
 	FileUtils.cpp \
 	FlagsMapper.cpp \
 	Lock.cpp \
@@ -56,13 +56,13 @@ libutils_la_SOURCES = \
 	posException.cpp \
 	utils.cpp
 
-libutils_la_LDFLAGS = \
+libsemiutils_la_LDFLAGS = \
 	$(AM_LDFLAGS)
 
-LDADD = libutils.la liblogger.la libcoutlogger.la -lpthread ${LIBADD}
+LDADD = libsemiutils.la libsemilogger.la libsemicoutlogger.la -lpthread ${LIBADD}
 
-liblogger_la_SOURCES = Logger.cpp
-libcoutlogger_la_SOURCES = CoutLogger.cpp
+libsemilogger_la_SOURCES = Logger.cpp
+libsemicoutlogger_la_SOURCES = CoutLogger.cpp
 
 check_PROGRAMS = testPredicateResult testLogger testJoin testRefcount testTimer
 

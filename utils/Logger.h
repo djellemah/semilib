@@ -67,9 +67,13 @@ LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, const EndLog & el 
 
 	\warning The mutex used for this class *must* be recursive.
 	
-	\todo Clean out redundant declarations
 	\todo allow for minimal overhead when there's no logging. Null iobuf
-	or something like that.
+	or something like that. Or set level at the start
+	\todo use TLS to store elog marker, and only lock for the write. Would
+	prevent things like socket DNS reverse-resolution locking up
+	all the other threads. Also, makes forgetting elog less dangerous.
+	\todo use an observer pattern for outputs, so we don't have link
+	weirdness, and we can set a default output.
 */
 class LOGGER_DLL_API Logger : public Singleton<Logger, Mutex, Lock>
 {
@@ -81,29 +85,15 @@ public:
 		Tell the logger to flush any caches it might have.
 		Does nothing by default.
 	*/
-	virtual void flush()
-	{
-	}
+	virtual void flush() {}
 
 	/**
 		This can either be called as is, or used via the stream
-		interface.
+		interface. This version is slightly safer in that the programmer
+		doesn't need to remember to call elog.
 	*/
 	void log ( const std::string & msg, Level::LogLevel level = Level::message );
 
-	/**
-		Provide a logging stream.
-		This acquires a lock that's release on a call Logger::end()
-	*/
-	std::ostream & los();
-		
-	/**
-		To be used in conjunction with los() to signal the
-		end of one message. Used either directly or via
-		the EndLog manipulator.
-	*/
-	void endMessage( Level::LogLevel level );
-		
 	/**
 		Call this with the highest level of message to be
 		actually logged. Default is to log everything.
@@ -116,21 +106,11 @@ public:
 	Level::LogLevel filter() const;
 	
 	/**
-		Use this to get access to the stream interface, like this:
-		\code
-		Logger::log() << This is a message << Logger::end();
-		\endcode
-		This acquires a lock that's release on a call Logger::end()
-	*/
-	static std::ostream & os();
-	
-	/**
-		Call this to get a manipulator, like this:
+		It's *necessary* to call this after using the
+		stream interface, otherwise the lock never gets released:
 		\code
 		Logger::instance().los() << "Some message" << Logger::end( critical );
 		\endcode
-		In fact, it's *necessary* to call this after using the
-		stream interface, otherwise the lock never gets released.
 	*/
 	static EndLog & end ( Level::LogLevel level = Level::message );
 	
@@ -138,9 +118,19 @@ public:
 		Translate the log level to a string
 	*/
 	static std::string levelToString ( Level::LogLevel level );
+	
+	/**
+		Only for use internally. User operator << ( Logger &, T & ).
+	*/
+	std::ostream & os();
 
 protected:
+	friend LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, const EndLog & el );
+	friend LOGGER_DLL_API Logger * newInstance ( Logger * );
+
+	/// De-construct this overload
 	Logger();
+	/// De-construct this overload
 	Logger ( const Logger & );
 	
 	/**
@@ -152,11 +142,16 @@ protected:
 	*/
 	virtual void doLog ( const std::string & message, Level::LogLevel level ) = 0;
 	
-	friend LOGGER_DLL_API Logger * newInstance ( Logger * );
+	void endMessage( Level::LogLevel level );
 
+protected:
+	/// The underlying stream.
 	std::ostringstream _os;
+
+	/// the current log level
 	Level::LogLevel _filter;
 	
+	/// The endlog object.
 	EndLog _end;
 
 	/**
@@ -199,7 +194,7 @@ LOGGER_DLL_API Logger * newInstance ( Logger * );
 template<class T>
 std::ostream & operator<< ( Logger &, const T & type )
 {
-	std::ostream & os = Logger::os();
+	std::ostream & os = Logger::instance().os();
 	os << type;
 	return os;
 }

@@ -64,16 +64,6 @@ std::ostream & operator<< ( std::ostream & os, const EndLog & el )
 	return os;
 }
 
-ostream & Logger::los()
-{
-	// this is quite tricky, because this might be
-	// called several times before endMessage is called
-	// so we need a count
-	_lock.acquire ( mutex() );
-	++_locks;
-	return _os;
-}
-
 void Logger::endMessage( Level::LogLevel level )
 {
 	// prevent other threads getting in here
@@ -94,7 +84,12 @@ void Logger::endMessage( Level::LogLevel level )
 
 ostream & Logger::os()
 {
-	return instance().los();
+	// this is quite tricky, because this might be
+	// called several times before endMessage is called
+	// so we need a count
+	_lock.acquire ( mutex() );
+	++_locks;
+	return _os;
 }
 
 EndLog & Logger::end( Level::LogLevel level )
