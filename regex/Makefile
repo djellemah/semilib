@@ -22,19 +22,15 @@ EXEXT		=
 # Compilation and linking flags.
 CFLAGS            = -x c -D__STDC__ -ansi
 CXXFLAGS          = -fhandle-exceptions -frtti -x c++
-LDFLAGS           = 
+LDFLAGS           =
 
 CXXFLAGS_EXTRA    = -I. -I../../Utils -I ../../compatibility
 CXXFLAGS_ALL      = $(CXXFLAGS) $(CXXFLAGS_EXTRA)
 EXTRA_ARFLAGS	  =
 
-CFILES = hashrexp.c rx.c rxanal.c rxbasic.c rxbitset.c \
-rxcset.c rxdbug.c rxgnucomp.c rxhash.c rxnfa.c rxnode.c \
-rxposix.c rxsimp.c rxspencer.c rxstr.c rxsuper.c rxunfa.c
-
 CPPFILES = Regex.cpp
 
-OFILES = $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
+OFILES = $(CPPFILES:.cpp=.o)
 
 REGEXLIB = regex.so
 
