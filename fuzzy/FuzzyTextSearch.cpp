@@ -45,9 +45,11 @@ private:
 	double _threshold;
 };
 
-typedef multimap<float,string> Results;
+// typedef multimap<float,string> Results;
+typedef list<Ranking> Results;
 
 // for outputting an element of the results array
+/*
 bool match_compare ( Results::key_type a, Results::key_type b )
 {
     return a.first > b.first;
@@ -65,6 +67,7 @@ private:
 	ostream & _os;
 	double _threshold;
 };
+*/
 
 void help( char * argv[] )
 {
@@ -72,6 +75,8 @@ void help( char * argv[] )
 	exit ( 0 );
 }
 
+/*
+Trying to sort a map...
 void test()
 {
 	typedef map<int,float> TestMap;
@@ -81,7 +86,7 @@ void test()
 		, testmap.end()
 	);
 }
-
+*/
 
 int main( int argc, char * argv[] )
 {
@@ -104,7 +109,7 @@ int main( int argc, char * argv[] )
 		ifstream is ( inputs );
 
 		// output collection
-		typedef list<Ranking> results;
+		Results results;
 
 		// create a collection of results from the input
 		// collection, which happens in this case to be an iostream
