@@ -35,6 +35,9 @@ libutils_la_SOURCES = \
 	functions.cpp \
 	istring.cpp \
 	posException.cpp
+	utils.cpp \
+	Mutex.cpp \
+	Logger.cpp
 
 libutils_la_LDFLAGS = -release ${VERSION}
 
