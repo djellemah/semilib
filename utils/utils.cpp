@@ -2,7 +2,6 @@
 
 #include <time.h>
 #include "Lock.h"
-
 #include <sstream>
 
 using namespace std;
