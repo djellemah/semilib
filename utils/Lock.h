@@ -1,80 +1,51 @@
-/*
-Copyright (C) 1998, 1999, 2000 John Anderson
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU Library General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU Library General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
-
 #ifndef Lock_h
 #define Lock_h
 
-#include <cassert>
-
-#ifdef _WIN32
-	#include "minwin.h"
-#endif
-
 /**
-	A way to lock and release a Sync object easily.
+	Lockhronisation class. Create on of these whenever a critical section is
+	necessary. Then, on entering the critical section do:
+	<pre>
+		Lock alock ( mutex );
+	</pre>
+	the lock will be released when alock goes out of scope.
+
+	The Lock object should be in a scope outside that of alock. A good
+	way to do it is to make Lock class member, and then for each
+	method that needs to control access, have the above line as the
+	first line in the method implementation.
+
+	\todo this is a _WIN32 specific class, but the functionality it uses
+	should be available in any thread implementation. So, implement it, already!
 */
 class Lock
 {
 public:
 
-	// Default Constructor
-	Lock()
-		: _sync ( 0 )
-	{
-	}
+	/**
+		create the Lockhronisation object
+	*/
+	inline Lock();
 
-	Lock ( Sync & aSync )
-		: _sync ( &aSync )
-	{
-		sync().lock();
-	}
+	/**
+		lock the Lockhronisation object
+	*/
+	inline void lock();
 
-	void acquire ( Sync & aSync )
-	{
-		sync ( aSync );
-		sync().lock();
-	}
+	/**
+		release the Lockhronisation object
+	*/
+	inline void release();
 
-	void release ()
-	{
-		sync().release();
-	}
-
-	// Destructor
-	virtual ~Lock()
-	{
-		sync().release();
-	}
-
-	Sync & sync()
-	{
-		assert ( _sync == 0 );
-		return *_sync;
-	}
-
-	Lock & sync ( Sync & aSync )
-	{
-		_sync = &aSync;
-		return *this;
-	}
+	/**
+		delete the Lockhronisation object
+	*/
+	inline ~Lock();
 
 private:
-	Sync * _sync;
+	/// where the OS-level Lockhronisation object is stored
+#ifdef _WIN32
+	CRITICAL_SECTION criticalSection;
+#endif
 };
 
 #endif
