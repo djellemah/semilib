@@ -24,4 +24,11 @@ int main()
 #ifndef _MSC_VER
 	logger << "This is straight to the logger with manip" << elog;
 #endif
+	
+	logger.filter(Level::all);
+	logdec(Level::debug) << "This is a debug message";
+	// break it up to test the decorator copying
+	logdec(Level::debug) << "This " << "is " << "another " << "debug " << "message";
+	logger.filter(Level::none);
+	logdec(Level::debug) << "This is not a debug message";
 }

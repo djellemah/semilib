@@ -19,13 +19,20 @@ int main ( int argc, char * argv[] )
 	if ( argc == 3 )
 	{
 		millis = atoi ( argv[1] ) * 60 * 1000 + atoi ( argv[2] ) * 1000;
+		cout << argv[1] <<":" << argv[2];
+		cout << " ";
+		cout << strftime ( millis / 1000, "%M:%S" );
+		cout << endl;
 	}
 	else
 	{
 		millis = 5 * 60 * 1000 + 23 * 1000;
+		cout << "5:32 ";
+		cout << " ";
+		cout << strftime ( millis / 1000, "%M:%S" );
+		cout << endl;
 	}
 	
-	cout << "5:32 " << strftime ( millis / 1000, "%M:%S" ) << endl;
 	
 	return 0;
 }

@@ -1,31 +1,20 @@
 #pragma warning ( disable : 4275 )
 
 #include "Logger.h"
+#include "Mutex.h"
+#include "Singleton.h"
 
 #include <iomanip>
 #include <map>
 
 using namespace std;
 
-#pragma warning( disable : 4355 ) 
-Logger::Logger()
-: _filter ( Level::all )
-, _end ( *this )
-, _locks ( 0 )
-{
-//	cout << "Initialising Logger" << endl;
-}
-#pragma warning( default : 4355 ) 
+Logger & logger = Singleton<Logger,Mutex,Lock>::instance();
 
-// Some very ugly stuff, because for some reason
-// Singleton doesn't work here
-// Logger & logger = Logger::instance();
-Logger & fetchInstance()
+Logger & Logger::instance()
 {
-	return Logger::instance();
+	return Singleton<Logger,Mutex,Lock>::instance();
 }
-
-Logger & logger = fetchInstance();
 
 #ifndef _WIN32
 void logger_init(void) __attribute__((constructor));
@@ -40,6 +29,21 @@ void logger_init(void)
 */
 }
 #endif
+
+#pragma warning( disable : 4355 ) 
+Logger::Logger()
+: _filter ( Level::all )
+, _end ( *this )
+, _locks ( 0 )
+{
+//	cout << "Initialising Logger" << endl;
+}
+#pragma warning( default : 4355 ) 
+
+Mutex & Logger::mutex()
+{
+	return Singleton<Logger,Mutex,Lock>::mutex();
+}
 
 void Logger::log ( const std::string & msg, Level::LogLevel level )
 {
@@ -216,4 +220,34 @@ void elog ( Logger & logger )
 EndLog & elog ( Level::LogLevel level )
 {
 	return Logger::end ( level );
+}
+
+LoggerDecorator::LoggerDecorator ( Logger & l, Level::LogLevel level )
+: _logger ( l )
+, _level ( level )
+, _copied ( false )
+{
+}
+
+LoggerDecorator::LoggerDecorator ( const LoggerDecorator & other )
+: _logger ( other._logger )
+, _level ( other._level )
+, _copied ( false )
+{
+	other._copied = true;
+}
+
+LoggerDecorator::~LoggerDecorator()
+{
+	// only send the elog if this copy is the last
+	// in the chain.
+	if ( !_copied )
+	{
+		_logger << elog(_level);
+	}
+}
+
+LoggerDecorator logdec ( Level::LogLevel level )
+{
+	return LoggerDecorator ( Logger::instance(), level );
 }

@@ -1,32 +1,25 @@
-#include "Logger.h"
+#include "CoutLogger.h"
 #include "utils.h"
 
 using namespace std;
 
-/**
-	The default logger just sends to stderr
-*/
-class CoutLogger : public Logger
+void CoutLogger::doLog ( const string & msg, Level::LogLevel level )
 {
-public:
-	void doLog ( const string & msg, Level::LogLevel level )
+	char * env_level = getenv ( "SEMILIB_LOGGER_LEVEL" );
+	Level::LogLevel filterLevel = Level::none;
+	if ( env_level != 0 )
 	{
-		char * env_level = getenv ( "SEMILIB_LOGGER_LEVEL" );
-		Level::LogLevel filterLevel = Level::none;
-		if ( env_level != 0 )
-		{
-			filterLevel = stringToLevel ( env_level );
-		}
-		else
-		{
-			filterLevel = Level::all;
-		}
-		if ( level < filterLevel )
-		{
-			cout << timestamp() << ": " << msg << endl;
-		}
+		filterLevel = stringToLevel ( env_level );
 	}
-};
+	else
+	{
+		filterLevel = Level::all;
+	}
+	if ( level < filterLevel )
+	{
+		cout << timestamp() << ": " << msg << endl;
+	}
+}
 
 Logger * newInstance ( Logger * )
 {

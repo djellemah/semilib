@@ -1,8 +1,6 @@
 #ifndef Logger_h
 #define Logger_h
 
-#include "Singleton.h"
-#include "Mutex.h"
 #include "Lock.h"
 
 #include <iostream>
@@ -63,7 +61,9 @@ LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, const EndLog & el 
 	The class can be easily subclassed to log to a system logging
 	facility, or to a database, or whatever. It's also necessary to
 	provide an subclass implementing doLog, and an implementation of
-	newInstance to return the new instance of the class.
+	newInstance to return the new instance of the class, if you want it
+	hook into the Singleton logger instance. Otherwise you can just
+	instantiate logger instances as you need them.
 
 	\warning The mutex used for this class *must* be recursive.
 	
@@ -75,9 +75,11 @@ LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, const EndLog & el 
 	\todo use an observer pattern for outputs, so we don't have link
 	weirdness, and we can set a default output.
 */
-class LOGGER_DLL_API Logger : public Singleton<Logger, Mutex, Lock>
+class LOGGER_DLL_API Logger
 {
 public:
+	Logger();
+
 	/// Defined as virtual for subclasses
 	virtual ~Logger() {};
 		
@@ -109,7 +111,7 @@ public:
 		It's *necessary* to call this after using the
 		stream interface, otherwise the lock never gets released:
 		\code
-		Logger::instance().los() << "Some message" << Logger::end( critical );
+		logger << "Some message" << Logger::end( critical );
 		\endcode
 	*/
 	static EndLog & end ( Level::LogLevel level = Level::message );
@@ -127,12 +129,16 @@ public:
 	*/
 	std::ostream & os();
 
+	/**
+		Return the logger instance. It shouldn't be necessary
+		to use this, use the "logger" global variable instead.
+	*/
+	static Logger & instance();
+
 protected:
 	friend LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, const EndLog & el );
 	friend LOGGER_DLL_API Logger * newInstance ( Logger * );
 
-	/// De-construct this overload
-	Logger();
 	/// De-construct this overload
 	Logger ( const Logger & );
 	
@@ -156,8 +162,16 @@ protected:
 		fetch the current thread id
 	*/
 	int Logger::thread() const;
-
+	
 protected:
+	/**
+		Return the mutex for the logger. Since the instance of
+		logger is normally a Singleton, this will return a 
+		global mutex. Override this method if you don't want
+		this behaviour.
+	*/
+	virtual Mutex & mutex();
+
 	/// The underlying stream.
 	std::ostringstream _os;
 
@@ -202,7 +216,7 @@ LOGGER_DLL_API extern EndLog & elog ( Level::LogLevel level = Level::message );
 LOGGER_DLL_API Logger * newInstance ( Logger * );
 
 /**
-	convenience function to allow << directly to a logger
+	allow << directly to a logger
 */
 template<class T>
 std::ostream & operator<< ( Logger &, const T & type )
@@ -213,5 +227,67 @@ std::ostream & operator<< ( Logger &, const T & type )
 }
 
 LOGGER_DLL_API extern Logger & logger;
+
+/**
+	This is a wrapper for the logger that simplifies usage.
+
+	\see logdec
+*/
+class LoggerDecorator
+{
+public:
+	LoggerDecorator ( Logger &, Level::LogLevel );
+	LoggerDecorator ( const LoggerDecorator & );
+	virtual ~LoggerDecorator();
+	
+	template<class T>
+	void log ( const T & rhs)
+	{
+		// only send data to the stream if the filter
+		// allows it. Otherwise don't waste the CPU
+		if ( _level <= _logger.filter() )
+		{
+			_logger.os() << rhs;
+		}
+	}
+
+private:
+	mutable bool _copied;
+	Level::LogLevel _level;
+	Logger & _logger;
+};
+
+/**
+	allow << directly to a LoggerDecorator. The parameters and
+	return values are pass-by-value because 
+*/
+template<class T>
+LoggerDecorator operator<< ( LoggerDecorator ld, const T & type )
+{
+	ld.log ( type );
+	return ld;
+}
+
+/**
+	This is the preferred interface. It allows you to do things like this:
+	\code
+	logdec ( Level::debug ) << "Oh My god, " << evilPerson << killed Kenny!";
+	\endcode
+
+	and the instance will auto-magically send elog for you so that
+	you don't have to remember to send it. It will also make sure
+	that the << operators do very little work if the current log
+	level is less than the specified level.
+
+	This is also an occasionally useful pattern:
+	\code
+	ostringstream os;
+	os << "This" << endl;
+	os << " is " << endl;
+	os << " a message" << endl;
+	logdec ( Level::info) << os.str();
+	\endcode
+*/
+LoggerDecorator logdec ( Level::LogLevel level );
 
 #endif

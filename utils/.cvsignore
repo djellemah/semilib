@@ -33,3 +33,4 @@ log
 testRefcount
 testFileLogger
 test_strftime
+testCoutLogger

@@ -67,11 +67,13 @@ libsemilogger_la_SOURCES = Logger.cpp FileLogger.cpp
 libsemicoutlogger_la_SOURCES = CoutLogger.cpp
 
 noinst_PROGRAMS = \
+	testCoutLogger \
 	testPredicateResult \
 	testFileLogger \
 	testLogger \
 	testJoin \
 	testRefcount \
+	testSingleton \
 	testTimer \
 	test_strftime
 
@@ -91,3 +93,6 @@ testFileLogger_SOURCES = testFileLogger.cpp
 testFileLogger_LDADD = ${LDADD} libsemilogger.la
 
 test_strftime_SOURCES = test_strftime.cpp
+testSingleton_SOURCES = testSingleton.cpp
+testCoutLogger_SOURCES = testCoutLogger.cpp
+testCoutLogger_LDADD = libsemicoutlogger.la libsemilogger.la libsemiutils.la

@@ -89,7 +89,7 @@ UTILS_DLL_API Mutex & getMutex();
 	be a problem because it's only used on startup, and threads all follow
 	the same startup code path.
 */
-template<class InstanceType, class Mutex, class Lock>
+template<class InstanceType, class MutexClass=Mutex, class LockClass=Lock>
 class UTILS_DLL_API Singleton
 #ifdef _WIN32
 : public SingletonBase
@@ -112,7 +112,7 @@ public:
 		{
 			// the instance doesn't yet exist, so make all threads
 			// wait here.
-			Lock lock(_mutex);
+			LockClass lock(_mutex);
 			
 			/*
 				one thread gets through, creates the instance. As
@@ -139,7 +139,7 @@ public:
 		{
 			// the instance doesn't yet exist, so make all threads
 			// wait here.
-			acquireLock();
+			acquireLockClass();
 			
 			/*
 				one thread gets through, creates the instance. As
@@ -152,19 +152,19 @@ public:
 				instance = newInstance ( instance );
 				keepInstance ( name, instance );
 			}
-			releaseLock();
+			releaseLockClass();
 		}
 		return *static_cast<InstanceType*> ( getInstance ( name ) );
 #endif
 	}
 
-	static Mutex & mutex()
+	static MutexClass & mutex()
 	{
 #ifndef _WIN32
 		return _mutex;
 #else
 		return instance()._mutex;
-		//return getMutex();
+		//return getMutexClass();
 #endif
 	}
 
@@ -180,7 +180,6 @@ public:
 	}
 #endif
 
-protected:
 	/**
 		Descendants should declare the default constructor as
 		protected, unless they want to break the Singleton pattern.
@@ -189,6 +188,7 @@ protected:
 	{
 	}
 	
+protected:
 	/**
 		It should never be necessary to create an implementation
 		for the copy constructor.
@@ -201,12 +201,12 @@ protected:
 		The instance is likely to be a shared resource, the mutex
 		is protected to allow subclass usage.
 	*/
-	static Mutex _mutex;
+	static MutexClass _mutex;
 #else
 	/**
 		A mutex for children and outsiders to use
 	*/
-	Mutex _mutex;
+	MutexClass _mutex;
 #endif
 	
 private:
@@ -224,11 +224,11 @@ private:
 	there might be a race condition when instantiating it. Although
 	I'm not sure when static local variables are instantiated.
 */
-template<class InstanceType, class Mutex, class Lock>
-Mutex Singleton<InstanceType, Mutex, Lock>::_mutex;
+template<class InstanceType, class MutexClass, class LockClass>
+MutexClass Singleton<InstanceType, MutexClass, LockClass>::_mutex;
 
-template<class InstanceType, class Mutex, class Lock>
-SmartPointer<InstanceType> Singleton<InstanceType, Mutex, Lock>::_instance;
+template<class InstanceType, class MutexClass, class LockClass>
+SmartPointer<InstanceType> Singleton<InstanceType, MutexClass, LockClass>::_instance;
 #endif
 
 #endif
