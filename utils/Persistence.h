@@ -34,14 +34,14 @@ using namespace std;
 	the key in a map of name to an object which can create an instance
 	of the named class.
 */
-class UTILS_DLL_API AbstractConstructor
+class PERSISTENCE_DLL_API AbstractConstructor
 {
 public:
 	/**
 		the third template parameter shouldn't really be necessary
 		but gcc doesn't seem to support default initialisers for templates.
 	*/
-	typedef map<string, AbstractConstructor*> PersistentObjects;
+	typedef map<string, AbstractConstructor*, less<string> > PersistentObjects;
 
 	AbstractConstructor();
 	virtual ~AbstractConstructor();
@@ -60,14 +60,7 @@ public:
 	/**
 		get a reference to the map of names to classes.
 	*/
-	static PersistentObjects & getPersistentObjects()
-	{
-		if ( persistentObjects == 0 )
-		{
-			persistentObjects = new PersistentObjects();
-		}
-		return *persistentObjects;
-	}
+	static PersistentObjects & getPersistentObjects();
 
 protected:
 	static SmartPointer<PersistentObjects> persistentObjects;
@@ -80,7 +73,7 @@ protected:
 	is able to create an instance of the Persistent class.
 */
 template <class Persistent>
-class Constructor : public AbstractConstructor
+class PERSISTENCE_DLL_API Constructor : public AbstractConstructor
 {
 public:
 	/// create a new instance of Persistent.
@@ -96,12 +89,12 @@ public:
 	*/
 	Constructor( const char * _name )
 	{
-		string temp = Persistent().typeName();
+		string temp = typeid ( Persistent ).name();
 		getPersistentObjects()[temp] = this;
 
 		// add this so that older files work properly
 		// should be able to remove it at some point
-		getPersistentObjects()["class " + Persistent().typeName()] = this;
+		getPersistentObjects()["class " + temp] = this;
 	}
 
 	/**
@@ -110,12 +103,12 @@ public:
 	*/
 	Constructor()
 	{
-		string temp = Persistent().typeName();
+		string temp = typeid ( Persistent ).name();
 		getPersistentObjects()[temp] = this;
 
 		// add this so that older files work properly
 		// should be able to remove it at some point
-		getPersistentObjects()["class " + Persistent().typeName()] = this;
+		getPersistentObjects()["class " + temp] = this;
 	}
 };
 

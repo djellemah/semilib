@@ -39,3 +39,12 @@ AbstractConstructor::~AbstractConstructor()
 */
 	}
 }
+
+AbstractConstructor::PersistentObjects & AbstractConstructor::getPersistentObjects()
+{
+	if ( persistentObjects == 0 )
+	{
+		persistentObjects = new PersistentObjects();
+	}
+	return *persistentObjects;
+}

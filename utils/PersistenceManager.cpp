@@ -31,7 +31,7 @@ PersistenceManager<Persistent>::
 persist ( ostream & os, const Persistent & object ) const
 {
 	os << endl;
-	os << object.typeName() << endl;
+	os << typeid ( object ).name() << endl;
 	os << "{" << endl;
 	os << object << endl;
 	os << "}" << endl;

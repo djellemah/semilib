@@ -71,7 +71,7 @@ using namespace std;
 	</pre>
 */
 template <class Persistent>
-class PersistenceManager
+class PERSISTENCE_DLL_API PersistenceManager
 {
 public:
 	PersistenceManager()
@@ -100,7 +100,7 @@ protected:
 	virtual Persistent * makeNewObject( const string & line ) const;
 };
 
-// have to do this cos MSVC 5.0 doesn't support
+// have to do this cos MSVC 6.0 doesn't support
 // the 'export' keyword for templates.
 #include "PersistenceManager.cpp"
 

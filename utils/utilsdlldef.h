@@ -21,15 +21,42 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #if defined ( UTILS_NO_USE_DLL ) || !defined ( WIN32 )
 	#define UTILS_DLL_API
+	#pragma message ( "UTILS - Not building for DLL" )
 #else
 	#ifdef BUILD_UTILS_DLL
 		#define UTILS_DLL_API __declspec ( dllexport )
+		#pragma message ( "UTILS - Building DLL" )
 	#else
 		#define UTILS_DLL_API __declspec ( dllimport )
+		#pragma message ( "UTILS - Including DLL" )
 	#endif
 #endif
 
+/*
+	This is normally not a dll because of linkage problems with some
+	classes.
+	Although some of them weren't DLL classes anyway, which may have been the problem...?
+*/
+
+#define PERSISTENCE_DLL_API
+	
+/*
+#if defined ( PERSISTENCE_NO_USE_DLL ) || !defined ( WIN32 )
+	#define PERSISTENCE_DLL_API
+	#pragma message ( "PERSISTENCE - Not building for DLL" )
+#else
+	#ifdef BUILD_PERSISTENCE_DLL
+		#define PERSISTENCE_DLL_API __declspec ( dllexport )
+		#pragma message ( "PERSISTENCE - Building DLL" )
+	#else
+		#define PERSISTENCE_DLL_API __declspec ( dllimport )
+		#pragma message ( "PERSISTENCE - Including DLL" )
+	#endif
+#endif
+*/
+
+
 // disable warnings about requiring DLL interface
-#pragma warning(disable:4251)
+//#pragma warning(disable:4251)
 
 #endif
