@@ -35,18 +35,48 @@ using namespace std;
 
 using namespace Utils;
 
+using std::cout;
+using std::endl;
+using std::string;
+using std::istringstream;
+
+#include "FlagsMapper.h"
+
+int test_FlagsMapper ( int argc, char * argv[] )
+{
+	// test flags mapper
+	const char * flagsString = ""
+		"REG_EXTENDED 1 "
+		"REG_ICASE 2 "
+		"REG_NEWLINE 4 "
+		"REG_NOSUB 8 "
+		;
+
+	FlagsMapper fm ( flagsString );
+	try
+	{
+		cout << fm["REG_NOSUB"] << endl;
+		for ( int i = 1; i < 16; ++i )
+		{
+			cout << fm[i] << endl;
+		}
+		cout << fm[" REG_NOSUB|REG_EXTENDED "] << endl;
+	}
+	catch ( exception & e )
+	{
+		cerr << e.what() << endl;
+	}
+	
+	return 0;
+}
+
 inline int calc_alloc_size(int max_alloc_size)
 {
 	int size = rand() % max_alloc_size;
 	return size;
 }
 
-using std::cout;
-using std::endl;
-using std::string;
-using std::istringstream;
-
-int testSmartnew(int argc, char* argv[])
+int test_Smartnew(int argc, char* argv[])
 {
 	if ( argc < 4 )
 	{
@@ -111,7 +141,7 @@ int testSmartnew(int argc, char* argv[])
 	return 0;
 }
 
-int testDllLink ( int argc, char * argv[] )
+int test_DllLink ( int argc, char * argv[] )
 {
 	vector<string> parts = splitPath( argv[0] );
 	map<string,string> test;
@@ -130,7 +160,7 @@ int testDllLink ( int argc, char * argv[] )
 	return 0;
 }
 
-int testSmartPointer ( int argc, char * argv[] )
+int test_SmartPointer ( int argc, char * argv[] )
 {
 	SmartPointer<char> p = new char[256];
 	SmartPointer<char> q = p;
@@ -144,12 +174,14 @@ int testSmartPointer ( int argc, char * argv[] )
 	return 0;
 }
 
+#ifdef _WIN32
 int test_ssprintf ( int argc, char * argv[] )
 {
 	cout << ssprintf ( "%s %s", "hello", "you" );
 	cout << ssprintf ( "%s %69s", "hello", "you" );
 	return 0;
 }
+#endif
 
 /**************************
 Test persistence manager
@@ -206,6 +238,10 @@ istream & operator >> ( istream & is, TestPersist & obj )
 #include "PersistenceManager.h"
 
 namespace {
+	/*
+		You actually only need one of these two declarations to register a class with
+		the persistence framework, but there are two here to test the registration code
+	*/
 	// this should be added to the list
 	Constructor<TestPersist> a;
 
@@ -217,6 +253,7 @@ int test_Persistence ( int argc, char * argv[] )
 {
 	try
 	{
+//		Constructor<TestPersist> a;
 		ostringstream os;
 		TestPersist p ( 5 );
 		PersistenceManager<TestPersist> pm;
@@ -239,11 +276,50 @@ int test_Persistence ( int argc, char * argv[] )
 	return 0;
 }
 
+#ifdef _WIN32
+	#define TEMPDIR "d:\\temp"
+#else
+	#define TEMPDIR "/tmp"
+#endif
+
+
+#include "TempFile.h"
+
+int test_TempFile ( int argc, char * argv[] )
+{
+	TempFile t1;
+	TempFile t2 ( TEMPDIR );
+
+	return 0;
+}
+
+int test_mkdir ( int argc, char * argv[] )
+{
+	Utils::mkdir ( string ( TEMPDIR ) + directorySeparator + "dirone" + directorySeparator + "dirtwo" );
+	Utils::mkdir ( string ( "dirone" ) + directorySeparator + "dirtwo" );
+	Utils::mkdir ( string ( "." ) + directorySeparator + "dirdotone" + directorySeparator + "dirtwo" );
+	return 0;
+}
+
 /*
 	Call one of the test functions
 */
 int main ( int argc, char * argv[] )
 {
-	cout << uuidAsString() << endl;
-	return test_Persistence ( argc, argv );
+	cout << "Starting" << endl;
+	
+	try
+	{
+		return test_Persistence ( argc, argv );
+	}
+	catch ( exception & e )
+	{
+		cout << e.what() << endl;
+	}
+	catch ( ... )
+	{
+		cout << "Caught ..." << endl;
+	}
+	
+	return 1;
 }
