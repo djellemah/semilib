@@ -15,7 +15,12 @@ Logger::Logger()
 }
 #pragma warning( default : 4355 ) 
 
-Logger & logger = Logger::instance();
+Logger & fetchInstance()
+{
+	return Logger::instance();
+}
+
+Logger & logger = fetchInstance();
 
 void Logger::log ( const std::string & msg, Level::LogLevel level )
 {
