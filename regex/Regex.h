@@ -50,19 +50,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "SmartPointer.h"
 #include "StaticInit.h"
 
-using namespace std;
+namespace semilib
+{
 
 /**
 	exception for problems compiling a particular regular expression
 */
-class UTILS_DLL_API rx_exception : public exception
+class UTILS_DLL_API rx_exception : public std::exception
 {
 public:
-	rx_exception ( int rxError, const RXSPACE regex_t & compiled, const string & pattern );
+	rx_exception ( int rxError, const RXSPACE regex_t & compiled, const std::string & pattern );
 	virtual const char * what() const throw();
 	~rx_exception() throw() {}
 protected:
-	string msg;
+	std::string msg;
 };
 
 /**
@@ -136,7 +137,7 @@ public:
 		followed by match. This will cause match to recompile the
 		expression because the flags have changed.
 	*/
-	Regex ( const string & pattern, int CFLAGS = REG_EXTENDED );
+	Regex ( const std::string & pattern, int CFLAGS = REG_EXTENDED );
 	~Regex();
 
 	Regex ( const Regex & );
@@ -144,14 +145,14 @@ public:
 
 	/**
 		@deprecated use a call to flags ( ) or flag ( ), followed by
-		a call to pattern ( string ).
+		a call to pattern ( std::string ).
 	*/
-	Regex & setPattern ( const string & pattern, int CFLAGS = REG_EXTENDED );
+	Regex & setPattern ( const std::string & pattern, int CFLAGS = REG_EXTENDED );
 
 	/**
 		Deprecated. Use pattern() instead
 	*/
-	const string & getPattern () const
+	const std::string & getPattern () const
 	{
 		return _pattern;
 	}
@@ -162,13 +163,13 @@ public:
 		the regular expression now so you can get instant
 		feedback if you made a mistake.
 	*/
-	Regex & pattern ( const string & pattern )
+	Regex & pattern ( const std::string & pattern )
 	{
 		return setPattern ( pattern, flags() );
 	}
 
 	/// returns the pattern currently used by this instance
-	const string & pattern () const
+	const std::string & pattern () const
 	{
 		return getPattern();
 	}
@@ -201,7 +202,7 @@ public:
 		This calls compile() if the pattern or the flags have changed
 		since the last time the regex was compiled.
 	*/
-	bool match ( const string & s, unsigned long pos = 0 ) const;
+	bool match ( const std::string & s, unsigned long pos = 0 ) const;
 
 	/**
 		returns the indexed subexpression. Throws an exception
@@ -211,7 +212,7 @@ public:
 		An index of 0 retrieves the part of the string passed to match (...)
 		that matches the whole regular expression.
 	*/
-	string operator [] ( int index ) const;
+	std::string operator [] ( int index ) const;
 
 	/**
 		returns the index into the string of the beginning of
@@ -322,7 +323,7 @@ private:
 	int _flags;
 
 	/// where the string that gets compiled is stored.
-	string _pattern;
+	std::string _pattern;
 
 	/// use this to determine if a call to compile() is necessary
 	bool _changed;
@@ -331,8 +332,8 @@ private:
 	/// regmatch_t is defined in inst_rxposix.h
 	mutable SmartPointer<RXSPACE regmatch_t,ArrayDelete<regmatch_t> > _subExpressions;
 
-	// keeps track of the string we were asked to match
-	mutable string _matched;
+	/// keeps track of the string we were asked to match
+	mutable std::string _matched;
 
 	/// provides a string representation of the flags bitmapped flags
 	static SmartPointer<FlagsMapper> _mapper;
@@ -346,11 +347,13 @@ private:
 	For persistence to a stream. Stores the pattern and the flags, using FlagsMapper.
 	/ingroup regex
 */
-UTILS_DLL_API ostream & operator << ( ostream & os, const Regex & regex );
+UTILS_DLL_API std::ostream & operator << ( std::ostream & os, const Regex & regex );
 
 /**
 	For persistence from a stream. Retrieves the pattern and the flags, using FlagsMapper.
 */
-UTILS_DLL_API istream & operator >> ( istream & is, Regex & regex );
+UTILS_DLL_API std::istream & operator >> ( std::istream & is, Regex & regex );
+
+}
 
 #endif

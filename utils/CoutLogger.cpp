@@ -22,7 +22,7 @@ void CoutLogger::doLog ( const string & msg, Level::LogLevel level )
 	}
 }
 
-Logger * semilib::newInstance ( Logger * )
+Logger * ::newInstance ( Logger * )
 {
 	return new CoutLogger;
 }

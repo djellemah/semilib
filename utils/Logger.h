@@ -3,19 +3,19 @@
 
 /**
 	\defgroup logger Logging
-	
+
 	The main class here is Logger, accessed via loch.
 	\code
 	loch(Level::info) << "This is a message: " << someMessage;
 	\endcode
-	
+
 	Old style interface would be
 	\code
 	logger << "This is a message: " << someMessage << elog(Level::info);
 	\endcode
-	
+
 	CoutLogger and FileLogger output to stdout and a file, respectively.
-	
+
 	\note Don't use slow functions inside the operator << calls to the
 	logger. Use this pattern instead:
 	\code
@@ -24,7 +24,7 @@
 	os << " is " << endl;
 	os << " a message" << endl;
 	loch ( Level::info ) << os.str();
-	\endcode	
+	\endcode
 */
 
 #include "Lock.h"
@@ -57,7 +57,7 @@ public:
 	: _logger ( logger )
 	{
 	}
-	
+
 	void level ( Level::LogLevel l )
 	{
 		_level = l;
@@ -66,7 +66,7 @@ public:
 private:
 	Logger & _logger;
 	Level::LogLevel _level;
-	
+
 	friend LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, const EndLog & el );
 };
 
@@ -97,15 +97,15 @@ LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, const EndLog & el 
 	instantiate logger instances as you need them.
 
 	\note The mutex used for this class *must* be recursive.
-	
+
 	\todo use TLS to store elog marker, and only lock for the write. Would
 	prevent things like socket DNS reverse-resolution locking up
 	all the other threads. Also, makes forgetting elog less dangerous.
 	\todo use an observer pattern for outputs, so we don't have link
 	weirdness, and we can set a default output.
-	
+
 	\see LogChainer
-	
+
 	\todo remove logger and replace with logger()
 
 	\todo rename loch(...) to logger(...)
@@ -119,7 +119,7 @@ public:
 
 	/// Defined as virtual for subclasses
 	virtual ~Logger() {};
-		
+
 	/**
 		Tell the logger implementation to flush any caches
 		it might have. Does nothing by default.
@@ -143,28 +143,28 @@ public:
 		Return the current filter level
 	*/
 	virtual Level::LogLevel filter() const;
-	
+
 	/**
 		It's *necessary* to call this after using the
 		stream interface, otherwise the lock never gets released:
 		\code
 		logger << "Some message" << Logger::end( critical );
 		\endcode
-		
+
 		For an easier way, \see loch
 	*/
 	static EndLog & end ( Level::LogLevel level = Level::message );
-	
+
 	/**
 		Translate the log level to a string
 	*/
 	static std::string levelToString ( Level::LogLevel level );
-	
+
 	/**
 		Translate a string to the log level
 	*/
-	Level::LogLevel Logger::stringToLevel ( std::string stringLevel );
-	
+	static Level::LogLevel Logger::stringToLevel ( std::string stringLevel );
+
 	/**
 		Access the stream for the logger.
 		\internal Use operator << ( Logger &, T & ) instead.
@@ -183,7 +183,7 @@ protected:
 
 	/// De-construct this overload
 	Logger ( const Logger & );
-	
+
 	/**
 		Subclasses should override this to actually log the message.
 
@@ -192,23 +192,23 @@ protected:
 		quite a bit.
 	*/
 	virtual void doLog ( const std::string & message, Level::LogLevel level ) = 0;
-	
+
 	void endMessage( Level::LogLevel level );
 
 	/**
 		fetch the current process id
 	*/
 	int Logger::pid() const;
-	
+
 	/**
 		fetch the current thread id
 	*/
 	int Logger::thread() const;
-	
+
 protected:
 	/**
 		Return the mutex for the logger. Since the instance of
-		logger is normally a Singleton, this will return a 
+		logger is normally a Singleton, this will return a
 		global mutex. Override this method if you don't want
 		this behaviour.
 	*/
@@ -219,7 +219,7 @@ protected:
 
 	/// the current log level
 	Level::LogLevel _filter;
-	
+
 	/// The endlog object.
 	EndLog _end;
 
@@ -264,7 +264,7 @@ LOGGER_DLL_API Logger * newInstance ( Logger * );
 
 /**
 	allow << directly to a logger
-	
+
 	\deprecated in favour of loch
 	\ingroup logger
 */
@@ -302,10 +302,10 @@ public:
 	LogChainer ( Logger &, Level::LogLevel );
 	LogChainer ( const LogChainer & );
 	virtual ~LogChainer();
-	
+
 	/// calls Logger's flush
 	void flush();
-	
+
 	/// calls Logger's filter
 	void filter ( Level::LogLevel level );
 

@@ -12,6 +12,8 @@ using namespace semilib;
 
 Logger & semilib::logger = Singleton<Logger,Mutex,Lock>::instance();
 
+Logger * newInstance ( Logger * );
+
 Logger & Logger::instance()
 {
 	return Singleton<Logger,Mutex,Lock>::instance();
@@ -31,7 +33,7 @@ void logger_init(void)
 }
 #endif
 
-#pragma warning( disable : 4355 ) 
+#pragma warning( disable : 4355 )
 Logger::Logger()
 : _filter ( Level::all )
 , _end ( *this )
@@ -39,7 +41,7 @@ Logger::Logger()
 {
 //	cout << "Initialising Logger" << endl;
 }
-#pragma warning( default : 4355 ) 
+#pragma warning( default : 4355 )
 
 Mutex & Logger::mutex()
 {
@@ -56,7 +58,7 @@ void Logger::log ( const std::string & msg, Level::LogLevel level )
 		os << setw(8) << left << levelToString ( level ) << ": " << msg;
 		doLog (  os.str(), level );
 	}
-	
+
 	// reset the buffer for the next message
 	_os.str ( string() );
 	_lock.release();
@@ -66,7 +68,7 @@ std::ostream & semilib::operator<< ( std::ostream & os, const EndLog & el )
 {
 	// signal to the Logger that this is the end of a message
 	el._logger.endMessage( el._level );
-	
+
 	return os;
 }
 
@@ -76,7 +78,7 @@ void Logger::endMessage( Level::LogLevel level )
 	// between the last --_locks and the _locks > 0 test
 	_lock.acquire ( mutex() );
 	log ( _os.str(), level );
-	
+
 	// end of message, so someone else can have a go now
 	// the mutex can be acquired several times in os()
 	// so it needs to be released several times here
@@ -102,13 +104,13 @@ EndLog & Logger::end( Level::LogLevel level )
 {
 	// acquire the lock
 	Logger::instance()._lock.acquire ( Logger::instance().mutex() );
-	
+
 	// increment usage count, cos we're not releasing the lock in this method
 	++Logger::instance()._locks;
-	
+
 	// set the current level
 	Logger::instance()._end.level ( level );
-	
+
 	// return the end object
 	return Logger::instance()._end;
 }
@@ -131,7 +133,7 @@ Level::LogLevel Logger::filter() const
 string Logger::levelToString ( Level::LogLevel level )
 {
 	using namespace Level;
-	
+
 	string retval;
 	switch ( level )
 	{
@@ -174,6 +176,7 @@ Level::LogLevel Logger::stringToLevel ( std::string stringLevel )
 	levels["message"] = message;
 	levels["info"] = info;
 	levels["debug"] = debug;
+	levels["all"] = all;
 
 	if ( levels.find ( stringLevel ) != levels.end() )
 	{

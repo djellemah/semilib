@@ -6,7 +6,7 @@
 using namespace std;
 using namespace semilib;
 
-Logger * semilib::newInstance ( Logger * )
+Logger * ::newInstance ( Logger * )
 {
 	return new FileLogger();
 }

@@ -3,9 +3,11 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
 
 #include "Regex.h"
+
+using namespace std;
+using namespace semilib;
 
 int main ( int argc, char * argv[] )
 {

@@ -19,7 +19,5 @@ still be safe, and not make memory handling an issue.
 
 \todo Do a start/end of function logger and timer
 
-\todo put everthing in namespace semilib
-
 \author John Anderson <a href="mailto:panic at semiosix.com">panic at semiosix.com</a>
 */

@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Regex.h"
 
 using namespace std;
+using namespace semilib;
 
 // for use with FlagsMapper
 const char * flagsString = ""
@@ -292,14 +293,14 @@ void Regex::testValid() const
 	if ( _changed ) const_cast<Regex*>(this)->compile();
 }
 
-ostream & operator << ( ostream & os, const Regex & regex )
+ostream & semilib::operator << ( ostream & os, const Regex & regex )
 {
 	os << regex.getPattern();
 	//os << regex.mapper()[regex.flags()] << endl;
 	return os;
 }
 
-istream & operator >> ( istream & is, Regex & regex )
+istream & semilib::operator >> ( istream & is, Regex & regex )
 {
 	string pattern;
 	getline ( is, pattern );

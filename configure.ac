@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([semilib],2.4.4,[panic@semiosix.com])
+AC_INIT([semilib],2.5.1,[panic@semiosix.com])
 AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
 AC_CONFIG_SRCDIR([utils/istring.h])
 AM_CONFIG_HEADER([config.h])
@@ -34,7 +34,7 @@ AC_HELP_STRING(
 AC_SUBST(CXXFLAGS)
 
 # we don't want static libs by default
-AC_DISABLE_STATIC 
+AC_DISABLE_STATIC
 
 # Checks for programs.
 AC_PROG_CXX
