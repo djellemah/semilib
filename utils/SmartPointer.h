@@ -529,6 +529,7 @@ private:
 	ArrayDelete<char> deallocator;
 };
 
+#ifdef USE_VOID_SMARTPOINTER
 // 'turn multiple assignment operator' warning back on
 // doesn't work cos the warnings only get generated when the compiler
 // instantiates the templates, which happens wherever they're referenced from
@@ -660,6 +661,8 @@ private:
 	mutable bool owner;
 	NormalDelete<void> deallocator;
 };
+
+#endif
 
 #endif
 
