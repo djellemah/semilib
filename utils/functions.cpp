@@ -114,3 +114,34 @@ UTILS_DLL_API string ssprintf ( const char * fmt, ... )
 	return string ( buf );
 }
 
+UTILS_DLL_API string uuidAsString()
+{
+/*
+	// create a Universally Unique Identifier
+	// based on date, time and ethernet address or something
+	// see MSVC documentation under the RPC subsystem
+
+	//NOTE uuid generation is not supported by Windows 95
+
+	//NB remember to link in RPC libraries.
+
+	UUID uuid;
+	unsigned char * pszBuffer;
+
+	// make the new id
+	if ( UuidCreate ( &uuid ) != RPC_S_OK )
+		throw runtime_error ( "Couldn't create uuid" );
+
+	// get a string representation of the uuid
+	if ( UuidToString ( &uuid, &pszBuffer ) != RPC_S_OK )
+		throw runtime_error ( "Couldn't convert uuid to string representation" );
+
+	// make the string representation palatable
+	string sReturnValue ( (char*)pszBuffer );
+	RpcStringFree ( &pszBuffer );
+
+	return sReturnValue;
+*/
+	return "";
+}
+

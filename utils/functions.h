@@ -53,4 +53,8 @@ UTILS_DLL_API string numberToString ( T number )
 // like sprintf, but returns a string
 UTILS_DLL_API string ssprintf ( const char * fmt, ... );
 
+// creates a uuid
+UTILS_DLL_API string uuidAsString();
+
+
 #endif
