@@ -9,7 +9,7 @@ using namespace std;
 
 //#include "Thread.h"
 
-void main ()
+int main ( int argc, char * argv[] )
 {
 	string subexpression = "([L1][1345])";
 	string regexString = "FORM[AST]*=T[A-Z]*" + subexpression + ",";
@@ -75,4 +75,7 @@ void main ()
 	{
 		cerr << e.what() << endl;
 	}
+	
+	return 0;
 }
+

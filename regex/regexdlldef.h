@@ -1,7 +1,7 @@
 #ifndef regexdlldef_h
 #define regexdlldef_h
 
-#ifdef REGEX_NO_USE_DLL
+#if defined( REGEX_NO_USE_DLL ) || !defined ( _WIN32 )
 	#define REGEX_DLL_API
 #else
 	#ifdef BUILD_REGEX_DLL

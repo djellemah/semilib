@@ -26,7 +26,7 @@ using namespace std;
 
 #include "Regex.h"
 #include "SmartPointer.h"
-#include "boost/cregex.hpp"
+#include <boost/cregex.hpp>
 
 using namespace boost;
 

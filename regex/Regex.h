@@ -30,7 +30,7 @@ using namespace std;
 #include "SmartPointer.h"
 #include "StaticInit.h"
 
-#include "boost/cregex.hpp"
+#include <boost/cregex.hpp>
 
 #pragma warning ( disable:4251 )
 
@@ -50,6 +50,7 @@ class REGEX_DLL_API rx_exception : public exception
 public:
 	rx_exception ( int rxError, const RXSPACE regex_t & compiled, const string & pattern );
 	virtual const char * what() const throw();
+	~rx_exception() throw() {}
 protected:
 	string msg;
 };
