@@ -1,0 +1,16 @@
+#if @BOOST_DEFINE@ || defined(WIN32)
+#include <boost/cregex.hpp>
+	#define RXSPACE boost::
+	using namespace boost;
+	using RXSPACE REG_EXTENDED;
+	using RXSPACE REG_NOSUB;
+	using RXSPACE REG_ICASE;
+	using RXSPACE REG_NEWLINE;
+	using RXSPACE REG_ESPACE;
+	using RXSPACE REG_NOMATCH;
+#else
+	extern "C" {
+		#include <regex.h>
+	}
+	#define RXSPACE
+#endif
