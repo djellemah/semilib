@@ -34,7 +34,7 @@ public:
 	{
 		_level = l;
 	}
-	
+
 private:
 	Logger & _logger;
 	Level::LogLevel _level;
@@ -70,6 +70,14 @@ public:
 	/// Defined as virtual for subclasses
 	virtual ~Logger() {};
 		
+	/**
+		Tell the logger to flush any caches it might have.
+		Does nothing by default.
+	*/
+	virtual void flush()
+	{
+	}
+
 	/**
 		This can either be called as is, or used via the stream
 		interface.
