@@ -38,21 +38,9 @@ libutils_la_SOURCES = \
 
 libutils_la_LDFLAGS = -release ${VERSION}
 
-bin_PROGRAMS = testPredicateResult
-check_PROGRAMS = testTimer testPredicateResult
-
-#test_SOURCES = test.cpp
-#test_LDADD = libutils.la
+check_PROGRAMS = testPredicateResult
 
 testPredicateResult_SOURCES = testPredicateResult.cpp
 testPredicateResult_LDADD = libutils.la
-
-
-testTimer_SOURCES = testTimer.cpp
-testTimer_LDADD = libutils.la
-
-#bin_PROGRAMS = testPredicateResult
-#testPredicateResult_SOURCES = testPredicateResult.cpp
-#testPredicateResult_LDADD = libutils.la
 
 TESTS=test

@@ -5,9 +5,10 @@
 
 #include <set>
 #include <stdexcept>
+#include <iostream>
+#include <iterator>
 
-using std::set;
-using std::runtime_error;
+using namespace std;
 
 /**
 	This class allows for multiple trigger errors, with the
