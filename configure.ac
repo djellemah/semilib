@@ -1,8 +1,19 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT(utils, 1.0.2, utils@semiosix.com)
-AM_INIT_AUTOMAKE(utils, 1.0.2)
-AC_CONFIG_SRCDIR([src])
+AC_INIT([sxx],[1.0.2],[utils@semiosix.com])
+AM_INIT_AUTOMAKE(sxx, 1.0.2)
+AC_CONFIG_SRCDIR([utils/istring.h])
 AM_CONFIG_HEADER([config.h])
+
+AC_PREFIX_DEFAULT(/usr/local/semiosix)
+
+AC_ARG_WITH(boost,
+AC_HELP_STRING([--with-boost], [use boost libraries. default is to use system regex]),
+test "$withval" = no || with_boost=$withval, with_boost=no
+)
+AC_SUBST(with_boost)
+
+# don't want static libs by default
+AC_DISABLE_STATIC 
 
 # Checks for programs.
 AC_PROG_CXX
@@ -12,7 +23,6 @@ AC_PROG_LIBTOOL
 AC_PROG_MAKE_SET
 
 # Checks for libraries.
-#AC_CHECK_LIB([e], [main])
 
 # Checks for header files.
 AC_HEADER_STDC
@@ -29,5 +39,5 @@ AC_CHECK_TYPES([ptrdiff_t])
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([memset mkdir strncasecmp])
 
-AC_CONFIG_FILES([Makefile src/Makefile])
+AC_CONFIG_FILES([Makefile utils/Makefile fuzzy/Makefile regex/Makefile])
 AC_OUTPUT

@@ -1,4 +1,3 @@
-
 include_HEADERS = \
 	AbstractRegex.h Change.h Cloneable.h FileUtils.h FlagsMapper.h Line.h \
 	Lock.h MarkStream.h Persistence.h PersistenceManager.h RefCount.h \
