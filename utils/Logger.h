@@ -144,6 +144,16 @@ protected:
 	
 	void endMessage( Level::LogLevel level );
 
+	/**
+		fetch the current process id
+	*/
+	int Logger::pid() const;
+	
+	/**
+		fetch the current thread id
+	*/
+	int Logger::thread() const;
+
 protected:
 	/// The underlying stream.
 	std::ostringstream _os;

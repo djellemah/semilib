@@ -13,12 +13,15 @@ various utility classes:
 	- istring for case-insensitive string comparisons, and other string utility functions
 	- Line for extraction operators into a string that read one line at a time
 	- StaticInit for optimised static initialisation
+	- Logging framework using iostream operators
 
 \todo use export keyword for templates where possible
 
 \todo Do logger() and logger(Level)
 
 \todo Do a start/end of function logger and timer
+
+\todo 
 
 \author John Anderson <a href="mailto:panic at semiosix.com">panic at semiosix.com</a>
 */

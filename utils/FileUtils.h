@@ -172,6 +172,11 @@ UTILS_DLL_API void mkdir( const string & dirname ) throw ( runtime_error );
 */
 UTILS_DLL_API std::string executableDirectory( const std::string & envvar = "" );
 
+/**
+	Returns the name of the current executable, including the extension for win32.
+*/
+UTILS_DLL_API std::string executableName();
+
 } // end of namespace Utils
 #pragma warning(default:4290)
 

@@ -200,6 +200,20 @@ void mkdir( const string & dirname ) throw ( runtime_error )
 	}
 }
 
+UTILS_DLL_API std::string executableName()
+{
+	string retval;
+#ifdef _WIN32
+	return _argv[0];
+#else
+	char * temp = getenv ( "_" );
+	if ( temp != 0 )
+		return temp;
+	else
+		return "none";
+#endif
+}
+
 UTILS_DLL_API string executableDirectory( const std::string & envvar )
 {
 	string directory;

@@ -157,6 +157,25 @@ string Logger::levelToString ( Level::LogLevel level )
 	return retval;
 }
 
+int Logger::pid() const
+{
+#ifndef _WIN32
+	return getpid();
+#else
+	return ::GetCurrentProcessId();
+#endif
+}
+
+int Logger::thread() const
+{
+#ifndef _WIN32
+	return 0;
+#else
+	return ::GetCurrentThreadId();
+#endif
+}
+
+
 ostream & elog ( std::ostream & os )
 {
 	os << Logger::end();

@@ -7,6 +7,7 @@ pkginclude_HEADERS = \
 	Change.h \
 	CharArray.h \
 	Cloneable.h \
+	FileLogger.h \
 	FileUtils.h \
 	FlagsMapper.h \
 	functions.h \
@@ -59,18 +60,31 @@ libsemiutils_la_SOURCES = \
 libsemiutils_la_LDFLAGS = \
 	$(AM_LDFLAGS)
 
-LDADD = libsemiutils.la libsemilogger.la libsemicoutlogger.la -lpthread ${LIBADD}
+LDADD = libsemiutils.la -lpthread ${LIBADD}
 
-libsemilogger_la_SOURCES = Logger.cpp
+libsemilogger_la_SOURCES = Logger.cpp FileLogger.cpp
+
 libsemicoutlogger_la_SOURCES = CoutLogger.cpp
 
-check_PROGRAMS = testPredicateResult testLogger testJoin testRefcount testTimer
+noinst_PROGRAMS = \
+	testPredicateResult \
+	testFileLogger \
+	testLogger \
+	testJoin \
+	testRefcount \
+	testTimer
 
 testPredicateResult_SOURCES = testPredicateResult.cpp
+testPredicateResult_LDADD = ${LDADD} libsemilogger.la libsemicoutlogger.la
+
 testLogger_SOURCES = testlogger.cpp
+testLogger_LDADD = ${LDADD} libsemilogger.la libsemicoutlogger.la
 
 testJoin_SOURCES = testJoin.cpp
 
 testRefcount_SOURCES = testRefcount.cpp
 
 testTimer_SOURCES = testTimer.cpp
+
+testFileLogger_SOURCES = testFileLogger.cpp
+testFileLogger_LDADD = ${LDADD} libsemilogger.la

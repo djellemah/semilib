@@ -31,3 +31,4 @@ testJoin
 testTimer
 log
 testRefcount
+testFileLogger
