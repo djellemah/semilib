@@ -237,7 +237,15 @@ string Regex::operator [] ( int index ) const
 	// _matched.begin() is an iterator that points to the beginning of the string
 	// _matched.begin() + begin is the beginning of the subexpression
 	// _matched.begin() + end is one past the end of the subexpression.
-	return string ( _matched.begin() + begin, _matched.begin() + end );
+
+	// this provokes an error in sxlrt
+	// return string ( _matched.begin() + begin, _matched.begin() + end - 1 );
+
+	// so try do it manually
+	SmartPointer<char> buf = new char[end-begin+1];
+	strncpy ( buf, _matched.c_str() + begin, end-begin );
+	buf[end-begin] = 0;
+	return string ( buf.data() );
 }
 
 int Regex::subExpBegin ( int index ) const
