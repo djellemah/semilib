@@ -40,6 +40,8 @@ public:
 	/**
 		the third template parameter shouldn't really be necessary
 		but gcc doesn't seem to support default initialisers for templates.
+
+		Don't want a smart pointer here, unless it's a refcount...
 	*/
 	typedef map<string, AbstractConstructor*, less<string> > PersistentObjects;
 
@@ -90,19 +92,8 @@ public:
 		return new Persistent;
 	}
 
-	/**
-		only because I'm too lazy to go and
-		change an earlier hack so g++ will cope
-		_name is a dummy parameter that doesn't actually get used
-	*/
-	Constructor( const char * _name )
+	Constructor ( const Constructor & )
 	{
-		string temp = typeid ( Persistent ).name();
-		getPersistentObjects()[temp] = this;
-
-		// add this so that older files work properly
-		// should be able to remove it at some point
-		getPersistentObjects()["class " + temp] = this;
 	}
 
 	/**
@@ -112,11 +103,9 @@ public:
 	Constructor()
 	{
 		string temp = typeid ( Persistent ).name();
-		getPersistentObjects()[temp] = this;
 
-		// add this so that older files work properly
-		// should be able to remove it at some point
-		getPersistentObjects()["class " + temp] = this;
+		// make sure a copy of this is stored, in case this is deleted later
+		getPersistentObjects()[temp] = new Constructor<Persistent>(*this);
 	}
 };
 
