@@ -178,12 +178,12 @@ protected:
 	int _locks;
 };
 
-#ifndef _MSC_VER
 /**
 	Convenience function that returns Logger::EndLog
 */
-extern std::ostream& elog ( std::ostream& outs );
+LOGGER_DLL_API extern std::ostream& elog ( std::ostream& outs );
 
+#ifndef _MSC_VER
 /**
 	to allow logger << elog;
 	\todo fix this

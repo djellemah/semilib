@@ -44,31 +44,13 @@ public:
 		Doesn't attempt to release the mutex in
 		the destructor call
 	*/
-	Lock()
-		: _mutex ( 0 )
-		, _owned ( false )
-	{
-	}
+	Lock();
 
-	Lock ( Mutex & aMutex )
-		: _mutex ( &aMutex )
-		, _owned ( true )
-	{
-		_owned = acquire();
-	}
+	Lock ( Mutex & aMutex );
 
-	void acquire ( Mutex & aMutex )
-	{
-		mutex ( aMutex );
-		acquire();
-		_owned = true;
-	}
+	void acquire ( Mutex & aMutex );
 
-	void release ()
-	{
-		mutex().release();
-		_owned = false;
-	}
+	void release ();
 
 	/**
 		A blocking lock has always acquired the lock
@@ -84,14 +66,7 @@ public:
 		is true, ie this instance was constructed
 		with a mutex.
 	*/
-	virtual ~Lock()
-	{
-		if ( _owned )
-		{
-			release();
-			_owned = false;
-		}
-	}
+	virtual ~Lock();
 
 	Mutex & mutex()
 	{
@@ -112,17 +87,14 @@ protected:
 		Return true if the mutex was successfully locked, false
 		otherwise.
 	*/
-	virtual bool acquire()
-	{
-		mutex().lock();
-		return true;
-	}
+	virtual bool acquire();
 	
 	// whether or not we should release the lock
 	bool _owned;
 
 private:
 	Mutex * _mutex;
+	int _count;
 };
 
 #endif

@@ -17,3 +17,47 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "Lock.h"
+
+Lock::Lock()
+	: _mutex ( 0 )
+	, _owned ( false )
+	, _count ( 0 )
+{
+}
+
+Lock::Lock ( Mutex & aMutex )
+	: _mutex ( &aMutex )
+	, _owned ( true )
+	, _count ( 0 )
+{
+	_owned = acquire();
+}
+
+Lock::~Lock()
+{
+	if ( _owned && _count != 0)
+	{
+		release();
+	}
+}
+
+void Lock::release ()
+{
+	--_count;
+	mutex().release();
+}
+
+bool Lock::acquire()
+{
+	mutex().lock();
+	++_count;
+	return true;
+}
+
+void Lock::acquire ( Mutex & aMutex )
+{
+	mutex ( aMutex );
+//	_count = 0;
+	acquire();
+	_owned = true;
+}

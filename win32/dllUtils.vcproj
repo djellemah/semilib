@@ -154,8 +154,7 @@
 		<File
 			RelativePath="..\utils\Lock.cpp">
 			<FileConfiguration
-				Name="Debug|Win32"
-				ExcludedFromBuild="TRUE">
+				Name="Debug|Win32">
 				<Tool
 					Name="VCCLCompilerTool"/>
 			</FileConfiguration>
