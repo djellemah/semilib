@@ -44,6 +44,39 @@ using namespace Utils;
 #include "SoundexFunctor.h"
 #include "Ranking.h"
 
+/**
+	Various string matching techniques that can be applied
+	to find the best match for a string in a collection of
+	strings.
+	
+	\code
+	vector<string> strings;
+	vector<Ranking> results;
+	string word;
+	
+	transform (
+		strings.begin()
+		, strings.end()
+		, insert_iterator<vector<Ranking> > ( results, results.begin() )
+		, NGramFunctor(word)
+	);
+	\endcode
+	
+	will result in a set of rankings <code>pair<float,string></code>,
+	each of which contains
+	a string and a percentage match for that string against
+	<code>word</code>
+	
+	NGram matching is at least O(N), so you could use Soundex to reduce the number
+	of strings for NGram to match, and use NGram to come up with a best match
+	when compared to the others in the set. In other words Soundex allows for
+	index-type searching, whereas NGram requries exhaustive searching. Although
+	NGram does a better job of matching strings where there are spelling mistakes
+	and typos.
+
+	\defgroup match
+*/
+
 // for outputting an element of the results array
 struct Out
 {

@@ -32,6 +32,7 @@ using namespace std;
 
 /**
 	This class stores the results of a matching run
+	\ingroup match
 */
 class FUZZY_DLL_API Ranking : public pair<double,string>
 {

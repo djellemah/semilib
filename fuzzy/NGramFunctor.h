@@ -31,13 +31,6 @@ using namespace std;
 
 // disable non dll-interface warnings
 #pragma warning(disable: 4275)
-/**
-	Various string matching techniques that can be applied
-	to find the best match for a string in a collection of
-	strings.
-	
-	\defgroup match
-*/
 
 /**
 	This is a predicate to be used with the STL sum function.
