@@ -59,10 +59,15 @@ LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, EndLog & el );
 	\endcode
 
 	The class can be easily subclassed to log to a system logging
-	facility, or to a database, or whatever.
+	facility, or to a database, or whatever. It's also necessary to
+	provide an subclass implementing doLog, and an implementation of
+	newInstance to return the new instance of the class.
 
 	\warning The mutex used for this class *must* be recursive.
+	
 	\todo make the interface a bit neater
+	\todo allow for minimal overhead when there's no logging. Null iobuf
+	or something like that.
 */
 class LOGGER_DLL_API Logger : public Singleton<Logger, Mutex, Lock>
 {
@@ -145,7 +150,7 @@ protected:
 	/**
 		Subclasses should override this to actually log the message.
 
-		\warning this is mutext-protected, so don't block in here
+		\warning this is mutex-protected, so don't block in here
 		for too long, whatever's using the logger will slow down
 		quite a bit.
 	*/

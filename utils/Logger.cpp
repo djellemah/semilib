@@ -45,17 +45,16 @@ ostream & Logger::los()
 
 void Logger::endMessage( Level::LogLevel level )
 {
+	// prevent other threads getting in here
+	// between the last --_locks and the _locks > 0 test
 	_lock.acquire ( mutex() );
 	log ( _os.str(), level );
 	
 	// end of message, so someone else can have a go now
-	// the mutex is recursively acquired in os()
-	
-	// prevent other threads getting in here
-	// between the last --_locks and the _locks > 0 test
+	// the mutex can be acquired several times in os()
+	// so it needs to be released several times here
 	while ( _locks > 0 )
 	{
-		// do this before the release, so we don't get a race
 		 --_locks;
 		_lock.release ();
 	}
@@ -69,9 +68,16 @@ ostream & Logger::os()
 
 EndLog & Logger::end( Level::LogLevel level )
 {
+	// acquire the lock
 	Logger::instance()._lock.acquire ( Logger::instance().mutex() );
+	
+	// increment usage count, cos we're not releasing the lock in this method
 	++Logger::instance()._locks;
+	
+	// set the current level
 	Logger::instance()._end.level ( level );
+	
+	// return the end object
 	return Logger::instance()._end;
 }
 
@@ -109,4 +115,3 @@ string Logger::levelToString ( Level::LogLevel level )
 	};
 	return retval;
 }
-
