@@ -64,7 +64,7 @@ UTILS_DLL_API std::string join ( const Collection & collection, const Joiner & j
 {
 	using namespace std;
 	ostringstream os;
-	
+
 	typename Collection::const_iterator begin = collection.begin();
 	typename Collection::const_iterator cur = collection.begin();
 	for ( ; cur != collection.end(); ++cur )
