@@ -37,8 +37,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\Release"
-# PROP Intermediate_Dir "..\Release\utils\static"
+# PROP Output_Dir "..\..\Release"
+# PROP Intermediate_Dir "..\..\Release\utils\static"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD CPP /nologo /G5 /MD /W3 /GX /O2 /Ob2 /I "..\Thread\src" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "NO_USE_UTILS_DLL" /FD /c
@@ -61,8 +61,8 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\Debug"
-# PROP Intermediate_Dir "..\Debug\utils\static"
+# PROP Output_Dir "..\..\Debug"
+# PROP Intermediate_Dir "..\..\Debug\utils\static"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD CPP /nologo /G5 /MDd /W3 /GX /Z7 /Od /I "..\Thread\src" /D "_DEBUG" /D "UTILS_NO_USE_DLL" /D "WIN32" /D "_WINDOWS" /FD /c
@@ -84,19 +84,19 @@ LIB32=link.exe -lib
 # Name "Utils - Win32 Debug"
 # Begin Source File
 
-SOURCE=.\AbstractRegex.h
+SOURCE=..\utils\AbstractRegex.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Change.h
+SOURCE=..\utils\Change.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Cloneable.h
+SOURCE=..\utils\Cloneable.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\FileUtils.cpp
+SOURCE=..\utils\FileUtils.cpp
 
 !IF  "$(CFG)" == "Utils - Win32 Release"
 
@@ -109,79 +109,79 @@ SOURCE=.\FileUtils.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\FileUtils.h
+SOURCE=..\utils\FileUtils.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\FlagsMapper.cpp
+SOURCE=..\utils\FlagsMapper.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\FlagsMapper.h
+SOURCE=..\utils\FlagsMapper.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\functions.cpp
+SOURCE=..\utils\functions.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\functions.h
+SOURCE=..\utils\functions.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\istring.cpp
+SOURCE=..\utils\istring.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\istring.h
+SOURCE=..\utils\istring.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Lock.cpp
+SOURCE=..\utils\Lock.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\Lock.h
+SOURCE=..\utils\Lock.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\minwin.h
+SOURCE=..\utils\minwin.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\posException.h
+SOURCE=..\utils\posException.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\RefCount.cpp
+SOURCE=..\utils\RefCount.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\RefCount.h
+SOURCE=..\utils\RefCount.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Result.cpp
+SOURCE=..\utils\Result.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\Result.h
+SOURCE=..\utils\Result.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\SmartPointer.cpp
+SOURCE=..\utils\SmartPointer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\SmartPointer.h
+SOURCE=..\utils\SmartPointer.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Timer.h
+SOURCE=..\utils\Timer.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\utilsdlldef.h
+SOURCE=..\utils\utilsdlldef.h
 # End Source File
 # End Target
 # End Project

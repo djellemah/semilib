@@ -38,8 +38,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\Release"
-# PROP Intermediate_Dir "..\Release\fuzzyMatch"
+# PROP Output_Dir "..\..\Release"
+# PROP Intermediate_Dir "..\..\Release\fuzzyMatch"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FUZZYDYNAMIC_EXPORTS" /FD /c
@@ -65,7 +65,7 @@ LINK32=link.exe
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir "..\lib"
-# PROP Intermediate_Dir "..\Debug\fuzzyMatch"
+# PROP Intermediate_Dir "..\..\Debug\fuzzyMatch"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FUZZYDYNAMIC_EXPORTS" /FD /GZ /c
@@ -90,63 +90,63 @@ LINK32=link.exe
 # Name "fuzzyDynamic - Win32 Debug"
 # Begin Source File
 
-SOURCE=.\src\BasicSoundex.cpp
+SOURCE=..\fuzzy\BasicSoundex.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\BasicSoundex.h
+SOURCE=..\fuzzy\BasicSoundex.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\fuzzydlldef.h
+SOURCE=..\fuzzy\fuzzydlldef.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\MatchFunction.cpp
+SOURCE=..\fuzzy\MatchFunction.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\MatchFunction.h
+SOURCE=..\fuzzy\MatchFunction.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\matchfunctions.cpp
+SOURCE=..\fuzzy\matchfunctions.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\matchfunctions.h
+SOURCE=..\fuzzy\matchfunctions.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\NGram.cpp
+SOURCE=..\fuzzy\NGram.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\NGram.h
+SOURCE=..\fuzzy\NGram.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\Ranking.cpp
+SOURCE=..\fuzzy\Ranking.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\Ranking.h
+SOURCE=..\fuzzy\Ranking.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\Soundex.cpp
+SOURCE=..\fuzzy\Soundex.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\Soundex.h
+SOURCE=..\fuzzy\Soundex.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\SoundexCharLookup.cpp
+SOURCE=..\fuzzy\SoundexCharLookup.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\SoundexCharLookup.h
+SOURCE=..\fuzzy\SoundexCharLookup.h
 # End Source File
 # End Target
 # End Project

@@ -39,7 +39,7 @@ RSC=rc.exe
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
 # PROP Output_Dir "..\bin"
-# PROP Intermediate_Dir "..\Release\regex"
+# PROP Intermediate_Dir "..\..\Release\regex"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "REGEXDLL_EXPORTS" /YX /FD /c
@@ -67,7 +67,7 @@ LINK32=link.exe
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir "..\bin"
-# PROP Intermediate_Dir "..\Debug\regex"
+# PROP Intermediate_Dir "..\..\Debug\regex"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "REGEXDLL_EXPORTS" /YX /FD /GZ /c
@@ -93,19 +93,19 @@ LINK32=link.exe
 # Name "regexdll - Win32 Debug"
 # Begin Source File
 
-SOURCE=.\src\Regex.cpp
+SOURCE=..\regex\Regex.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\Regex.h
+SOURCE=..\regex\Regex.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\regexdlldef.h
+SOURCE=..\regex\regexdlldef.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\regexlib.h
+SOURCE=..\regex\regexlib.h
 # End Source File
 # End Target
 # End Project

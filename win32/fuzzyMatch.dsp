@@ -38,7 +38,7 @@ RSC=rc.exe
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
 # PROP Output_Dir "..\lib\"
-# PROP Intermediate_Dir "..\Release\fuzzyMatch"
+# PROP Intermediate_Dir "..\..\Release\fuzzyMatch"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD CPP /nologo /MD /W3 /GX /O2 /I "..\utils" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "NO_USE_FUZZY_DLL" /FD /c
@@ -62,7 +62,7 @@ LIB32=link.exe -lib
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir "..\lib\"
-# PROP Intermediate_Dir "..\Debug\fuzzyMatch"
+# PROP Intermediate_Dir "..\..\Debug\fuzzyMatch"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I "..\utils" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "NO_USE_FUZZY_DLL" /FD /c
@@ -84,47 +84,47 @@ LIB32=link.exe -lib
 # Name "fuzzyMatch - Win32 Debug"
 # Begin Source File
 
-SOURCE=.\src\BasicSoundex.cpp
+SOURCE=..\fuzzy\BasicSoundex.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\BasicSoundex.h
+SOURCE=..\fuzzy\BasicSoundex.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\fuzzydlldef.h
+SOURCE=..\fuzzy\fuzzydlldef.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\MatchFunction.cpp
+SOURCE=..\fuzzy\MatchFunction.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\MatchFunction.h
+SOURCE=..\fuzzy\MatchFunction.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\matchfunctions.cpp
+SOURCE=..\fuzzy\matchfunctions.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\matchfunctions.h
+SOURCE=..\fuzzy\matchfunctions.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\NGram.cpp
+SOURCE=..\fuzzy\NGram.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\NGram.h
+SOURCE=..\fuzzy\NGram.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\Soundex.cpp
+SOURCE=..\fuzzy\Soundex.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\Soundex.h
+SOURCE=..\fuzzy\Soundex.h
 # End Source File
 # End Target
 # End Project
