@@ -24,6 +24,7 @@ UTILS_DLL_API SingletonBase * getInstance ( const std::string & name );
 UTILS_DLL_API void acquireLock();
 UTILS_DLL_API void releaseLock();
 UTILS_DLL_API void deleteSingletons();
+UTILS_DLL_API Mutex & getMutex();
 
 #endif
 
@@ -155,6 +156,16 @@ public:
 		return *static_cast<InstanceType*> ( getInstance ( name ) );
 #endif
 	}
+
+	static Mutex & mutex()
+	{
+#ifndef _WIN32
+		return _mutex;
+#else
+		return instance()._mutex;
+		//return getMutex();
+#endif
+	}
 	
 protected:
 	/**
@@ -178,6 +189,11 @@ protected:
 		is protected to allow subclass usage.
 	*/
 	static Mutex _mutex;
+#else
+	/**
+		A mutex for children and outsiders to use
+	*/
+	Mutex _mutex;
 #endif
 	
 private:

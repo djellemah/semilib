@@ -35,6 +35,11 @@ InstanceOrder instanceOrder;
 */
 Mutex instancesMutex;
 
+Mutex & getMutex()
+{
+	return instancesMutex;
+}
+
 /**
 	This is a managed container to ensure that the
 	singleton instances are deleted on shutdown.
