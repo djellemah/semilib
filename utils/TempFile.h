@@ -10,24 +10,31 @@ namespace Utils
 	using namespace std;
 
 /**
-	Creates a temporary file with the specified prefix
+	Creates a temporary filename with the specified prefix
 	and takes care of deleting the file when the object
 	goes out of scope.
+
+	NOTE: the file itself is NOT created.
 */
 class UTILS_DLL_API TempFile
 {
 public:
-	TempFile ( const char * prefix = 0 );
+	TempFile ( const char * prefix = 0, const char * dir = 0 );
 	~TempFile();
 
 	operator const string & () const
 	{
-		return filename;
+		return asString();
 	}
 
 	operator const char * () const
 	{
-		return filename.c_str();
+		return asString().c_str();
+	}
+
+	const string & asString() const
+	{
+		return filename;
 	}
 
 private:
