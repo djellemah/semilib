@@ -121,9 +121,10 @@ UTILS_DLL_API string ssprintf ( const char * fmt, ... )
 #endif
 
 #ifdef WIN32
+#pragma comment(lib, "rpcrt4.lib")
+#include <rpc.h>
 UTILS_DLL_API string uuidAsString()
 {
-/*
 	// create a Universally Unique Identifier
 	// based on date, time and ethernet address or something
 	// see MSVC documentation under the RPC subsystem
@@ -148,8 +149,6 @@ UTILS_DLL_API string uuidAsString()
 	::RpcStringFree ( &pszBuffer );
 
 	return sReturnValue;
-*/
-	return "";
 }
 #endif
 
