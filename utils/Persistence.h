@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string>
 #include <map>
 #include <functional>
+#include <algorithm>
 
 using namespace std;
 
@@ -62,6 +63,13 @@ public:
 	static PersistentObjects & getPersistentObjects();
 };
 
+/*
+	This class keeps track of the list (map, actually) of registered
+	objects that can be persisted and restored.
+
+	There can only be one such list, obviously, so we can't rely on
+	static declarations to do this properly because of kak with DLLs.
+*/
 class PERSISTENCE_DLL_API PersistenceRegistry
 {
 public:
@@ -81,6 +89,16 @@ protected:
 	A template class that add itself to the map
 	of constructor classes in AbstractConstructor, and which
 	is able to create an instance of the Persistent class.
+
+	Each persistent class (Foo, say) should have a statement like this somewhere
+
+	namespace
+	{
+		Constructor<Foo> somedummyname;
+	}
+
+	Which will call the constructor of Constructor, which will add Foo to
+	the list of registered objects.
 */
 template <class Persistent>
 class PERSISTENCE_DLL_API Constructor : public AbstractConstructor
@@ -92,6 +110,10 @@ public:
 		return new Persistent;
 	}
 
+	/*
+		MSVC complains that it can't resolve this symbol unless you
+		explicitly define it
+	*/
 	Constructor ( const Constructor & )
 	{
 	}
@@ -104,8 +126,12 @@ public:
 	{
 		string temp = typeid ( Persistent ).name();
 
-		// make sure a copy of this is stored, in case this is deleted later
-		getPersistentObjects()[temp] = new Constructor<Persistent>(*this);
+		// only insert the object if it doesn't already exist
+		if ( getPersistentObjects().find ( temp ) == getPersistentObjects().end() )
+		{
+			// make sure a copy of this is stored, in case this is deleted later
+			getPersistentObjects()[temp] = new Constructor<Persistent>(*this);
+		}
 	}
 };
 

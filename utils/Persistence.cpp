@@ -29,6 +29,16 @@ PersistenceRegistry::PersistenceRegistry()
 
 PersistenceRegistry::~PersistenceRegistry()
 {
+	// remove all the contained objects
+	AbstractConstructor::PersistentObjects::iterator current = _persistentObjects->begin();
+	AbstractConstructor::PersistentObjects::iterator end = _persistentObjects->end();
+
+	for ( ; current != end; ++current )
+	{
+		AbstractConstructor * temp = current->second;
+		delete current->second;
+	}
+
 	delete _persistentObjects;
 }
 
