@@ -262,7 +262,7 @@ int Regex::subExpEnd ( int index ) const
 void Regex::compile()
 {
 	// initialise the pattern buffer
-	memset ( &_patternBuffer, 0, sizeof(regex_t ) );
+	::memset ( &_patternBuffer, 0, sizeof(regex_t ) );
 
 	// compile the regex
 	int result = regcomp ( &_patternBuffer, pattern().c_str(), flags() );

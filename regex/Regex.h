@@ -30,8 +30,13 @@ using namespace std;
 #include "SmartPointer.h"
 #include "StaticInit.h"
 
-#include "cregex"
-#define RXSPACE
+#include "boost/cregex.hpp"
+
+#pragma warning ( disable:4251 )
+
+#define RXSPACE boost::
+
+using namespace boost;
 
 /**
 	exception for problems compiling a particular regular expression
