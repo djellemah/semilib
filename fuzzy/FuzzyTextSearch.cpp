@@ -35,13 +35,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 using namespace std;
 
-#include <FileUtils.h>
-#include <Line.h>
+#include "FileUtils.h"
+#include "Line.h"
+
+using namespace Utils;
 
 #include "MatchFunction.h"
 #include "Soundex.h"
 #include "Ranking.h"
 
+ostream & operator << ( ostream & os, const pair<float,string> & p )
+{
+		os << "(" << p.first << "," << p.second << ")";
+}
 
 // for outputting an element of the results array
 struct Out
@@ -87,7 +93,7 @@ private:
 
 void help( char * argv[] )
 {
-	cout << argv[0] << endl;
+	cout << "test file word percent" << endl;
 	exit ( 0 );
 }
 
