@@ -1,6 +1,6 @@
-SUBDIRS = utils regex fuzzy
+SUBDIRS = utils regex fuzzy win32
 INCLUDES = -I../utils -I../regex -I../fuzzy
-EXTRA_DIST = Doxyfile win32 doc/html
+EXTRA_DIST = Doxyfile
 
 dist-hook:
 	rm -rf `find $(distdir)/win32 -name CVS`

@@ -37,6 +37,9 @@ libutils_la_SOURCES = \
 	FlagsMapper.cpp \
 	Persistence.cpp \
 	PersistenceManager.cpp \
+	Result.cpp \
+	Singleton.cpp \
+	SmartPointer.cpp \
 	StaticInit.cpp \
 	TempFile.cpp \
 	functions.cpp \

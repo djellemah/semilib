@@ -12,6 +12,8 @@
 	If you know a better way to do this, please let me know.
 */
 
+#ifdef _MSC_VER
+
 #pragma warning(disable: 4786)
 
 #include "Singleton.h"
@@ -116,3 +118,5 @@ void deleteSingletons()
 {
 	instances.cleanup();
 }
+
+#endif

@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([semilib],1.2.0,[utils@semiosix.com])
+AC_INIT([semilib],1.2.2,[utils@semiosix.com])
 AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
 AC_CONFIG_SRCDIR([utils/istring.h])
 AM_CONFIG_HEADER([config.h])
@@ -57,5 +57,11 @@ AC_PROG_MAKE_SET
 #AC_FUNC_MALLOC
 #AC_CHECK_FUNCS([memset mkdir strncasecmp regcomp])
 
-AC_CONFIG_FILES([Makefile utils/Makefile fuzzy/Makefile regex/Makefile])
+AC_CONFIG_FILES([
+	Makefile
+	utils/Makefile
+	fuzzy/Makefile
+	regex/Makefile
+	win32/Makefile
+])
 AC_OUTPUT
