@@ -44,6 +44,25 @@ private:
 	double _threshold;
 };
 
+// for outputting an element of the results array
+bool match_compare ( const pair<const float,string> & a, const pair<const float,string> & b )
+{
+    return a.first > b.first;
+}
+
+struct SortByMatch
+{
+	void operator ()( const pair<float,string> & value )
+	{
+		if ( value.first > _threshold )
+			_os << value << endl;
+	}
+
+private:
+	ostream & _os;
+	double _threshold;
+};
+
 void help( char * argv[] )
 {
 	cout << argv[0] << endl;
@@ -52,7 +71,7 @@ void help( char * argv[] )
 
 int main( int argc, char * argv[] )
 {
-	if ( argc != 4 )
+	if ( argc < 3 || argc > 4 )
 	{
 		help( argv );
 	}
@@ -60,7 +79,7 @@ int main( int argc, char * argv[] )
 	{
 		const char * inputs = argv[1];
 		const char * word = argv[2];
-		const char * percent = argv[3];
+		const char * percent = argc == 4 ? argv[3] : "0.0";
 
 		if ( !FileUtils::exists ( inputs ) )
 		{
@@ -83,14 +102,23 @@ int main( int argc, char * argv[] )
 			, istream_iterator<Line>()
 			, insert_iterator<Results> ( results, results.begin() )
 			, MatchFunction ( word )
+// an alternative to MatchFunction			
 //			, Soundex ( argv[2] )
 		);
 
-/*
 		// output the first two results
+/*
 		cout << *(results.rbegin()) << endl;
 		cout << *(++results.rbegin()) << endl;
-*/
+*/		
+		
+		// sort results into match order, from best to worst
+		sort (
+			results.begin()
+			, results.end()
+			, match_compare
+		);
+		
 		// output all results
 		for_each (
 			results.begin()

@@ -7,11 +7,13 @@ Soundex.o \
 matchfunctions.o \
 FuzzyTextSearch.o
 
-CPPFLAGS = -fPIC -fhonor-std
+TOOLDIR = /usr/local/v3/bin
+CPP = $(TOOLDIR)/g++
+CPPFLAGS = -fPIC -g
 INCLUDE = ../../Utils
-LINK = gcc
-LINKFLAGS = -fhonor-std -lstdc++
-LINKLIBS = -lfuzzy -lstdc++ -lutils
+LINK = $(TOOLDIR)/g++
+LINKFLAGS = -lstdc++
+LINKLIBS = -lfuzzy -lutils
 
 LIBNAME = libfuzzy
 LIBDIR = /usr/local/lib/site
@@ -22,18 +24,19 @@ LIBVER = $(LIBVERMAJOR).$(LIBVERMINOR)
 .SUFFIXES: .cpp .o
 
 .cpp.o:
-	c++ $(CPPFLAGS) -I $(INCLUDE) -c -o $@ $<
+	$(CPP) -I $(INCLUDE) $(CPPFLAGS) -c -o $@ $<
 
-all: $(FILES) $(LIBNAME).so fuzzy
+all: $(FILES) $(LIBNAME).so.$(LIBVER)
 
-$(LIBNAME).so:
-	$(LINK) -shared -Wl,-soname,$(LIBNAME).so.$(LIBVERMAJOR) -o $(LIBDIR)/$(LIBNAME).so.$(LIBVER) $(FILES) -lc
-	-ln -s $(LIBDIR)/$(LIBNAME).so.$(LIBVER) $(LIBDIR)/$(LIBNAME).so
+$(LIBNAME).so.$(LIBVER): $(FILES)
+	$(LINK) $(CPPFLAGS) -L $(LIBDIR) -shared -Wl,-soname,$(LIBNAME).so.$(LIBVERMAJOR) -o $(LIBNAME).so.$(LIBVER) $(FILES)
+	-cp $(LIBNAME).so.$(LIBVER) $(LIBDIR)/$(LIBNAME).so.$(LIBVER)
+	-ln -s $(LIBDIR)/$(LIBNAME).so.$(LIBVER) $(LIBDIR)/$(LIBNAME).so.$(LIBVERMAJOR)
+	-ln -s $(LIBDIR)/$(LIBNAME).so.$(LIBVERMAJOR) $(LIBDIR)/$(LIBNAME).so
 
-fuzzy: $(FILES) $(LIBNAME).so FuzzyTextSearch.o
-	 c++ $(CPPFLAGS) -L $(LIBDIR) $(LINKLIBS) -o fuzzy FuzzyTextSearch.o
+fuzzy: $(FILES) $(LIBNAME).so.$(LIBVER) FuzzyTextSearch.o
+	 $(CPP) $(CPPFLAGS) -L $(LIBDIR) $(LINKLIBS) -o fuzzy FuzzyTextSearch.o
 
 clean:
 	-rm *.o
 	-rm *.so*
-

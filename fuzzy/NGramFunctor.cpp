@@ -29,6 +29,9 @@ Ranking MatchFunction::operator () ( const string & element )
 {
 	// strip out punctuation and accented characters
 	string line = PrepareTheString ( element );
+	
+	// return a zero percent match under certain conditions
+/*
 #ifdef WIN32
 	switch ( _MIN ( line.length(), _toMatch.length() ) )
 #else
@@ -51,9 +54,10 @@ Ranking MatchFunction::operator () ( const string & element )
 		if ( abs ( line.length() - _toMatch.length() ) > 3 )
 			return Ranking ( 0.0f, element );
 	}
-
-	// do all n-grams from 2 through 7 or the smallest length, whatever is first
+*/
+	
 /*
+	// do all n-grams from 2 through 7 or the smallest length, whatever is first
 	for ( int i = 2; i <= 7 && i <= _cpp_min ( line.length(), _toMatch.length() ); ++i )
 	{
 		results.push_back ( grams[i].match( line, _toMatch ) );
@@ -105,12 +109,7 @@ Ranking MatchFunction::operator () ( const string & element )
 	}
 
 	// calculate match totals
-/*
-	OneResult total;
-	total = accumulate ( results.begin(), results.end(), total );
-	// need cast to float to make sure the division is done properly
-	float similarity = (float)total.first / total.second;
-*/
+	
 	// This section calculates the similarity as a float
 	// for each ngram (DividedSum), then calculates the average.
 	DividedSum<float> total;
