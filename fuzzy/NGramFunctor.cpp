@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma warning(disable: 4786)
 
-#include "MatchFunction.h"
+#include "NGramFunctor.h"
 #include "matchfunctions.h"
 
 #include <algorithm>
@@ -29,9 +29,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 using namespace std;
 
-map<int, NGram> MatchFunction::grams;
+map<int, NGram> NGramFunctor::grams;
 
-MatchFunction::MatchFunction ( const string & toMatch )
+NGramFunctor::NGramFunctor ( const string & toMatch )
 	: _toMatch ( PrepareTheString ( toMatch ) )
 {
 	if ( grams.empty() )
@@ -44,7 +44,7 @@ MatchFunction::MatchFunction ( const string & toMatch )
 	}
 }
 
-Ranking MatchFunction::operator () ( const string & element )
+Ranking NGramFunctor::operator () ( const string & element )
 {
 	// strip out punctuation and accented characters
 	string line = PrepareTheString ( element );
@@ -104,14 +104,14 @@ Ranking MatchFunction::operator () ( const string & element )
 	return Ranking ( similarity, element );
 }
 
-string MatchFunction::PrepareTheString(const string & OriginStr)
+string NGramFunctor::PrepareTheString(const string & original)
 {
 	string retval;
 
 	// change all punctuation things to spaces
 	transform (
-		OriginStr.begin()
-		, OriginStr.end()
+		original.begin()
+		, original.end()
 		, insert_iterator<string> ( retval, retval.begin() )
 		, stripThings
 	);

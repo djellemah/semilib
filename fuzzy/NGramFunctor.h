@@ -15,8 +15,8 @@ You should have received a copy of the GNU Library General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-#ifndef MatchFunction_h
-#define MatchFunction_h
+#ifndef NGramFunctor_h
+#define NGramFunctor_h
 
 
 #include <vector>
@@ -31,9 +31,17 @@ using namespace std;
 
 // disable non dll-interface warnings
 #pragma warning(disable: 4275)
+/**
+	Various string matching techniques that can be applied
+	to find the best match for a string in a collection of
+	strings.
+	
+	\defgroup match
+*/
 
-/*
-	This is a predicate to be used with the STL sum function
+/**
+	This is a predicate to be used with the STL sum function.
+	\ingroup match
 */
 struct OneResult : public pair<int,int>
 {
@@ -63,6 +71,10 @@ struct OneResult : public pair<int,int>
 	}
 };
 
+/**
+	Calculate (a2/b2) + (a2/b2) + (an/bn).
+	\ingroup match
+*/
 template<class T>
 struct DividedSum
 {
@@ -81,20 +93,19 @@ struct DividedSum
 	{
 	}
 
-/*
-	DividedSum ( const pair<T,T> & aPair )
+	template<class N>
+	DividedSum ( const pair<N,N> & aPair )
 	{
 		_sum = aPair.first / aPair.second;
 	}
-*/
 
-	// should turn this into a template member
-	// as soon as I have a compiler that supports it
+#ifdef _MSVC
 	DividedSum ( const pair<int,int> & aPair )
 	{
 		_sum = (T)(aPair.first) / (T)(aPair.second);
 	}
-
+#endif
+	
 	DividedSum operator + ( const DividedSum & other )
 	{
 		DividedSum retval ( *this );
@@ -132,18 +143,19 @@ private:
 		begin_input
 		, end_input
 		, begin_output
-		, MatchFunction ( argv[2] )
+		, NGramFunctor ( argv[2] )
 	);
 
 	output should be a collection of Ranking objects
 
 	It would be a good idea to templatise this class so that
 	Ranking and string are parameters
+	\ingroup match
 */
-class FUZZY_DLL_API MatchFunction
+class FUZZY_DLL_API NGramFunctor
 {
 public:
-	MatchFunction ( const string & toMatch );
+	NGramFunctor ( const string & toMatch );
 
 	Ranking operator () ( const string & element );
 
