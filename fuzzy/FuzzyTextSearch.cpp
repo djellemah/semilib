@@ -139,12 +139,13 @@ int main( int argc, char * argv[] )
 		);
 		cout << "-------------------------------" << endl;
 		
-		is.seekg(0);
+		// for some reason, we can't reuse is from above
+		ifstream sis ( inputs );
 
 		cout << "Doing soundex matching for " << word << endl;
 		// print soundex matches
 		printBestMatches (
-			istream_iterator<Line>(is)
+			istream_iterator<Line>(sis)
 			, istream_iterator<Line>()
 			, SoundexFunctor ( word )
 		);
