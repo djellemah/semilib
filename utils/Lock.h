@@ -46,39 +46,45 @@ public:
 	*/
 	Lock()
 		: _mutex ( 0 )
-		, _releaseOnDestruct ( false )
+		, _owned ( false )
 	{
 	}
 
 	Lock ( Mutex & aMutex )
 		: _mutex ( &aMutex )
-		, _releaseOnDestruct ( true )
+		, _owned ( true )
 	{
-		mutex().lock();
+		_owned = acquire();
 	}
 
 	void acquire ( Mutex & aMutex )
 	{
 		mutex ( aMutex );
-		mutex().lock();
+		_owned = acquire();
 	}
 
 	void release ()
 	{
-		mutex().release();
+		if ( _owned )
+		{
+			mutex().release();
+			_owned = false;
+		}
 	}
 
+	bool acquired() const
+	{
+		return _owned;
+	}
+	
 	/**
-		Only release the mutex if _releaseOnDestruct
+		Only release the mutex if _owned
 		is true, ie this instance was constructed
 		with a mutex.
 	*/
 	virtual ~Lock()
 	{
-		if ( _releaseOnDestruct )
-		{
-			mutex().release();
-		}
+		release();
 	}
 
 	Mutex & mutex()
@@ -93,9 +99,52 @@ public:
 		return *this;
 	}
 
+protected:
+	
+	/**
+		Assume that the mutex instance has already been set.
+		Return true if the mutex was successfully locked, false
+		otherwise.
+	*/
+	virtual bool acquire()
+	{
+		mutex().lock();
+		return true;
+	}
+	
+	bool _owned;
+
 private:
 	Mutex * _mutex;
-	bool _releaseOnDestruct;
+};
+
+/**
+	A try lock. This will never block on a locked mutex,
+	but will instead return true from acquired() if the
+	mutex was locked, false if another thread has already locked it.
+*/
+class UTILS_DLL_API TryLock : public Lock
+{
+public:
+
+	/**
+		Doesn't attempt to release the mutex in
+		the destructor call
+	*/
+	TryLock()
+	: Lock()
+	{
+	}
+
+	TryLock ( Mutex & aMutex )
+	: Lock ( aMutex )
+	{
+	}
+
+	virtual bool acquire()
+	{
+		return mutex().trylock();
+	}
 };
 
 #endif

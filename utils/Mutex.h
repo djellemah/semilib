@@ -23,6 +23,9 @@
 	way to do it is to make Mutex class member, and then for each
 	method that needs to control access, have the above line as the
 	first line in the method implementation.
+	
+	For win32, this uses a CriticalSection object. For pthreads, it
+	uses a mutex object.
 */
 class UTILS_DLL_API Mutex
 {
@@ -42,6 +45,12 @@ public:
 		release the Mutex object
 	*/
 	void release();
+
+	/**
+		Do an async lock on the Mutex object. Return true
+		if the lock attempt succeeded, false otherwise.
+	*/
+	bool trylock();
 
 	/**
 		delete the Mutex object

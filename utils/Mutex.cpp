@@ -1,5 +1,9 @@
 #include "Mutex.h"
 
+#ifndef _WIN32
+#include <errno.h>
+#endif
+
 /**
 	create the Mutex object
 */
@@ -27,6 +31,18 @@ void Mutex::lock()
 	::EnterCriticalSection ( &criticalSection );
 #else
 	pthread_mutex_lock ( &_mutex );
+#endif
+}
+
+bool Mutex::trylock()
+{
+	bool retval = false;
+#ifdef _WIN32
+	BOOL result = ::TryEnterCriticalSection ( &criticalSection );
+	return result != 0;
+#else
+	int result = pthread_mutex_trylock ( &_mutex );
+	return result != EBUSY;
 #endif
 }
 
