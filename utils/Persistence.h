@@ -30,6 +30,13 @@ using namespace std;
 #include "utilsdlldef.h"
 #include "SmartPointer.h"
 
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+
+#include <windows.h>
+#endif
+
+class PersistenceRegistry;
 /**
 	This is used to create an instance of an object whose name is
 	the key in a map of name to an object which can create an instance
@@ -61,6 +68,16 @@ public:
 	}
 
 	static PersistentObjects & getPersistentObjects();
+
+private:
+	static PersistenceRegistry * persistenceRegistry;
+#ifdef _WIN32
+	/*
+		Ugly hack time. Windoes DLLs have their own memory space, so allow
+		DLL entry and exit to work with only one copy of the registry.
+	*/
+	friend BOOL APIENTRY DllMain( HANDLE,  DWORD, LPVOID );
+#endif
 };
 
 /*
