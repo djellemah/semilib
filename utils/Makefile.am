@@ -60,11 +60,12 @@ LDADD = libutils.la liblogger.la libcoutlogger.la -lpthread ${LIBADD}
 liblogger_la_SOURCES = Logger.cpp
 libcoutlogger_la_SOURCES = CoutLogger.cpp
 
-check_PROGRAMS = testPredicateResult testLogger testJoin
+check_PROGRAMS = testPredicateResult testLogger testJoin testRefcount
 
 testPredicateResult_SOURCES = testPredicateResult.cpp
 testLogger_SOURCES = testlogger.cpp
 
 testJoin_SOURCES = testJoin.cpp
 
-#TESTS=test
+testRefcount_SOURCES = testRefcount.cpp
+

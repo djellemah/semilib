@@ -27,6 +27,7 @@ using namespace std;
 
 #include "Lock.h"
 #include "Mutex.h"
+#include "SmartPointer.h"
 
 // disable 'multiple assignment operator' warning
 #pragma warning(disable: 4522)
@@ -52,7 +53,6 @@ public:
 	RefCount ( T * _ptr = 0 )
 		: _ptr ( _ptr )
 	{
-		++refcount;
 		increment();
 	}
 
@@ -60,7 +60,6 @@ public:
 	RefCount ( const RefCount & other )
 		: _ptr ( 0 )
 	{
-		++refcount;
 		operator = ( other );
 	}
 
@@ -73,14 +72,6 @@ public:
 
 		Lock aLock ( _mutex );
 		decrement();
-
-		if ( --refcount == 0 )
-		{
-			delete _references;
-
-			// in case someone else wants to use it
-			_references = 0;
-		}
 	}
 
 	/**
@@ -225,7 +216,7 @@ private:
 		synchronize accesses to class members for multi-threaded situations,
 		since that's the most likely place a RefCount object will be used.
 	*/
-	Mutex _mutex;
+	mutable Mutex _mutex;
 
 	/**
 		the list of references, which obviously must exist beyond the
@@ -233,26 +224,15 @@ private:
 		not to use a pointer here, but then we run into trouble with
 		the order in which static objects are constructed.
 	*/
-	static References * _references;
-
-	/**
-		the reference count for _references. Provided that there is
-		at least one instance of RefCount, _references will not be deleted
-	*/
-	static unsigned long refcount;
+	static SmartPointer<References> _references;
 };
 
 /**
 \ingroup smartpointer
 */
 template <class T>
-typename RefCount<T>::References * RefCount<T>::_references;
-
-/**
-\ingroup smartpointer
-*/
-template <class T>
-unsigned long RefCount<T>::refcount;
+SmartPointer<typename RefCount<T>::References>
+RefCount<T>::_references;
 
 /**
 	insertion operator
