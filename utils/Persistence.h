@@ -72,7 +72,7 @@ public:
 private:
 	static PersistenceRegistry * persistenceRegistry;
 #ifdef _WIN32
-	/*
+	/**
 		Ugly hack time. Windoes DLLs have their own memory space, so allow
 		DLL entry and exit to work with only one copy of the registry.
 	*/
@@ -80,7 +80,7 @@ private:
 #endif
 };
 
-/*
+/**
 	This class keeps track of the list (map, actually) of registered
 	objects that can be persisted and restored.
 
@@ -127,7 +127,7 @@ public:
 		return new Persistent;
 	}
 
-	/*
+	/**
 		MSVC complains that it can't resolve this symbol unless you
 		explicitly define it. Duh.
 	*/

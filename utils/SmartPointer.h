@@ -29,6 +29,81 @@ using std::runtime_error;
 #pragma warning(disable: 4522)
 
 /**
+	Normal delete operations. This is the default deallocator
+*/
+template<class T>
+class UTILS_DLL_API NormalDelete
+{
+public:
+	void operator () ( T * ptr )
+	{
+		delete ptr;
+	}
+};
+
+/**
+	Array delete operations
+*/
+template<class T>
+class UTILS_DLL_API ArrayDelete
+{
+public:
+	void operator() ( T * ptr )
+	{
+		delete[] ptr;
+	}
+};
+
+/**
+	To handle __stdcall deallocation functions, for example
+
+  	typedef StdCallFunctionDelete<unsigned char*, RPC_STATUS, &::RpcStringFree> RpcSmartFree;
+	
+	SmartPointer<unsigned char*, RpcSmartFree > buf;
+*/
+#ifdef _WIN32
+template<class T, class Result, Result (__stdcall *deletefunction) (T*)>
+class UTILS_DLL_API StdCallFunctionDelete
+{
+public:
+	void operator() ( T * ptr )
+	{
+		Result r = deletefunction ( ptr );
+	}
+};
+
+/**
+	To handle __cdecl deallocation functions, for example
+
+	typedef FunctionDelete<void, void, &free> freemem;
+	SmartPointer<char, freemem> c_buffer;
+	c_buffer = malloc ( 243 );
+*/
+template<class T, class Result, Result ( *deletefunction) (T*)>
+class UTILS_DLL_API FunctionDelete
+{
+public:
+	void operator() ( T * ptr )
+	{
+		Result r = deletefunction ( ptr );
+	}
+};
+#endif
+
+/**
+	Specialise to handle deallocation functions returning void
+*/
+template<class T, void ( *deletefunction) (T*)>
+class UTILS_DLL_API VoidFunctionDelete
+{
+public:
+	void operator() ( T * ptr )
+	{
+		deletefunction ( ptr );
+	}
+};
+
+/**
 	A Smart Pointer template class. This is similar to the Standard
 	Library auto_ptr class, except with one or two useability
 	enhancements.  An instance of a smart pointer encapsulates a
@@ -55,85 +130,6 @@ using std::runtime_error;
 	If you see a 'multiple assignment operator' warning. Don't
 	worry about it, there are supposed to be multiple assignment
 	operators. Three, to be precise.
-*/
-
-/*
-	Normal delete operations. This is the default deallocator
-*/
-template<class T>
-class UTILS_DLL_API NormalDelete
-{
-public:
-	void operator () ( T * ptr )
-	{
-		delete ptr;
-	}
-};
-
-/*
-	Array delete operations
-*/
-template<class T>
-class UTILS_DLL_API ArrayDelete
-{
-public:
-	void operator() ( T * ptr )
-	{
-		delete[] ptr;
-	}
-};
-
-/*
-	To handle __stdcall deallocation functions, for example
-
-  	typedef StdCallFunctionDelete<unsigned char*, RPC_STATUS, &::RpcStringFree> RpcSmartFree;
-	
-	SmartPointer<unsigned char*, RpcSmartFree > buf;
-*/
-#ifdef _WIN32
-template<class T, class Result, Result (__stdcall *deletefunction) (T*)>
-class UTILS_DLL_API StdCallFunctionDelete
-{
-public:
-	void operator() ( T * ptr )
-	{
-		Result r = deletefunction ( ptr );
-	}
-};
-
-/*
-	To handle __cdecl deallocation functions, for example
-
-	typedef FunctionDelete<void, void, &free> freemem;
-	SmartPointer<char, freemem> c_buffer;
-	c_buffer = malloc ( 243 );
-*/
-template<class T, class Result, Result ( *deletefunction) (T*)>
-class UTILS_DLL_API FunctionDelete
-{
-public:
-	void operator() ( T * ptr )
-	{
-		Result r = deletefunction ( ptr );
-	}
-};
-#endif
-
-/*
-	Specialise to handle deallocation functions returning void
-*/
-template<class T, void ( *deletefunction) (T*)>
-class UTILS_DLL_API VoidFunctionDelete
-{
-public:
-	void operator() ( T * ptr )
-	{
-		deletefunction ( ptr );
-	}
-};
-
-/*
-	And at last, the Smart Pointer
 */
 template <class T, class Deallocator = NormalDelete<T> >
 class UTILS_DLL_API SmartPointer
@@ -535,6 +531,10 @@ private:
 // instantiates the templates, which happens wherever they're referenced from
 // #pragma warning(default: 4522)
 
+/**
+	Specialised to handle void*. A bit dodgy because
+	deleting a void* is a fairly undefined operation
+*/
 template<>
 class UTILS_DLL_API SmartPointer<void>
 {
