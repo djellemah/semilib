@@ -61,7 +61,7 @@ UTILS_DLL_API string today()
 		
 	// convert to a string
 	const size_t maxbufsize = 40;
-	char buf[maxbufsize];
+	char buf[maxbufsize+1];
 	size_t result = strftime (buf, maxbufsize, "%d-%b-%y" , &btime );
 	return string ( buf );
 }
@@ -72,7 +72,7 @@ UTILS_DLL_API string now()
 
 	// convert to a string
 	const size_t maxbufsize = 60;
-	char buf[maxbufsize];
+	char buf[maxbufsize+1];
 	size_t result = strftime (buf, maxbufsize, "%d %b %Y %H:%M" , &btime );
 	return string ( buf );
 }
@@ -83,7 +83,7 @@ UTILS_DLL_API string timestamp()
 
 	// convert to a string
 	const size_t maxbufsize = 60;
-	char buf[maxbufsize];
+	char buf[maxbufsize+1];
 	size_t result = strftime (buf, maxbufsize, "%d %b %Y %H:%M:%S" , &btime );
 	return string ( buf );
 }

@@ -28,3 +28,4 @@ testPredicateResult
 testLogger
 tmp
 testJoin
+testTimer

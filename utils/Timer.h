@@ -46,7 +46,7 @@ public:
 	}
 
 	/**
-		Start the timer running.
+		Start the timer running. Return the current timestamp, in milliseconds
 	*/
 	unsigned long start()
 	{
@@ -59,7 +59,7 @@ public:
 #ifdef _WIN32
 		return _start;
 #else
-		return _start.tv_sec * 1000000 + _start.tv_usec;
+		return ( _start.tv_sec * 1000000 + _start.tv_usec ) / 1000;
 #endif
 	}
 
@@ -91,7 +91,10 @@ public:
 #else
 			struct timeval current;
 			gettimeofday ( &current, 0 );
-			return ( current.tv_sec * 1000000 + current.tv_usec ) - ( _start.tv_sec * 1000000 + _start.tv_usec );
+			return (
+				( current.tv_sec * 1000000 + current.tv_usec ) - ( _start.tv_sec * 1000000 + _start.tv_usec )
+			) / 1000
+			;
 #endif
 		}
 		else
@@ -99,7 +102,10 @@ public:
 #ifdef _WIN32
 			return _stop - _start;
 #else
-			return ( _stop.tv_sec * 1000000 + _stop.tv_usec ) - ( _start.tv_sec * 1000000 + _start.tv_usec );
+			return (
+				( _stop.tv_sec * 1000000 + _stop.tv_usec ) - ( _start.tv_sec * 1000000 + _start.tv_usec )
+			) / 1000
+			;
 #endif
 		}
 	}
