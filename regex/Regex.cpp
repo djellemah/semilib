@@ -294,7 +294,7 @@ void Regex::testValid() const
 
 ostream & operator << ( ostream & os, const Regex & regex )
 {
-	os << regex.getPattern() << endl;
+	os << regex.getPattern();
 	//os << regex.mapper()[regex.flags()] << endl;
 	return os;
 }
