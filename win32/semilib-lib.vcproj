@@ -150,12 +150,6 @@
 			RelativePath="..\utils\Mutex.h">
 		</File>
 		<File
-			RelativePath="..\utils\NiceDate.cpp">
-		</File>
-		<File
-			RelativePath="..\utils\NiceDate.h">
-		</File>
-		<File
 			RelativePath="..\utils\RefCount.cpp">
 			<FileConfiguration
 				Name="Release|Win32"
