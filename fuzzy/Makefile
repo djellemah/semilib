@@ -32,8 +32,8 @@ all: $(FILES) $(LIBNAME).so.$(LIBVER)
 $(LIBNAME).so.$(LIBVER): $(FILES)
 	$(LINK) $(CPPFLAGS) -L $(LIBDIR) -shared -Wl,-soname,$(LIBNAME).so.$(LIBVERMAJOR) -o $(LIBNAME).so.$(LIBVER) $(FILES)
 	-cp $(LIBNAME).so.$(LIBVER) $(LIBDIR)/$(LIBNAME).so.$(LIBVER)
-	-ln -s $(LIBDIR)/$(LIBNAME).so.$(LIBVER) $(LIBDIR)/$(LIBNAME).so.$(LIBVERMAJOR)
-	-ln -s $(LIBDIR)/$(LIBNAME).so.$(LIBVERMAJOR) $(LIBDIR)/$(LIBNAME).so
+	-ln -sf $(LIBDIR)/$(LIBNAME).so.$(LIBVER) $(LIBDIR)/$(LIBNAME).so.$(LIBVERMAJOR)
+	-ln -sf $(LIBDIR)/$(LIBNAME).so.$(LIBVERMAJOR) $(LIBDIR)/$(LIBNAME).so
 
 fuzzy: $(FILES) $(LIBNAME).so.$(LIBVER) FuzzyTextSearch.o
 	 $(CPP) $(CPPFLAGS) -L $(LIBDIR) $(LINKLIBS) -o fuzzy FuzzyTextSearch.o
