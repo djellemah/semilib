@@ -1,4 +1,7 @@
-include_HEADERS = \
+AM_LDFLAGS = -release ${VERSION}
+INCLUDES=-I../utils -I../regex ${BOOST_INCLUDE}
+
+pkginclude_HEADERS = \
 	NGramFunctor.h \
 	SoundexFunctor.h \
 	Ranking.h \
@@ -13,12 +16,9 @@ libfuzzy_la_SOURCES = \
 	Ranking.cpp \
 	NGram.cpp \
 	matchfunctions.cpp
-	
-libfuzzy_la_LDFLAGS = -release ${VERSION}
 
 check_PROGRAMS = test
 test_SOURCES = FuzzyTextSearch.cpp
 test_LDADD = libfuzzy.la ../utils/libutils.la ../regex/libregex.la ${BOOST_LIB}
-INCLUDES=-I../utils -I../regex ${BOOST_INCLUDE}
 
 TESTS=testsearch.sh

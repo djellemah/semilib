@@ -1,4 +1,6 @@
-include_HEADERS = \
+AM_LDFLAGS = -release ${VERSION}
+
+pkginclude_HEADERS = \
 	Change.h \
 	Cloneable.h \
 	FileUtils.h \
@@ -19,7 +21,10 @@ include_HEADERS = \
 	PredicateResult.h \
 	SingleResult.h \
 	MultiResult.h \
-	utilsdlldef.h
+	utilsdlldef.h \
+	utils.h \
+	Singleton.h \
+	Mutex.h
 
 #	RefCount.h
 
@@ -36,15 +41,13 @@ libutils_la_SOURCES = \
 	istring.cpp \
 	posException.cpp \
 	utils.cpp \
-	Mutex.cpp \
-	Logger.cpp
-
+	Mutex.cpp
+	
 #	RefCount.cpp
 
-libutils_la_LDFLAGS = -release ${VERSION} -lpthread
+libutils_la_LIBADD = -lpthread
 
-liblogger_la_SOURCES = CoutLogger.cpp
-liblogger_la_LDFLAGS = -release ${VERSION}
+liblogger_la_SOURCES = CoutLogger.cpp Logger.cpp
 
 check_PROGRAMS = testPredicateResult
 
