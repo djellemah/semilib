@@ -16,5 +16,9 @@ various utility classes:
 
 \todo use export keyword for templates where possible
 
+\todo Do logger() and logger(Level)
+
+\todo Do a start/end of function logger and timer
+
 \author John Anderson <a href="mailto:panic at semiosix.com">panic at semiosix.com</a>
 */
