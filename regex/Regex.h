@@ -333,7 +333,7 @@ private:
 
 	/// the array of subexpression from the last call to match(...)
 	/// regmatch_t is defined in inst_rxposix.h
-	mutable SmartPointer<RXSPACE regmatch_t> _subExpressions;
+	mutable SmartPointer<RXSPACE regmatch_t,ArrayDelete<regmatch_t> > _subExpressions;
 
 	// keeps track of the string we were asked to match
 	mutable string _matched;

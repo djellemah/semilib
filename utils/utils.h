@@ -78,8 +78,6 @@ UTILS_DLL_API std::string join ( const Collection & collection, const Joiner & j
 	return os.str();
 }
 
-#endif
-
 // Of course, MSVC 6 can't compile these.
 #ifndef _MSC_VER
 /**
@@ -118,4 +116,6 @@ void for_each_delete ( C & collection )
 		delete *cur;
 	}
 }
+#endif
+
 #endif
