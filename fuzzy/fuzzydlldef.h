@@ -1,14 +1,18 @@
 #ifndef fuzzydlldef_h
 #define fuzzydlldef_h
 
-#ifdef FUZZY_NO_USE_DLL
-	#define FUZZY_DLL_API
-#endif
-
-#ifdef FUZZY_BUILD_DLL
-	#define FUZZY_DLL_API __declspec ( dllexport )
+#ifdef WIN32
+	#ifdef FUZZY_NO_USE_DLL
+		#define FUZZY_DLL_API
+	#endif
+	
+	#ifdef FUZZY_BUILD_DLL
+		#define FUZZY_DLL_API __declspec ( dllexport )
+	#else
+		#define FUZZY_DLL_API __declspec ( dllimport )
+	#endif
 #else
-	#define FUZZY_DLL_API __declspec ( dllimport )
+	#define FUZZY_DLL_API
 #endif
 
 // disable warnings about requiring DLL interface

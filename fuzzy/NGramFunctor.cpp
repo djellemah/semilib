@@ -29,7 +29,11 @@ Ranking MatchFunction::operator () ( const string & element )
 {
 	// strip out punctuation and accented characters
 	string line = PrepareTheString ( element );
+#ifdef WIN32
 	switch ( _MIN ( line.length(), _toMatch.length() ) )
+#else
+	switch ( min ( line.length(), _toMatch.length() ) )
+#endif
 	{
 	case 0:
 	case 1:
@@ -116,7 +120,7 @@ Ranking MatchFunction::operator () ( const string & element )
 	// calculate average match
 	float similarity = total / results.size();
 
-	// return percentage match and original string 
+	// return percentage match and original string
 	return Ranking ( similarity, element );
 }
 

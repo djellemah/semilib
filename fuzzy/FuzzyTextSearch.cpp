@@ -17,11 +17,12 @@
 
 using namespace std;
 
+#include <FileUtils.h>
+#include <Line.h>
+
 #include "MatchFunction.h"
 #include "Soundex.h"
-#include "FileUtils.h"
 
-#include "Line.h"
 
 // for outputting an element of the results array
 struct Out

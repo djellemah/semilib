@@ -300,7 +300,7 @@ static char	lookup[] =
    '0',        /*Ü*/
    '0',        /*İ*/
    '1',        /*Ş*/
-   '2',        // ß - sounds like ss in german 
+   '2',        // ß - sounds like ss in german
    '0',        /*à*/
    '0',        /*á*/
    '0',        /*â*/
@@ -358,7 +358,7 @@ string nsoundex ( const string & str, int n )
 			char c = *s;
 			if ( s == str.begin() )
 			{
-				*t++ = toupper ( c );
+				*t++ = std::toupper ( (int)c );
 			}
 			else
 			{
