@@ -228,7 +228,7 @@ UTILS_DLL_API string executableDirectory( const std::string & envvar )
 #else
 		vector<string> bits;
 #endif
-		if ( bits.size() > 2 )
+		if ( bits.size() >= 2 )
 		{
 			// remove last element
 			bits.erase ( bits.end() - 1 );
