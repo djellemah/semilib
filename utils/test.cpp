@@ -242,5 +242,6 @@ int test_Persistence ( int argc, char * argv[] )
 */
 int main ( int argc, char * argv[] )
 {
+	cout << uuidAsString() << endl;
 	return test_Persistence ( argc, argv );
 }
