@@ -56,7 +56,7 @@ std::ostream & operator<< ( std::ostream & os, EndLog & el );
 	facility, or to a database, or whatever.
 
 	\warning The mutex used for this class *must* be recursive.
-	\todo remove debugging commented-out cout
+	\todo make the interface a bit neater
 */
 class Logger : public Singleton<Logger, Mutex, Lock>
 {
@@ -72,6 +72,7 @@ public:
 
 	/**
 		Provide a logging stream.
+		This acquires a lock that's release on a call Logger::end()
 	*/
 	std::ostream & los();
 		
@@ -104,6 +105,7 @@ public:
 		\code
 		Logger::log() << This is a message << Logger::end();
 		\endcode
+		This acquires a lock that's release on a call Logger::end()
 	*/
 	static std::ostream & os();
 	
@@ -112,6 +114,8 @@ public:
 		\code
 		Logger::instance().los() << "Some message" << Logger::end( critical );
 		\endcode
+		In fact, it's *necessary* to call this after using the
+		stream interface, otherwise the lock never gets released.
 	*/
 	static EndLog & end ( LogLevel level = message );
 
