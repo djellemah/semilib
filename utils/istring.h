@@ -70,7 +70,10 @@ struct UTILS_DLL_API IgnoreCaseTraits : public char_traits<char>
 	}
 
 private:
-	UTILS_DLL_API static locale l;
+#if _MSC_VER == 1100
+	UTILS_DLL_API
+#endif
+	static locale l;
 };
 
 // warning about base class not a dll interface. Which it is.

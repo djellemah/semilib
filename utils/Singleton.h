@@ -4,7 +4,7 @@
 #include "SmartPointer.h"
 #include "Mutex.h"
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <string>
 #include "utilsdlldef.h"
 

@@ -137,7 +137,7 @@ void FlagsMapper::stripSpaces ( string & aString ) const
 	unsigned long next = char_traits<char>::eof();
 	while ( next = is.get(), !is.eof())
 	{
-#ifdef WIN32
+#ifdef _MSC_VER
 		if ( !isspace ( (int)next ) )
 #else
 		if ( !std::isspace ( (int)next ) )
