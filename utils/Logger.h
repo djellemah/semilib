@@ -119,6 +119,9 @@ public:
 	*/
 	static std::string levelToString ( Level::LogLevel level );
 	
+	Level::LogLevel Logger::stringToLevel ( std::string stringLevel );
+
+	
 	/**
 		Only for use internally. User operator << ( Logger &, T & ).
 	*/

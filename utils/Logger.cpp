@@ -3,6 +3,7 @@
 #include "Logger.h"
 
 #include <iomanip>
+#include <map>
 
 using namespace std;
 
@@ -155,6 +156,30 @@ string Logger::levelToString ( Level::LogLevel level )
 			break;
 	};
 	return retval;
+}
+
+Level::LogLevel Logger::stringToLevel ( std::string stringLevel )
+{
+	using namespace Level;
+	std::map<std::string,Level::LogLevel> levels;
+	levels["none"] = none;
+	levels["critical"] = critical;
+	levels["error"] = error;
+	levels["warning"] = warning;
+	levels["message"] = message;
+	levels["info"] = info;
+	levels["debug"] = debug;
+
+	if ( levels.find ( stringLevel ) != levels.end() )
+	{
+		return levels[stringLevel];
+	}
+	else
+	{
+		ostringstream os;
+		os << "Level " << stringLevel << " not found in Logger::stringToLevel";
+		throw runtime_error ( os.str() );
+	}
 }
 
 int Logger::pid() const

@@ -11,7 +11,20 @@ class CoutLogger : public Logger
 public:
 	void doLog ( const string & msg, Level::LogLevel level )
 	{
-		cout << timestamp() << ": " << msg << endl;
+		char * env_level = getenv ( "SEMILIB_LOGGER_LEVEL" );
+		Level::LogLevel filterLevel = Level::none;
+		if ( env_level != 0 )
+		{
+			filterLevel = stringToLevel ( env_level );
+		}
+		else
+		{
+			filterLevel = Level::all;
+		}
+		if ( level < filterLevel )
+		{
+			cout << timestamp() << ": " << msg << endl;
+		}
 	}
 };
 
