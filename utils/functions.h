@@ -49,15 +49,6 @@ UTILS_DLL_API string toUpper ( const string & );
 /// overloads because the standard 'convenience' functions are not very convenient.
 UTILS_DLL_API string toUpper ( const char * );
 
-/// convert a long to a string.
-template<class T>
-string numberToString ( T number )
-{
-	ostringstream os;
-	os << number;
-	return os.str();
-}
-
 /// like sprintf, but returns a string.
 UTILS_DLL_API string ssprintf ( const char * fmt, ... );
 

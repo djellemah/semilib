@@ -10,7 +10,7 @@ class CoutLogger : public Logger
 public:
 	void doLog ( const string & msg, Level::LogLevel level )
 	{
-		cerr << level << ": " << msg << endl;
+		cout << level << ": " << msg << endl;
 	}
 };
 
