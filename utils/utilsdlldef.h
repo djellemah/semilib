@@ -31,6 +31,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 			#define UTILS_DLL_API __declspec ( dllimport )
 		//	#pragma message ( "UTILS - Including DLL" )
 		#endif
+	#else
+		#define UTILS_DLL_API
 	#endif
 #endif
 
