@@ -80,3 +80,42 @@ UTILS_DLL_API std::string join ( const Collection & collection, const Joiner & j
 
 #endif
 
+// Of course, MSVC 6 can't compile these.
+#ifndef _MSC_VER
+/**
+	Helper template for for_each_delete
+*/
+template<class T>
+void deleteObject ( T obj )
+{
+	delete obj;
+}
+
+/**
+	Call delete on all elements in the given range
+*/
+template<class I>
+void for_each_delete ( I begin, I end )
+{
+	for_each ( begin, end, deleteObject<typename I::value_type> );
+}
+
+/**
+	Call delete for the entire collection
+*/
+template<class C>
+void for_each_delete ( C & collection )
+{
+	for_each_delete ( collection.begin(), collection.end() );
+}
+#else
+template<class C>
+void for_each_delete ( C & collection )
+{
+	C::iterator cur = collection.begin();
+	for( ; cur != collection.end(); ++cur )
+	{
+		delete *cur;
+	}
+}
+#endif

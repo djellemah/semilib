@@ -51,11 +51,14 @@ LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, EndLog & el );
 	stream-type interface, or via a method interface. For example:
 	\code
 	Logger::instance().log( "This is a message" );
-	Logger::os() << "This is another message" << Logger::end();
-	Logger::instance().los() << "This is a message" << endl;
-	Logger::instance().los() << "That comes on two lines" << endl;
-	Logger::os() << Logger::end();
+	logger << "This is another message" << elog;
+	logger << "This is a message" << endl;
+	logger << "That comes on two lines" << endl;
+	logger << elog;
 	\endcode
+
+	\warning elog is VERY IMPORTANT. Without it you might
+	deadlock the logger.
 
 	The class can be easily subclassed to log to a system logging
 	facility, or to a database, or whatever. It's also necessary to
@@ -64,7 +67,7 @@ LOGGER_DLL_API std::ostream & operator<< ( std::ostream & os, EndLog & el );
 
 	\warning The mutex used for this class *must* be recursive.
 	
-	\todo make the interface a bit neater
+	\todo Clean out redundant declarations
 	\todo allow for minimal overhead when there's no logging. Null iobuf
 	or something like that.
 */
@@ -194,7 +197,7 @@ LOGGER_DLL_API Logger * newInstance ( Logger * );
 	convenience function to allow << directly to a logger
 */
 template<class T>
-std::ostream & operator<< ( Logger & logger, T type )
+std::ostream & operator<< ( Logger &, T type )
 {
 	Logger::os() << type;
 	return Logger::os();
