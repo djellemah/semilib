@@ -1,30 +1,32 @@
 AM_LDFLAGS = -release ${VERSION}
 
 pkginclude_HEADERS = \
+	cs_sptr.h \
 	Change.h \
 	Cloneable.h \
 	FileUtils.h \
 	FlagsMapper.h \
+	functions.h \
+	istring.h \
 	Line.h \
 	Lock.h \
+	Logger.h \
 	MarkStream.h \
+	MultiResult.h \
+	Mutex.h \
 	Persistence.h \
 	PersistenceManager.h \
+	posException.h \
+	PredicateResult.h \
 	Result.h \
+	SingleResult.h \
+	Singleton.h \
 	SmartPointer.h \
 	StaticInit.h \
 	TempFile.h \
 	Timer.h \
-	functions.h \
-	istring.h \
-	posException.h \
-	PredicateResult.h \
-	SingleResult.h \
-	MultiResult.h \
 	utilsdlldef.h \
-	utils.h \
-	Singleton.h \
-	Mutex.h
+	utils.h
 
 #	RefCount.h
 

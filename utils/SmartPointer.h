@@ -683,4 +683,3 @@ private:
 #endif // void * smart pointer
 
 #endif
-
