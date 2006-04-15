@@ -41,6 +41,8 @@ namespace semilib
 
 class Logger;
 
+LOGGER_DLL_API Logger * newInstance ( Logger * dummy );
+
 namespace Level
 {
 	enum LogLevel { none, critical, error, warning, message, info, debug, all };

@@ -31,6 +31,11 @@ UTILS_DLL_API Mutex & getMutex();
 namespace semilib
 {
 
+#ifndef _WIN32
+template<class InstanceType>
+InstanceType * newInstance ( InstanceType * );
+#endif
+
 /**
 	This class is a threadsafe, cross-DLL (for windoze), polymorphic Singleton
 	implementation.
@@ -62,7 +67,7 @@ namespace semilib
 		}
 	};
 	
-	Something * ::newInstance ( Something * dummy );
+	Something * newInstance ( Something * dummy );
 	
 	int somefunc()
 	{
@@ -82,7 +87,7 @@ namespace semilib
 	should acquire a lock on the mutex, which will be released
 	when lock goes out of scope.
 	
-	The ::newInstance function is called to create an instance of the class.
+	The newInstance function is called to create an instance of the class.
 	It will only ever be called once. The parameter is a dummy parameter
 	so that the various newInstance methods can be differentiated. This
 	function is where the polymorphism fits in: you can return a pointer
@@ -126,7 +131,7 @@ public:
 			if ( _instance == 0 )
 			{
 				InstanceType * dummy = 0;
-				_instance = ::newInstance ( dummy );
+				_instance = newInstance ( dummy );
 			}
 		}
 		return *_instance;
@@ -152,7 +157,7 @@ public:
 			*/
 			if ( !haveInstance ( name ) )
 			{
-				instance = ::newInstance ( instance );
+				instance = newInstance ( instance );
 				keepInstance ( name, instance );
 			}
 			releaseLock();

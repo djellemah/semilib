@@ -19,13 +19,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "utilsdlldef.h"
 #include "istring.h"
 
-using namespace semilib;
-
 #ifdef WIN32
 UTILS_DLL_API std::locale IgnoreCaseTraits<char>::l ( std::locale::empty() );
 #else
-UTILS_DLL_API std::locale IgnoreCaseTraits<char>::l;
+template<>
+std::locale semilib::IgnoreCaseTraits<char>::l;
 #endif
+
+using namespace semilib;
 
 UTILS_DLL_API std::ostream & operator<< ( std::ostream & os, const istring & val )
 {

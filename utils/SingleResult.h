@@ -53,7 +53,7 @@ public:
 	
 	bool checkResult()
 	{
-		return _active && _comparator( _error, _result );
+		return _active && _comparator( _error, this->_result );
 	}
 	
 	virtual void exclude ( Type value )
@@ -72,7 +72,7 @@ public:
 		throw std::runtime_error ( "read (istream&) not implemented" );
 	}
 	
-private:
+protected:
 	Type _error;
 	bool _active;
 };

@@ -90,8 +90,9 @@ public:
 	}
 
 	/// assignment operator
-	const FileUtils & operator = ( const FileUtils & other )
+	const FileUtils & operator = ( const FileUtils & )
 	{
+		throw runtime_error ( "FileUtils::operator = not implemented" );
 		return *this;
 	}
 

@@ -50,7 +50,7 @@ public:
 
 	const MultiResult & operator = ( const MultiResult & other )
 	{
-		_error = other._error;
+		this->_error = other._error;
 		Base::operator = ( other );
 		return *this;
 	}
@@ -72,7 +72,7 @@ public:
 		find (
 			_errors.begin()
 			, _errors.end()
-			, _result
+			, this->_result
 		)
 		!= _errors.end()
 		;

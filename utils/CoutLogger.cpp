@@ -2,7 +2,8 @@
 #include "utils.h"
 
 using namespace std;
-using namespace semilib;
+namespace semilib
+{
 
 void CoutLogger::doLog ( const string & msg, Level::LogLevel level )
 {
@@ -22,7 +23,9 @@ void CoutLogger::doLog ( const string & msg, Level::LogLevel level )
 	}
 }
 
-Logger * ::newInstance ( Logger * )
+Logger * newInstance ( Logger * )
 {
-	return new CoutLogger;
+	return new semilib::CoutLogger;
+}
+
 }

@@ -537,7 +537,7 @@ public:
 		with compilers that treat string constants as char *,
 		not as const char *. See class documentation for details.
 	*/
-	SmartPointer ( const char * _ptr )
+	SmartPointer ( const char * )
 	{
 		throw std::runtime_error ("Bad idea to use a Smart Pointer with a const char *" );
 	}
@@ -547,7 +547,7 @@ public:
 		work with compilers that treat string constants as char *,
 		not as const char *. See class documentation for details.
 	*/
-	SmartPointer & operator = ( const char * right )
+	SmartPointer & operator = ( const char * )
 	{
 		throw std::runtime_error ("Bad idea to use a Smart Pointer with a const char *" );
 		return *this;

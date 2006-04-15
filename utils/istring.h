@@ -33,7 +33,7 @@ namespace semilib
 	Defines the equality and comparison traits of a case-insensitive string.
 	\ingroup string
 */
-template<class E=char>
+template<class E>
 struct UTILS_DLL_API IgnoreCaseTraits : public std::char_traits<char>
 {
 	static bool eq ( const E & x, const E & y)

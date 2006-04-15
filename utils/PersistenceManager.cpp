@@ -25,6 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "posException.h"
 #include "functions.h"
 
+using namespace std;
+
 namespace semilib
 {
 
