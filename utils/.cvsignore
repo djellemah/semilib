@@ -1,6 +1,7 @@
 *.o
 *.lo
 *.la
+*.gch
 test
 config.h
 config.log
