@@ -13,9 +13,11 @@ clean-local:
 docs:
 	doxygen
 
-install-data-local: docs
+install-docs:
 	$(INSTALL_DATA) -d -m 0755 $(prefix)/doc/html
 	$(INSTALL_DATA) $(srcdir)/doc/html/* $(prefix)/doc/html
+
+install-data-local:
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = semilib.pc semilogger.pc semiregex.pc semiutils.pc

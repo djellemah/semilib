@@ -7,6 +7,7 @@ pkginclude_HEADERS = \
 	Change.h \
 	CharArray.h \
 	Cloneable.h \
+	CoutLogger.h \
 	FileLogger.h \
 	FileUtils.h \
 	FlagsMapper.h \
