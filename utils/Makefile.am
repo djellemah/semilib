@@ -78,7 +78,8 @@ noinst_PROGRAMS = \
 	testRefcount \
 	testSingleton \
 	testTimer \
-	test_strftime
+	test_strftime \
+	testTemplate
 
 testPredicateResult_SOURCES = testPredicateResult.cpp
 testPredicateResult_LDADD = ${LDADD} libsemilogger.la libsemicoutlogger.la
@@ -97,5 +98,9 @@ testFileLogger_LDADD = ${LDADD} libsemilogger.la
 
 test_strftime_SOURCES = test_strftime.cpp
 testSingleton_SOURCES = testSingleton.cpp
+
 testCoutLogger_SOURCES = testCoutLogger.cpp
 testCoutLogger_LDADD = libsemicoutlogger.la libsemilogger.la libsemiutils.la
+
+testTemplate_SOURCES = testTemplate.cpp
+testTemplate_LDADD = libsemicoutlogger.la libsemilogger.la libsemiutils.la
