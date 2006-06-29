@@ -30,6 +30,7 @@ pkginclude_HEADERS = \
 	SmartPointer.h \
 	StaticInit.h \
 	TempFile.h \
+	Template.h \
 	Timer.h \
 	utilsdlldef.h \
 	utils.h
@@ -53,6 +54,7 @@ libsemiutils_la_SOURCES = \
 	SmartPointer.cpp \
 	StaticInit.cpp \
 	TempFile.cpp \
+	Template.cpp \
 	functions.cpp \
 	istring.cpp \
 	posException.cpp \
