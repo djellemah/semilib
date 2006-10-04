@@ -165,7 +165,7 @@ public:
 	/**
 		Translate a string to the log level
 	*/
-	static Level::LogLevel Logger::stringToLevel ( std::string stringLevel );
+	static Level::LogLevel stringToLevel ( std::string stringLevel );
 
 	/**
 		Access the stream for the logger.
@@ -200,12 +200,12 @@ protected:
 	/**
 		fetch the current process id
 	*/
-	int Logger::pid() const;
+	int pid() const;
 
 	/**
 		fetch the current thread id
 	*/
-	int Logger::thread() const;
+	int thread() const;
 
 protected:
 	/**
