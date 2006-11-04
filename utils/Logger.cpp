@@ -256,3 +256,8 @@ LogChainer semilib::loch ( Level::LogLevel level )
 {
 	return LogChainer ( Logger::instance(), level );
 }
+
+LogChainer semilib::loch ( Logger & localLogger, Level::LogLevel level )
+{
+	return LogChainer ( localLogger, level );
+}

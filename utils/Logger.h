@@ -4,12 +4,21 @@
 /**
 	\defgroup logger Logging
 
-	The main class here is Logger, accessed via loch.
+	The main class here is Logger, accessed in a confusing variety of ways:
+
+	Via a macro that doesn't call the rhs evaluation if the
+	specified level is greater than the current logging level
+	\code
+	glog(Level::info) << "This is a message: " << someMessage;
+	\endcode
+
+	Via a function that doesn't require an elog on the end, but
+	has different locking characteristics
 	\code
 	loch(Level::info) << "This is a message: " << someMessage;
 	\endcode
 
-	Old style interface would be
+	Via the old style interface
 	\code
 	logger << "This is a message: " << someMessage << elog(Level::info);
 	\endcode
@@ -23,7 +32,14 @@
 	os << "This" << endl;
 	os << " is " << endl;
 	os << " a message" << endl;
-	loch ( Level::info ) << os.str();
+	glog ( Level::info ) << os.str();
+	\endcode
+	
+	Also, you can use specific loggers rather than the global one
+	\code
+	MyLogger myLogger;
+	loch(myLogger,Level::message) << "This is a message: " << someMessage;
+	llog(myLogger,Level::message) << "This is a message: " << someMessage;
 	\endcode
 */
 
@@ -361,7 +377,7 @@ LogChainer operator<< ( LogChainer ld, const T & type )
 /**
 	This is the preferred interface. It allows you to do things like this:
 	\code
-	loch ( Level::debug ) << "Oh My god, " << evilPerson << killed Kenny!";
+	loch ( Level::debug ) << "Oh My god, " << evilPerson << " killed Kenny!";
 	\endcode
 
 	and the chained instance will auto-magically send elog for you and
@@ -373,6 +389,7 @@ LogChainer operator<< ( LogChainer ld, const T & type )
 	\ingroup logger
 */
 LogChainer loch ( Level::LogLevel level );
+#define glog( level ) if ( logger.filter() >= level ) loch( level )
 
 /**
 	The verbose version in case you want to use a specific
@@ -381,6 +398,7 @@ LogChainer loch ( Level::LogLevel level );
 	\ingroup logger
 */
 LogChainer loch ( Logger &, Level::LogLevel );
+#define llog( logger_param, level ) if ( logger_param.filter() >= level ) loch( logger_param, level )
 
 }
 
