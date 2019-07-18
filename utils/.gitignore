@@ -1,0 +1,10 @@
+testCoutLogger
+testFileLogger
+testJoin
+testLogger
+testPredicateResult
+testRefcount
+testSingleton
+testTemplate
+testTimer
+test_strftime
