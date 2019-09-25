@@ -1,5 +1,6 @@
 #include "CoutLogger.h"
 #include "utils.h"
+#include <cstdlib>
 
 using namespace std;
 namespace semilib

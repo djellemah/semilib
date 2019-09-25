@@ -6,6 +6,7 @@
 
 #include <iomanip>
 #include <map>
+#include <unistd.h>
 
 using namespace std;
 using namespace semilib;

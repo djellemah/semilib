@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <iterator>
+#include <algorithm>
 
 namespace semilib
 {
@@ -68,14 +69,12 @@ public:
 
 	bool checkResult()
 	{
-		return
-		find (
+		auto it = std::find(
 			_errors.begin()
 			, _errors.end()
 			, this->_result
-		)
-		!= _errors.end()
-		;
+    );
+		return it != _errors.end();
 	}
 	
 	virtual void exclude ( Type value )

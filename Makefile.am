@@ -1,6 +1,8 @@
 SUBDIRS = utils regex win32
 INCLUDES = -I../utils -I../regex -I../fuzzy
 
+AM_CPPFLAGS = -std=c++11
+
 dist-hook:
 	rm -rf `find $(distdir)/win32 -name CVS`
 

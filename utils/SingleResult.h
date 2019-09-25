@@ -53,7 +53,7 @@ public:
 	
 	bool checkResult()
 	{
-		return _active && _comparator( _error, this->_result );
+		return _active && this->_comparator( _error, this->_result );
 	}
 	
 	virtual void exclude ( Type value )

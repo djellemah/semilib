@@ -2,6 +2,9 @@
 
 #include <stdexcept>
 #include <string>
+#include <cstdlib>
+#include <cstdio>
+#include <unistd.h>
 
 #ifndef _WIN32
 	#include <unistd.h>
