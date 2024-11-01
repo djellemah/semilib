@@ -30,3 +30,4 @@ ltmain.sh
 missing
 stamp-h1
 test-driver
+regex/regex-switch.h
