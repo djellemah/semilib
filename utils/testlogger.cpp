@@ -54,18 +54,20 @@ int main()
 	
 	// test the timing
 	Timer timer;
+	glog(message) << "1000000 times";
 	for ( int i = 0; i < 1000000; ++i )
 	{
-		glog(debug) << "This is a debug message";
-		glog(message) << "This is a message message";
+		glog(debug) << "This is a debug message" << " " << i << " of " << 1000000;
+		glog(message) << "This is a message message" << " " << i << " of " << 1000000;
 	}
 	cout << "glog elapsed: " << dec << timer.stop() << endl;
 	
 	timer.start();
+	loch(message) << "1000000 times";
 	for ( int i = 0; i < 1000000; ++i )
 	{
-		loch(debug) << "This is a debug message";
-		loch(message) << "This is a message message";
+		loch(debug) << "This is a debug message" << " " << i << " of " << 1000000;
+		loch(message) << "This is a message message" << " " << i << " of " << 1000000;
 	}
 	cout << "loch elapsed: " << dec << timer.stop() << endl;
 }

@@ -104,3 +104,15 @@ testCoutLogger_LDADD = libsemicoutlogger.la libsemilogger.la libsemiutils.la
 
 testTemplate_SOURCES = testTemplate.cpp
 testTemplate_LDADD = libsemicoutlogger.la libsemilogger.la libsemiutils.la
+
+#	./testLogger
+test: $(noinst_PROGRAMS)
+	./testCoutLogger
+	./testFileLogger
+	./testPredicateResult
+	./testJoin
+	./testRefcount
+	./testSingleton
+	./testTimer
+	./test_strftime
+	./testTemplate
