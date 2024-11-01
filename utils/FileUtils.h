@@ -112,10 +112,10 @@ public:
 		find out if a file exists. If the file exists but is inaccessible, throw
 		a runtime_error
 	*/
-	bool exists () const throw ( exception );
+	bool exists () const;
 
 	/// get the size of a file
-	long size() const throw ( exception );
+	long size() const;
 
 	/// get the reason for the failure of the last operation
 	const string reason() const;
@@ -169,7 +169,7 @@ istream & operator >> ( istream & is, FileUtils & aFileUtils );
 	a helper function
 	\ingroup file
 */
-UTILS_DLL_API bool fileExists ( const string & filename ) throw ( exception );
+UTILS_DLL_API bool fileExists ( const string & filename );
 
 /**
 	return a vector containing the elements of a path
@@ -182,7 +182,7 @@ UTILS_DLL_API vector<string> splitPath( const string & dirname, char splitOn = d
 	Make all of them. Make every last one...
 	\ingroup file
 */
-UTILS_DLL_API void mkdir( const string & dirname ) throw ( runtime_error );
+UTILS_DLL_API void mkdir( const string & dirname );
 
 /**
 	Return the directory, with trailing /,

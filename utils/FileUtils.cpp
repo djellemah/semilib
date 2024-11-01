@@ -88,7 +88,7 @@ void FileUtils::init()
 	instead of _open and _close.
 	But I'm not sure if it's portable.
 */
-bool FileUtils::exists () const throw ( exception )
+bool FileUtils::exists () const
 {
 	if ( _filename.empty() )
 		throw runtime_error ( "No filename specified" );
@@ -129,7 +129,7 @@ const string FileUtils::reason() const
 		return retval + errorMessages()[_reason];
 }
 
-bool semilib::fileExists ( const string & filename ) throw ( exception )
+bool semilib::fileExists ( const string & filename )
 {
 	FileUtils fu ( filename );
 	return fu.exists();
@@ -166,7 +166,7 @@ vector<string> semilib::splitPath( const string & dirname, char splitOn )
 	return retval;
 }
 
-void semilib::mkdir( const string & dirname ) throw ( runtime_error )
+void semilib::mkdir( const string & dirname )
 {
 	vector<string> dirs = splitPath ( dirname );
 
